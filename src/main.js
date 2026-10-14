@@ -3,7 +3,7 @@ import { CONFIG } from "./config.js";
 import { Rng } from "./core/rng.js";
 import { GameState } from "./core/state.js";
 import { EventLoader } from "./events/loader.js";
-import { EventSelector } from "./events/selector.js";
+import { EventSelector, meetsCondition } from "./events/selector.js";
 import { ResultResolver } from "./events/resolver.js";
 import { I18n } from "./i18n/i18n.js";
 import { LifeRecord } from "./meta/lives.js";
@@ -95,6 +95,7 @@ class App {
   enterGame() {
     this.menu.hide();
     this.state.traits = this.shop.activeLevels();
+    this.state.pastBonds = { ...this.record.data.bondsMax };
     this.view.termContext = { mode: () => this.settings.data.termMode, counts: this.state.termCounts };
     this.view.open(() => this.home());
     this.view.header(this.record.data.life, this.record.data.karma);
@@ -176,18 +177,24 @@ class App {
         this.record.recordDeath(ev.id, choice.id);
         return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv, trait?.name);
       }
+      // 귀결: 이야기가 매듭지어지면 결과를 보여 준 뒤 생을 마친다
+      if (s.ending) {
+        this.saves.clear();
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.finish("ending"), rare, !!outcome.fortune, textEv, trait?.name);
+      }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       const nextId = outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
       this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, trait?.name);
-    }, isFresh);
+    }, isFresh, !!ev.dejavu && meetsCondition(s, { past_bond_min: { [ev.dejavu.person]: ev.dejavu.min } }));
   }
 
   finish(kind) {
     this.saves.clear();
     const summary = this.record.endLife(this.state);
     this.view.header(this.record.data.life, this.record.data.karma);
+    this.view.lastEnding = this.state.ending;
     this.view.ending(kind, summary, () => this.home());
   }
 }

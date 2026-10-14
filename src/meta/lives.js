@@ -1,7 +1,7 @@
 // 회차(몇 번째 생)와 업(業), 인과록, 전생의 죽음 기록, 업 상점 단계.
 import { Store } from "../core/store.js";
 
-const empty = () => ({ life: 0, karma: 0, karmaEarned: 0, outcomes: [], achievements: [], deaths: {}, shop: {}, traits: {}, known: [] });
+const empty = () => ({ life: 0, karma: 0, karmaEarned: 0, outcomes: [], achievements: [], deaths: {}, shop: {}, traits: {}, known: [], bondsMax: {}, endings: [] });
 
 export class LifeRecord {
   constructor(config) {
@@ -63,11 +63,15 @@ export class LifeRecord {
       { id: "achievements", value: newAch.length * k.perAchievement },
       { id: "wealth", value: Math.max(0, Math.floor(state.stat("재물") / k.wealthPer)), note: state.stat("재물") },
       { id: "rare", value: (state.rare ?? 0) * k.perRare },
+      { id: "ending", value: state.ending ? k.perEnding : 0 },
     ];
     // 오래 버틸수록 배율이 붙는다: 1 + 턴 수 × perSceneMult (최대 maxMult)
     const base = parts.reduce((s, p) => s + p.value, 0);
     const mult = Math.min(k.maxMult, 1 + state.scenes * k.perSceneMult);
     const total = Math.round(base * mult);
+    // 기시감용: 인물마다 지난 생들의 최고 인연
+    for (const [who, v] of Object.entries(state.bonds)) this.data.bondsMax[who] = Math.max(this.data.bondsMax[who] ?? 0, v);
+    if (state.ending && !this.data.endings.includes(state.ending)) this.data.endings.push(state.ending);
     this.data.outcomes.push(...fresh);
     this.data.achievements.push(...newAch);
     this.data.karma += total;

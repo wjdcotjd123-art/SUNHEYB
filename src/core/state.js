@@ -18,6 +18,8 @@ export class GameState {
     this.rare = 0; // 이번 생에 터진 드문 인과 수
     this.log = []; // 하단 기록창 내용 {title, tag, changes, dead}
     this.dead = false;
+    this.ending = null; // 귀결(이야기가 매듭지어진 결말) id
+    this.pastBonds = {}; // 지난 생들의 최고 인연 (기시감)
   }
   stat(name) {
     return this.stats[name] ?? 0;

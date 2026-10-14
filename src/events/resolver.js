@@ -65,6 +65,7 @@ export class ResultResolver {
       else if (k === "flags_remove") v.forEach((f) => state.flags.delete(f));
       else if (k === "achievement") state.achievements.push(v);
       else if (k === "next_event") continue;
+      else if (k === "ending") state.ending = v;
       else if (k === "realm_set") { state.stats.경지 = v; changes.push({ type: "realm", value: v, good: true }); }
       else if (k.endsWith("_set")) { const s = k.slice(0, -4); state.stats[s] = v; changes.push({ type: "set", stat: s, value: v, good: false }); }
       else if (k === "상황") {

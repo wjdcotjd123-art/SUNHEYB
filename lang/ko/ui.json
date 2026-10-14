@@ -35,7 +35,8 @@
     "traitChoice": "체질 · {name}",
     "statChoice": "{stat} {v}",
     "or": " 또는 ",
-    "fresh": "처음"
+    "fresh": "처음",
+    "conclude": "귀결"
   },
   "changes": {
     "gain": "{item} 획득",
@@ -63,7 +64,8 @@
     "newAch": "인과록에 새겨짐 · {list}",
     "wealth": "모은 재물 ({w})",
     "rare": "드문 인과",
-    "mult": "버텨낸 세월"
+    "mult": "버텨낸 세월",
+    "ending": "귀결"
   },
   "achievementsScreen": {
     "title": "인과록<span class=\"hanja\">(因果錄)</span>",
@@ -202,5 +204,11 @@
   },
   "situations": {
     "수감": "수감 중"
+  },
+  "endings": {
+    "청하무관의_주인": {
+      "head": "청하무관의 주인이 되었다.",
+      "note": "낡은 대문에 새 현판이 걸렸다. 이번 생은 이곳에 뿌리를 내렸다."
+    }
   }
 }

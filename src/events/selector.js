@@ -11,6 +11,8 @@ export function meetsCondition(state, cond = {}) {
   if (cond.realm_max != null && state.stat("경지") > cond.realm_max) return false;
   // 인연: { 인물: 최소 인연 }
   if (cond.bond_min && !Object.entries(cond.bond_min).every(([k, v]) => (state.bonds?.[k] ?? 0) >= v)) return false;
+  // 전생의 인연: { 인물: 지난 생들에서 쌓았던 최고 인연 } — 기시감 선택지
+  if (cond.past_bond_min && !Object.entries(cond.past_bond_min).every(([k, v]) => (state.pastBonds?.[k] ?? 0) >= v)) return false;
   // 체질: { 체질id: 최소 단계 } — 켜 둔 체질이 그 단계 이상일 때만
   if (cond.traits && !Object.entries(cond.traits).every(([k, v]) => (state.traits?.[k] ?? 0) >= v)) return false;
   // 소속: "none"이면 무소속일 때만, 이름이면 그 소속일 때만. affiliation_not은 그 소속이면 안 됨.

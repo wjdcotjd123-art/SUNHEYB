@@ -135,11 +135,12 @@ export class GameView {
       .join("");
   }
 
-  scene(ev, choices, onConfirm, isFresh = () => false) {
+  // dejavu: 기시감 문장을 붙일지 (전생에 이 인물과 인연이 깊었을 때)
+  scene(ev, choices, onConfirm, isFresh = () => false, dejavu = false) {
     const i = this.i;
     const sec = el("section", "scene");
     // 기연 장면이면 제목 위에 기연 표시 (선택지에는 힌트를 주지 않는다)
-    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>`;
+    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
     const list = el("div", "choices");
     const confirm = button(i.t("game.next"), () => go());
     confirm.hidden = true;
@@ -160,7 +161,7 @@ export class GameView {
       const badge = this.reqBadge(c);
       const b = el("button", "choice" + (c.warn ? " warn" : "") + (badge ? " trait" : ""));
       b.type = "button";
-      b.innerHTML = `${badge}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
+      b.innerHTML = `${badge}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });
@@ -208,8 +209,9 @@ export class GameView {
     const i = this.i;
     this.$("#toMenu").hidden = true;
     const sec = el("section", "ending " + kind);
-    const head = kind === "death" ? i.t("ending.deathHead") : i.t("ending.endHead");
-    const sub = kind === "death" ? "" : `<p class="note">${i.t("ending.endNote")}</p>`;
+    const end = this.lastEnding;
+    const head = kind === "death" ? i.t("ending.deathHead") : kind === "ending" ? i.t(`endings.${end}.head`) : i.t("ending.endHead");
+    const sub = kind === "death" ? "" : kind === "ending" ? `<p class="note">${i.t(`endings.${end}.note`)}</p>` : `<p class="note">${i.t("ending.endNote")}</p>`;
     sec.innerHTML = `<h2>${head}</h2>${sub}
       <dl class="karma">${summary.parts.filter((p) => p.value > 0 || ["scenes", "fresh"].includes(p.id)).map((p) => `<div class="part-${p.id}"><dt>${i.t(`ending.${p.id}`, { w: p.note ?? 0 })}</dt><dd>+${p.value}</dd></div>`).join("")}
       ${summary.mult > 1 ? `<div class="part-mult"><dt>${i.t("ending.mult")}</dt><dd>×${summary.mult.toFixed(2)}</dd></div>` : ""}
