@@ -67,6 +67,11 @@ export class ResultResolver {
       else if (k === "next_event") continue;
       else if (k === "realm_set") { state.stats.경지 = v; changes.push({ type: "realm", value: v, good: true }); }
       else if (k.endsWith("_set")) { const s = k.slice(0, -4); state.stats[s] = v; changes.push({ type: "set", stat: s, value: v, good: false }); }
+      else if (k === "상황") {
+        // 상황 "없음"은 상황에서 벗어난다 (예: 감옥에서 풀려남)
+        state.situation = v === "없음" ? null : v;
+        changes.push({ type: "situation", name: v, good: v === "없음" });
+      }
       else if (k === "소속") {
         // 소속 "없음"은 무소속으로 되돌린다.
         state.affiliation = v === "없음" ? null : v;

@@ -21,6 +21,7 @@ export class SaveManager {
         bonds: state.bonds,
         reputation: state.reputation,
         affiliation: state.affiliation,
+        situation: state.situation ?? null,
         seen: [...state.seen],
         outcomesSeen: state.outcomesSeen,
         achievements: state.achievements,

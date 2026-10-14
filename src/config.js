@@ -3,7 +3,8 @@ export const CONFIG = {
   startStats: { 체력: 10, 근골: 3, 민첩: 3, 재물: 0, 내공: 0, 경지: 0 },
   startItems: ["라이터"],
   defaultWeight: 5,
-  affiliationBoost: 4, // 소속과 같은 group 장면의 등장 가중치 배수
+  affiliationBoost: 4,
+  personBoost: { perBond: 25, max: 5 }, // 인연 있는 인물의 장면: 인연 25당 +1배, 최대 ×5 // 소속과 같은 group 장면의 등장 가중치 배수
   rareChance: 5, // 기본 확률이 이 값(%) 이하인 생존 결과는 '드문 인과'
   // 전생의 기억: 같은 선택지에서 죽은 횟수당 생존 확률 +perDeath %p (최대 cap). 대박 결과는 횟수당 ×(1+rarePerDeath)
   deathMemory: { perDeath: 2, cap: 10, rarePerDeath: 0.1, rareCap: 0.5 },

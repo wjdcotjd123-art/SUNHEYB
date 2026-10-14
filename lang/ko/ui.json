@@ -44,7 +44,9 @@
     "bondDown": "{name} 인연 ▼",
     "fameUp": "{name} 평판 ▲",
     "fameDown": "{name} 평판 ▼",
-    "leave": "소속 없음"
+    "leave": "소속 없음",
+    "situation": "{name}",
+    "situationEnd": "풀려남"
   },
   "ending": {
     "deathHead": "이번 생은 여기서 끝났다.",
@@ -194,5 +196,8 @@
     "unknown": "???",
     "more": "아직 모르는 것이 남아 있다.",
     "count": "{got} / {all}"
+  },
+  "situations": {
+    "수감": "수감 중"
   }
 }

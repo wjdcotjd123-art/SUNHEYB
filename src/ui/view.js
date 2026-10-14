@@ -47,9 +47,10 @@ export class GameView {
     const rows = [`<div class="stat realm"><span>${i.stat("경지")}</span><b>${i.realm(state.stat("경지"))}</b></div>`];
     for (const s of this.config.shownStats) rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}</b></div>`);
     this.$("#stats").innerHTML = rows.join("");
-    this.$("#items").innerHTML = state.items.length
+    const sit = state.situation ? `<li class="situation">${i.t(`situations.${state.situation}`)}</li>` : "";
+    this.$("#items").innerHTML = sit + (state.items.length
       ? state.items.map((x) => `<li>${i.gloss(i.item(x)) ? `<span class="term" tabindex="0" data-term="${i.item(x)}">${i.item(x)}</span>` : i.item(x)}</li>`).join("")
-      : `<li class="none">${i.t("game.emptyHands")}</li>`;
+      : `<li class="none">${i.t("game.emptyHands")}</li>`);
   }
 
   // 변화 기록 하나를 글로.
@@ -62,6 +63,7 @@ export class GameView {
     if (c.type === "set") return `${i.stat(c.stat)} ${c.value}`;
     if (c.type === "join") return i.t("changes.join", { name: i.name(c.name) });
     if (c.type === "leave") return i.t("changes.leave");
+    if (c.type === "situation") return c.name === "없음" ? i.t("changes.situationEnd") : i.t("changes.situation", { name: i.t(`situations.${c.name}`) });
     if (c.type === "bond") return i.t(c.delta > 0 ? "changes.bondUp" : "changes.bondDown", { name: i.name(c.name) });
     if (c.type === "fame") return i.t(c.delta > 0 ? "changes.fameUp" : "changes.fameDown", { name: i.name(c.name) });
     return `${i.stat(c.stat)} ${c.delta > 0 ? "+" : ""}${c.delta}`;

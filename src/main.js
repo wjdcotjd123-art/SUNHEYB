@@ -125,6 +125,7 @@ class App {
     if (!ev) return this.finish("end");
     const s = this.state;
     s.seen.add(ev.id);
+    if (ev.situation) s.situation = ev.situation; // 상황 장면에 들어서면 그 상황에 처한다
     s.lastEventId = ev.id;
     s.recent = [...(s.recent ?? []), ev.id].slice(-3);
     this.saves.save(s, ev.id);
@@ -145,7 +146,9 @@ class App {
           outcome = re.src ?? re;
         }
       }
-      let textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
+      // 확률 보정 때문에 결과가 복사본일 수 있어서, 원본 위치는 src나 글로 찾는다
+      const oi = choice.outcomes.findIndex((o) => o === outcome || o === outcome.src || o.text === outcome.text);
+      let textKey = `c${choice.id}.o${oi}`;
       let textEv = ev.id;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);
       // 검은 비늘: 수준 낮은 적에게 죽을 뻔하면 한 번 막아준다.

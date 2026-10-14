@@ -7,6 +7,7 @@ export class GameState {
     this.bonds = {};
     this.reputation = {};
     this.affiliation = null;
+    this.situation = null; // 지금 처한 상황(예: "수감"). 있으면 그 상황의 장면만 나온다
     this.seen = new Set();
     this.outcomesSeen = [];
     this.achievements = [];

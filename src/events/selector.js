@@ -9,6 +9,8 @@ export function meetsCondition(state, cond = {}) {
   if (cond.stat_min_any && !Object.entries(cond.stat_min_any).some(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.realm_min != null && state.stat("경지") < cond.realm_min) return false;
   if (cond.realm_max != null && state.stat("경지") > cond.realm_max) return false;
+  // 인연: { 인물: 최소 인연 }
+  if (cond.bond_min && !Object.entries(cond.bond_min).every(([k, v]) => (state.bonds?.[k] ?? 0) >= v)) return false;
   // 체질: { 체질id: 최소 단계 } — 켜 둔 체질이 그 단계 이상일 때만
   if (cond.traits && !Object.entries(cond.traits).every(([k, v]) => (state.traits?.[k] ?? 0) >= v)) return false;
   // 소속: "none"이면 무소속일 때만, 이름이면 그 소속일 때만. affiliation_not은 그 소속이면 안 됨.
@@ -30,7 +32,11 @@ export class EventSelector {
   next(state) {
     // repeat=true인 장면(수련 등)은 여러 번 나올 수 있다. 단, 방금 본 장면은 다른 후보가 있으면 건너뛴다.
     let pool = [...this.events.values()].filter(
-      (ev) => (ev.pool ?? "pool") === "pool" && (ev.repeat || !state.seen.has(ev.id)) && meetsCondition(state, ev.conditions)
+      (ev) =>
+        (ev.pool ?? "pool") === "pool" &&
+        (ev.situation ?? null) === (state.situation ?? null) && // 상황(감옥 등)에 맞는 장면만
+        (ev.repeat || !state.seen.has(ev.id)) &&
+        meetsCondition(state, ev.conditions)
     );
     // 최근에 본 장면(최대 3개)은 다른 후보가 있으면 건너뛴다.
     const recent = state.recent ?? [state.lastEventId];
@@ -40,8 +46,16 @@ export class EventSelector {
     }
     if (!pool.length) return null;
     // 내 소속과 같은 group의 장면은 더 자주 나온다.
-    const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1);
+    const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1) * this.personBoost(ev, state);
     return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev));
+  }
+  // 인연을 쌓은 인물이 나오는 장면(person)은 더 자주 나온다: 인연 n당 ×(1 + n/perBond), 최대 maxBond배
+  personBoost(ev, state) {
+    if (!ev.person) return 1;
+    const { perBond, max } = this.config.personBoost;
+    const people = Array.isArray(ev.person) ? ev.person : [ev.person];
+    const best = Math.max(0, ...people.map((p) => state.bonds?.[p] ?? 0));
+    return Math.min(max, 1 + best / perBond);
   }
   // 비추천(warn) 선택지는 항상 맨 뒤로 보낸다.
   availableChoices(ev, state) {
