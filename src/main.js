@@ -22,7 +22,7 @@ class Game {
     const life = this.record.startLife();
     this.view.header(life, this.record.data.karma);
     this.view.stats(this.state);
-    this.view.clear();
+    this.view.clearLog();
     this.play(this.selector.next(this.state));
   }
 
@@ -31,14 +31,15 @@ class Game {
     const s = this.state;
     s.seen.add(ev.id);
     s.scenes += 1;
-    this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
+    this.view.scene(ev, this.selector.availableChoices(ev, s), (choice, sec) => {
       const outcome = this.resolver.pick(choice, s);
       s.outcomesSeen.push(`${ev.id}:${choice.id}:${choice.outcomes.indexOf(outcome)}`);
       const changes = this.resolver.apply(outcome, s);
       this.view.stats(s);
+      this.view.log(ev.title, choice.tag, changes, s.dead);
       const nextId = outcome.effects?.next_event;
-      if (s.dead) return this.view.outcome(outcome, changes, "눈을 감는다", () => this.finish("death"));
-      this.view.outcome(outcome, changes, "계속", () =>
+      if (s.dead) return this.view.outcome(sec, outcome, changes, "눈을 감는다", () => this.finish("death"));
+      this.view.outcome(sec, outcome, changes, "계속", () =>
         this.play(nextId ? this.selector.byId(nextId) : this.selector.next(s))
       );
     });
