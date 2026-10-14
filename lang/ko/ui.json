@@ -39,7 +39,8 @@
     "bondUp": "{name} 인연 ▲",
     "bondDown": "{name} 인연 ▼",
     "fameUp": "{name} 평판 ▲",
-    "fameDown": "{name} 평판 ▼"
+    "fameDown": "{name} 평판 ▼",
+    "leave": "소속 없음"
   },
   "ending": {
     "deathHead": "이번 생은 여기서 끝났다.",

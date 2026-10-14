@@ -61,6 +61,7 @@ export class GameView {
     if (c.type === "realm") return i.t("changes.realm", { realm: i.realm(c.value) });
     if (c.type === "set") return `${i.stat(c.stat)} ${c.value}`;
     if (c.type === "join") return i.t("changes.join", { name: i.name(c.name) });
+    if (c.type === "leave") return i.t("changes.leave");
     if (c.type === "bond") return i.t(c.delta > 0 ? "changes.bondUp" : "changes.bondDown", { name: i.name(c.name) });
     if (c.type === "fame") return i.t(c.delta > 0 ? "changes.fameUp" : "changes.fameDown", { name: i.name(c.name) });
     return `${i.stat(c.stat)} ${c.delta > 0 ? "+" : ""}${c.delta}`;

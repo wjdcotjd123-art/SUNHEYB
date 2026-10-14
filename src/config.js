@@ -3,6 +3,7 @@ export const CONFIG = {
   startStats: { 체력: 10, 근골: 3, 민첩: 3, 재물: 0, 내공: 0, 경지: 0 },
   startItems: ["라이터"],
   defaultWeight: 5,
+  affiliationBoost: 4, // 소속과 같은 group 장면의 등장 가중치 배수
   chanceMin: 2,
   chanceMax: 95,
   languages: ["ko"],

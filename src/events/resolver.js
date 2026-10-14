@@ -43,7 +43,11 @@ export class ResultResolver {
       else if (k === "next_event") continue;
       else if (k === "realm_set") { state.stats.경지 = v; changes.push({ type: "realm", value: v, good: true }); }
       else if (k.endsWith("_set")) { const s = k.slice(0, -4); state.stats[s] = v; changes.push({ type: "set", stat: s, value: v, good: false }); }
-      else if (k === "소속") { state.affiliation = v; changes.push({ type: "join", name: v, good: true }); }
+      else if (k === "소속") {
+        // 소속 "없음"은 무소속으로 되돌린다.
+        state.affiliation = v === "없음" ? null : v;
+        changes.push(v === "없음" ? { type: "leave", good: false } : { type: "join", name: v, good: true });
+      }
       else if (k === "인연") { addAll(state.bonds, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "bond", name: who, delta: d, good: d > 0 }); }
       else if (k === "평판") { addAll(state.reputation, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "fame", name: who, delta: d, good: d > 0 }); }
       else if (typeof v === "number") {

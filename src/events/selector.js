@@ -8,6 +8,10 @@ export function meetsCondition(state, cond = {}) {
   if (cond.stat_min && !Object.entries(cond.stat_min).every(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.stat_min_any && !Object.entries(cond.stat_min_any).some(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.realm_min != null && state.stat("경지") < cond.realm_min) return false;
+  // 소속: "none"이면 무소속일 때만, 이름이면 그 소속일 때만. affiliation_not은 그 소속이면 안 됨.
+  const aff = state.affiliation ?? "none";
+  if (cond.affiliation && cond.affiliation !== aff) return false;
+  if (cond.affiliation_not && cond.affiliation_not.includes(aff)) return false;
   return true;
 }
 
@@ -25,7 +29,9 @@ export class EventSelector {
       (ev) => (ev.pool ?? "pool") === "pool" && !state.seen.has(ev.id) && meetsCondition(state, ev.conditions)
     );
     if (!pool.length) return null;
-    return this.rng.pickWeighted(pool, (ev) => ev.weight ?? this.config.defaultWeight);
+    // 내 소속과 같은 group의 장면은 더 자주 나온다.
+    const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1);
+    return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev));
   }
   availableChoices(ev, state) {
     return ev.choices.filter((c) => meetsCondition(state, c.condition));
