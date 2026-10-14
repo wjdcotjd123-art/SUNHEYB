@@ -107,7 +107,9 @@ class App {
     this.saves.save(s, ev.id);
     this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
       s.scenes += 1;
-      const outcome = this.resolver.pick(choice, s, this.record.deathsAt(ev.id, choice.id));
+      // memory=false인 장면(첫 장면 등)은 전생의 기억 보정을 받지 않는다.
+      const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
+      const outcome = this.resolver.pick(choice, s, deaths);
       const rare = this.resolver.isRare(outcome);
       if (rare) s.rare += 1;
       const textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;

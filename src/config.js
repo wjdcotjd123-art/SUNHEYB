@@ -20,6 +20,7 @@ export const CONFIG = {
     { id: "민첩", stat: "민첩", amount: 1, base: 20, growth: 1.6, max: 15 },
     { id: "체력", stat: "체력", amount: 2, base: 15, growth: 1.5, max: 10 },
     { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.4, max: 10 },
+    { id: "내공", stat: "내공", amount: 1, base: 60, growth: 1.8, max: 7 },
   ],
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면
