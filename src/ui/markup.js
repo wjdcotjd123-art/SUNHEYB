@@ -13,9 +13,7 @@ export function lineToHtml(line) {
   return s;
 }
 
-// 빈 줄을 기준으로 문단을 나눈다.
+// 줄 간격 규칙: 지문이든 대사든 한 줄이 한 문단, 문단 사이 간격은 모두 같다. 원본의 빈 줄은 무시한다.
 export function linesToHtml(lines) {
-  const paras = [[]];
-  for (const l of lines) l === "" ? paras.push([]) : paras[paras.length - 1].push(lineToHtml(l));
-  return paras.filter((p) => p.length).map((p) => `<p>${p.join("<br>")}</p>`).join("");
+  return lines.filter((l) => l !== "").map((l) => `<p>${lineToHtml(l)}</p>`).join("");
 }

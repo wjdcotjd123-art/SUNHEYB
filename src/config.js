@@ -13,7 +13,7 @@ export const CONFIG = {
   defaultLanguage: "ko",
   langDir: "lang",
   shownStats: ["체력", "근골", "민첩", "내공", "재물"],
-  karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5 },
+  karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5, perSceneMult: 0.02, maxMult: 2 }, // 배율 = 1 + 턴×0.02 (최대 ×2)
   // 업 상점: 산 만큼 매 생 시작할 때 적용. 값 = round(base × growth^현재단계)
   shop: [
     { id: "근골", stat: "근골", amount: 1, base: 20, growth: 1.6, max: 15 },
@@ -25,7 +25,7 @@ export const CONFIG = {
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면
   // 검은 비늘: 지니고 있으면 weak=true인 죽음(수준 낮은 적의 공격)을 한 번 막아준다
-  scaleGuard: { item: "검은_비늘", event: "SYS_SCALE" },
+  scaleGuard: { item: "검은_비늘", event: "SYS_SCALE", usedFlag: "비늘이_막음" }, // 한 생에 한 번만
   eventIndex: "data/events/index.json",
   achievementsPath: "data/achievements.json",
 };

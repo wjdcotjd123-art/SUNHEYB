@@ -104,6 +104,7 @@ class App {
     const s = this.state;
     s.seen.add(ev.id);
     s.lastEventId = ev.id;
+    s.recent = [...(s.recent ?? []), ev.id].slice(-3);
     this.saves.save(s, ev.id);
     this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
       s.scenes += 1;
@@ -115,7 +116,7 @@ class App {
       s.outcomesSeen.push(`${ev.id}:${textKey}`);
       // 검은 비늘: 수준 낮은 적에게 죽을 뻔하면 한 번 막아준다.
       const guard = CONFIG.scaleGuard;
-      if (outcome.effects?.death && outcome.weak && s.hasItem(guard.item)) {
+      if (outcome.effects?.death && outcome.weak && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) {
         outcome = this.selector.byId(guard.event).choices[0].outcomes[0];
         textEv = guard.event;
         textKey = "c1.o0";

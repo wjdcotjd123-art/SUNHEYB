@@ -55,7 +55,8 @@
     "total": "얻은 업",
     "newAch": "인과록에 새겨짐 · {list}",
     "wealth": "모은 재물 ({w})",
-    "rare": "드문 인과"
+    "rare": "드문 인과",
+    "mult": "버텨낸 세월"
   },
   "achievementsScreen": {
     "title": "인과록<span class=\"hanja\">(因果錄)</span>",

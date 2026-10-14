@@ -30,7 +30,12 @@ export class EventSelector {
     let pool = [...this.events.values()].filter(
       (ev) => (ev.pool ?? "pool") === "pool" && (ev.repeat || !state.seen.has(ev.id)) && meetsCondition(state, ev.conditions)
     );
-    if (pool.length > 1) pool = pool.filter((ev) => ev.id !== state.lastEventId);
+    // 최근에 본 장면(최대 3개)은 다른 후보가 있으면 건너뛴다.
+    const recent = state.recent ?? [state.lastEventId];
+    for (let n = recent.length; n > 0; n--) {
+      const left = pool.filter((ev) => !recent.slice(-n).includes(ev.id));
+      if (left.length) { pool = left; break; }
+    }
     if (!pool.length) return null;
     // 내 소속과 같은 group의 장면은 더 자주 나온다.
     const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1);

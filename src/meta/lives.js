@@ -52,12 +52,15 @@ export class LifeRecord {
       { id: "wealth", value: Math.max(0, Math.floor(state.stat("재물") / k.wealthPer)), note: state.stat("재물") },
       { id: "rare", value: (state.rare ?? 0) * k.perRare },
     ];
-    const total = parts.reduce((s, p) => s + p.value, 0);
+    // 오래 버틸수록 배율이 붙는다: 1 + 턴 수 × perSceneMult (최대 maxMult)
+    const base = parts.reduce((s, p) => s + p.value, 0);
+    const mult = Math.min(k.maxMult, 1 + state.scenes * k.perSceneMult);
+    const total = Math.round(base * mult);
     this.data.outcomes.push(...fresh);
     this.data.achievements.push(...newAch);
     this.data.karma += total;
     this.data.karmaEarned += total;
     this.save();
-    return { parts, total, newAch };
+    return { parts, base, mult, total, newAch };
   }
 }
