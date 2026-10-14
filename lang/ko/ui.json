@@ -9,8 +9,8 @@
     "noLives": "아직 한 번도 살지 않았다.",
     "continue": "이어서 하기",
     "newLife": "새로 하기",
-    "achievements": "인과록",
-    "karma": "업",
+    "achievements": "인과록<span class=\"hanja\">(因果錄)</span>",
+    "karma": "업<span class=\"hanja\">(業)</span>",
     "settings": "설정",
     "noSave": "이어갈 생이 없다",
     "loseSave": "진행 중인 생은 사라진다",
@@ -58,7 +58,7 @@
     "rare": "드문 인과"
   },
   "achievementsScreen": {
-    "title": "인과록",
+    "title": "인과록<span class=\"hanja\">(因果錄)</span>",
     "sub": "새긴 인과 {got} / {all} · 겪어본 갈림길 {n}",
     "locked": "???",
     "all": "전체",
@@ -73,7 +73,7 @@
     }
   },
   "karmaScreen": {
-    "title": "업",
+    "title": "업<span class=\"hanja\">(業)</span>",
     "sub": "전생에서 쌓은 업이다. 타고난 바탕을 다지는 데 쓸 수 있다.",
     "shopTitle": "타고난 바탕",
     "level": "지금 +{v}",
