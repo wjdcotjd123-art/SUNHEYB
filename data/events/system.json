@@ -1,0 +1,55 @@
+{
+  "batch": "system",
+  "chapter": "공통",
+  "part": "공통",
+  "phase": "시스템",
+  "note": "게임 규칙이 직접 불러 쓰는 장면. pool=fixed라 무작위로 나오지 않는다. SYS_SCALE: 검은 비늘을 지닌 채 weak=true인 죽음 결과가 나오면 대신 이 결과가 나온다(비늘은 금이 가서 한 번만 막는다).",
+  "events": [
+    {
+      "id": "SYS_SCALE",
+      "title": "검은 비늘",
+      "type": "major",
+      "pool": "fixed",
+      "conditions": {},
+      "description": [
+        "(시스템 장면)"
+      ],
+      "choices": [
+        {
+          "id": 1,
+          "tag": "비늘",
+          "text": "(시스템)",
+          "outcomes": [
+            {
+              "fortune": true,
+              "text": [
+                "끝이라고 느낀 순간.",
+                "",
+                "**<gold>쨍.</gold>**",
+                "",
+                "품속의 {검은 비늘}이 날아든 일격을 튕겨냈다.",
+                "손바닥만 한 비늘에 **금이 갔다.**",
+                "",
+                "상대가 멍하니 굳은 사이,",
+                "**<green>죽어라 내달렸다.</green>**"
+              ],
+              "effects": {
+                "체력": -2,
+                "items_remove": [
+                  "검은_비늘"
+                ],
+                "items": [
+                  "금_간_검은_비늘"
+                ],
+                "flags": [
+                  "비늘이_막음"
+                ],
+                "achievement": "비늘의_가호"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

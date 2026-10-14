@@ -102,7 +102,8 @@
               ],
               "effects": {
                 "death": true
-              }
+              },
+              "weak": true
             },
             {
               "text": [
@@ -437,7 +438,8 @@
               ],
               "effects": {
                 "death": true
-              }
+              },
+              "weak": true
             },
             {
               "text": [

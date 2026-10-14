@@ -109,11 +109,19 @@ class App {
       s.scenes += 1;
       // memory=false인 장면(첫 장면 등)은 전생의 기억 보정을 받지 않는다.
       const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
-      const outcome = this.resolver.pick(choice, s, deaths);
+      let outcome = this.resolver.pick(choice, s, deaths);
+      let textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
+      let textEv = ev.id;
+      s.outcomesSeen.push(`${ev.id}:${textKey}`);
+      // 검은 비늘: 수준 낮은 적에게 죽을 뻔하면 한 번 막아준다.
+      const guard = CONFIG.scaleGuard;
+      if (outcome.effects?.death && outcome.weak && s.hasItem(guard.item)) {
+        outcome = this.selector.byId(guard.event).choices[0].outcomes[0];
+        textEv = guard.event;
+        textKey = "c1.o0";
+      }
       const rare = this.resolver.isRare(outcome);
       if (rare) s.rare += 1;
-      const textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
-      s.outcomesSeen.push(`${ev.id}:${textKey}`);
       const changes = this.resolver.apply(outcome, s);
       s.log.push({ ev: ev.id, c: choice.id, changes, dead: s.dead });
       this.view.stats(s);
@@ -122,13 +130,13 @@ class App {
       if (s.dead) {
         this.saves.clear();
         this.record.recordDeath(ev.id, choice.id);
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv);
       }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       const nextId = outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
-      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune);
+      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv);
     });
   }
 

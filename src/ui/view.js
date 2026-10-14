@@ -143,12 +143,13 @@ export class GameView {
   }
 
   // 결과는 새 화면으로: 장면 제목, 고른 선택 한 줄, 결과 글. textKey 예: "c2.o0"
-  outcome(evId, choiceId, textKey, changes, buttonKey, onNext, rare = false, fortune = false) {
+  // textEv: 결과 글을 가져올 장면 (검은 비늘처럼 다른 장면의 결과로 바뀐 경우)
+  outcome(evId, choiceId, textKey, changes, buttonKey, onNext, rare = false, fortune = false, textEv = evId) {
     const i = this.i;
     const sec = el("section", "outcome" + (rare ? " rare" : ""));
     sec.innerHTML = `${rare ? `<p class="rare-banner">${i.t("game.rare", { n: this.config.karma.perRare })}</p>` : fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(evId, "title")}</h2>
       <p class="chosen"><span class="tag">[${i.ev(evId, `c${choiceId}.tag`)}]</span> ${lineToHtml(i.ev(evId, `c${choiceId}.text`))}</p>
-      <div class="prose">${linesToHtml(i.ev(evId, textKey))}</div>`;
+      <div class="prose">${linesToHtml(i.ev(textEv, textKey))}</div>`;
     if (changes.length) {
       sec.innerHTML += `<ul class="changes">${changes.map((c) => `<li class="${c.good ? "up" : "down"}">${this.changeText(c)}</li>`).join("")}</ul>`;
     }

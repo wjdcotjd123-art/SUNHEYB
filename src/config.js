@@ -24,6 +24,8 @@ export const CONFIG = {
   ],
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면
+  // 검은 비늘: 지니고 있으면 weak=true인 죽음(수준 낮은 적의 공격)을 한 번 막아준다
+  scaleGuard: { item: "검은_비늘", event: "SYS_SCALE" },
   eventIndex: "data/events/index.json",
   achievementsPath: "data/achievements.json",
 };
