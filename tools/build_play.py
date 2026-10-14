@@ -1,4 +1,4 @@
-"""index.html + src/ 모듈 + data/events 를 한 파일(dist/play.html)로 묶는다.
+"""index.html + src/ 모듈 + data/ + lang/ 을 한 파일(dist/play.html)로 묶는다.
 외부 파일을 못 읽는 환경(아티팩트 등)에서 바로 플레이하기 위한 빌드.
 
 사용법: python tools/build_play.py
@@ -6,10 +6,13 @@
 import json
 import pathlib
 import re
+import subprocess
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+subprocess.run([sys.executable, str(ROOT / "tools/extract_text.py")], check=True)
 ORDER = ["config", "core/store", "core/rng", "core/state", "events/loader", "events/selector",
-         "events/resolver", "meta/lives", "meta/settings", "save/saveManager",
+         "events/resolver", "i18n/i18n", "meta/lives", "meta/settings", "save/saveManager",
          "ui/keys", "ui/markup", "ui/view", "ui/screens", "main"]
 
 def module_body(name):
@@ -21,8 +24,13 @@ index = json.loads((ROOT / "data/events/index.json").read_text(encoding="utf-8")
 batches = [json.loads((ROOT / "data/events" / f).read_text(encoding="utf-8")) for f in index["batches"]]
 data = json.dumps(batches, ensure_ascii=False).replace("</", "<\\/")
 ach = (ROOT / "data/achievements.json").read_text(encoding="utf-8").replace("</", "<\\/")
+langs = {}
+for d in sorted((ROOT / "lang").iterdir()):
+    if d.is_dir():
+        langs[d.name] = {f.stem: json.loads(f.read_text(encoding="utf-8")) for f in d.glob("*.json")}
+lang_data = json.dumps(langs, ensure_ascii=False).replace("</", "<\\/")
 code = "\n".join(module_body(m) for m in ORDER)
-script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\n(() => {{\n{code}\n}})();\n</script>"
+script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\nwindow.LANG_DATA = {lang_data};\n(() => {{\n{code}\n}})();\n</script>"
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 html = html.replace('<script type="module" src="src/main.js"></script>', script)

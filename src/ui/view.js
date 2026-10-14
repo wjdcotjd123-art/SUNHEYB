@@ -1,13 +1,13 @@
-// 플레이 화면 그리기 전담. 게임 규칙은 모른다.
+// 플레이 화면 그리기 전담. 게임 규칙은 모른다. 글은 모두 i18n에서 꺼낸다.
 // 화면에는 지금 장면 하나만 보이고, 지나온 행동은 하단 기록창에 한 줄씩 쌓인다.
 // 조작: 숫자키(1~9)로 고르기, Enter로 확인, Esc로 메인.
 import { linesToHtml } from "./markup.js";
-import { nice } from "../events/resolver.js";
 import { Keys } from "./keys.js";
 
 export class GameView {
-  constructor(root, config) {
+  constructor(root, config, i18n) {
     this.config = config;
+    this.i = i18n;
     this.$ = (sel) => root.querySelector(sel);
     this.layer = this.$("#game");
     this.stage = this.$("#stage");
@@ -20,6 +20,8 @@ export class GameView {
     this.onMenu = onMenu;
     this.layer.hidden = false;
     this.$("#toMenu").hidden = false;
+    this.$("#toMenu").innerHTML = `${this.i.t("game.toMenu")}<kbd>Esc</kbd>`;
+    this.$("#logTitle").textContent = this.i.t("game.logTitle");
   }
 
   close() {
@@ -36,18 +38,33 @@ export class GameView {
   }
 
   header(life, karma) {
-    this.$("#life").textContent = `제 ${life} 생`;
-    this.$("#karma").textContent = `업 ${karma}`;
+    this.$("#life").textContent = this.i.t("game.life", { n: life });
+    this.$("#karma").textContent = this.i.t("game.karma", { k: karma });
   }
 
   stats(state) {
-    const realm = this.config.realmNames[state.stat("경지")] ?? "?";
-    const rows = [`<div class="stat realm"><span>경지</span><b>${realm}</b></div>`];
-    for (const s of this.config.shownStats) rows.push(`<div class="stat"><span>${s}</span><b>${state.stat(s)}</b></div>`);
+    const i = this.i;
+    const rows = [`<div class="stat realm"><span>${i.stat("경지")}</span><b>${i.realm(state.stat("경지"))}</b></div>`];
+    for (const s of this.config.shownStats) rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}</b></div>`);
     this.$("#stats").innerHTML = rows.join("");
     this.$("#items").innerHTML = state.items.length
-      ? state.items.map((i) => `<li>${nice(i)}</li>`).join("")
-      : `<li class="none">빈손</li>`;
+      ? state.items.map((x) => `<li>${i.item(x)}</li>`).join("")
+      : `<li class="none">${i.t("game.emptyHands")}</li>`;
+  }
+
+  // 변화 기록 하나를 글로.
+  changeText(c) {
+    const i = this.i;
+    if (c.type === "gain") return i.t("changes.gain", { item: i.item(c.item) });
+    if (c.type === "lose") return i.t("changes.lose", { item: i.item(c.item) });
+    if (c.type === "loseAll") return i.t("changes.loseAll");
+    if (c.type === "realm") return i.t("changes.realm", { realm: i.realm(c.value) });
+    if (c.type === "set") return `${i.stat(c.stat)} ${c.value}`;
+    return `${i.stat(c.stat)} ${c.delta > 0 ? "+" : ""}${c.delta}`;
+  }
+
+  changesHtml(changes) {
+    return changes.map((c) => `<span class="${c.good ? "up" : "down"}">${this.changeText(c)}</span>`).join(" ");
   }
 
   show(sec) {
@@ -55,29 +72,35 @@ export class GameView {
     window.scrollTo({ top: 0 });
   }
 
-  // 기록창 전체를 다시 그린다 (최신이 맨 위).
+  // 기록창 전체를 다시 그린다 (최신이 맨 위). 기록에는 글 대신 id만 있어서 언어를 바꿔도 맞게 나온다.
   renderLog(entries) {
+    const i = this.i;
+    if (!entries.length) {
+      this.logList.innerHTML = `<li class="empty">${i.t("game.logEmpty")}</li>`;
+      return;
+    }
     this.logList.innerHTML = entries
       .slice()
       .reverse()
-      .map((x) => {
-        const ch = x.changes.map((c) => `<span class="${c.good ? "up" : "down"}">${c.text}</span>`).join(" ");
-        return `<li class="${x.dead ? "dead" : ""}"><span class="t">${x.title}</span><span class="g">[${x.tag}]</span>${ch}${x.dead ? `<span class="down">죽음</span>` : ""}</li>`;
-      })
+      .map(
+        (x) =>
+          `<li class="${x.dead ? "dead" : ""}"><span class="t">${i.ev(x.ev, "title")}</span><span class="g">[${i.ev(x.ev, `c${x.c}.tag`)}]</span>${this.changesHtml(x.changes)}${x.dead ? `<span class="down">${i.t("game.death")}</span>` : ""}</li>`
+      )
       .join("");
   }
 
   scene(ev, choices, onConfirm) {
+    const i = this.i;
     const sec = el("section", "scene");
-    sec.innerHTML = `<h2>${ev.title}</h2><div class="prose">${linesToHtml(ev.description)}</div>`;
+    sec.innerHTML = `<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>`;
     const list = el("div", "choices");
-    const confirm = button("다음", () => go());
+    const confirm = button(i.t("game.next"), () => go());
     confirm.hidden = true;
     let picked = null;
 
-    const select = (i) => {
-      picked = choices[i];
-      list.querySelectorAll(".choice").forEach((b, j) => b.classList.toggle("picked", j === i));
+    const select = (n) => {
+      picked = choices[n];
+      list.querySelectorAll(".choice").forEach((b, j) => b.classList.toggle("picked", j === n));
       confirm.hidden = false;
     };
     const go = () => {
@@ -88,11 +111,11 @@ export class GameView {
       onConfirm(picked, sec);
     };
 
-    choices.forEach((c, i) => {
+    choices.forEach((c, n) => {
       const b = el("button", "choice" + (c.condition ? " earned" : ""));
       b.type = "button";
-      b.innerHTML = `<span class="num">${i + 1}</span><span class="tag">[${c.tag}]</span><span class="txt">${c.text}</span>`;
-      b.addEventListener("click", () => select(i));
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${i.ev(ev.id, `c${c.id}.text`)}</span>`;
+      b.addEventListener("click", () => select(n));
       list.append(b);
     });
     sec.append(list, confirm);
@@ -106,14 +129,14 @@ export class GameView {
     });
   }
 
-  // 결과는 같은 화면, 고른 항목 아래에 붙는다.
-  outcome(sec, outcome, changes, buttonText, onNext) {
+  // 결과는 같은 화면, 고른 항목 아래에 붙는다. textKey 예: "c2.o0"
+  outcome(sec, evId, textKey, changes, buttonKey, onNext) {
     const out = el("div", "outcome");
-    out.innerHTML = `<div class="prose">${linesToHtml(outcome.text)}</div>`;
+    out.innerHTML = `<div class="prose">${linesToHtml(this.i.ev(evId, textKey))}</div>`;
     if (changes.length) {
-      out.innerHTML += `<ul class="changes">${changes.map((c) => `<li class="${c.good ? "up" : "down"}">${c.text}</li>`).join("")}</ul>`;
+      out.innerHTML += `<ul class="changes">${changes.map((c) => `<li class="${c.good ? "up" : "down"}">${this.changeText(c)}</li>`).join("")}</ul>`;
     }
-    const b = button(buttonText, onNext);
+    const b = button(this.i.t(buttonKey), onNext);
     out.append(b);
     sec.append(out);
     out.scrollIntoView({ block: "start", behavior: "smooth" });
@@ -121,15 +144,16 @@ export class GameView {
   }
 
   ending(kind, summary, onDone) {
+    const i = this.i;
     this.$("#toMenu").hidden = true;
     const sec = el("section", "ending " + kind);
-    const head = kind === "death" ? "이번 생은 여기서 끝났다." : "길이 여기서 끊겨 있다.";
-    const sub = kind === "death" ? "" : `<p class="note">시험판에 들어 있는 장면을 모두 지나왔다.</p>`;
+    const head = kind === "death" ? i.t("ending.deathHead") : i.t("ending.endHead");
+    const sub = kind === "death" ? "" : `<p class="note">${i.t("ending.endNote")}</p>`;
     sec.innerHTML = `<h2>${head}</h2>${sub}
-      <dl class="karma">${summary.parts.map((p) => `<div><dt>${p.label}</dt><dd>+${p.value}</dd></div>`).join("")}
-      <div class="total"><dt>얻은 업</dt><dd>+${summary.total}</dd></div></dl>
-      ${summary.newAch.length ? `<p class="ach">인과록에 새겨짐 · ${summary.newAch.map(nice).join(", ")}</p>` : ""}`;
-    const b = button("메인으로", onDone);
+      <dl class="karma">${summary.parts.map((p) => `<div><dt>${i.t(`ending.${p.id}`)}</dt><dd>+${p.value}</dd></div>`).join("")}
+      <div class="total"><dt>${i.t("ending.total")}</dt><dd>+${summary.total}</dd></div></dl>
+      ${summary.newAch.length ? `<p class="ach">${i.t("ending.newAch", { list: summary.newAch.map((a) => i.ach(a, "name")).join(", ") })}</p>` : ""}`;
+    const b = button(i.t("game.toMain"), onDone);
     sec.append(b);
     this.show(sec);
     this.keys((e) => (e.key === "Enter" ? (b.click(), true) : false));

@@ -27,10 +27,10 @@ export class LifeRecord {
     const fresh = [...new Set(state.outcomesSeen)].filter((o) => !known.has(o));
     const newAch = [...new Set(state.achievements)].filter((a) => !this.data.achievements.includes(a));
     const parts = [
-      { label: "걸어온 길", value: state.scenes * k.perScene },
-      { label: "처음 겪은 인과", value: fresh.length * k.perNewOutcome },
-      { label: "도달한 경지", value: state.stat("경지") * k.perRealm },
-      { label: "새로 새긴 인과록", value: newAch.length * k.perAchievement },
+      { id: "scenes", value: state.scenes * k.perScene },
+      { id: "fresh", value: fresh.length * k.perNewOutcome },
+      { id: "realm", value: state.stat("경지") * k.perRealm },
+      { id: "achievements", value: newAch.length * k.perAchievement },
     ];
     const total = parts.reduce((s, p) => s + p.value, 0);
     this.data.outcomes.push(...fresh);

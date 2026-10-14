@@ -1,0 +1,78 @@
+{
+  "lang": { "name": "한국어" },
+  "menu": {
+    "eyebrow": "하계 · 무림 · 표류",
+    "title": "선협",
+    "livesLine": "지금까지 {n}번의 생을 살았다 · 업 {k}",
+    "noLives": "아직 한 번도 살지 않았다.",
+    "continue": "이어서 하기",
+    "newLife": "새로 하기",
+    "achievements": "인과록",
+    "karma": "업",
+    "settings": "설정",
+    "noSave": "이어갈 생이 없다",
+    "loseSave": "진행 중인 생은 사라진다",
+    "confirmNew": "한 번 더 누르면 진행 중인 생을 버리고 시작한다"
+  },
+  "game": {
+    "life": "제 {n} 생",
+    "karma": "업 {k}",
+    "toMenu": "메인",
+    "next": "다음",
+    "continue": "계속",
+    "closeEyes": "눈을 감는다",
+    "toMain": "메인으로",
+    "emptyHands": "빈손",
+    "logTitle": "지나온 길",
+    "logEmpty": "아직 아무것도 하지 않았다.",
+    "death": "죽음"
+  },
+  "changes": {
+    "gain": "{item} 획득",
+    "lose": "{item} 잃음",
+    "loseAll": "소지품 전부 잃음",
+    "realm": "경지 · {realm}"
+  },
+  "ending": {
+    "deathHead": "이번 생은 여기서 끝났다.",
+    "endHead": "길이 여기서 끊겨 있다.",
+    "endNote": "시험판에 들어 있는 장면을 모두 지나왔다.",
+    "scenes": "걸어온 길",
+    "fresh": "처음 겪은 인과",
+    "realm": "도달한 경지",
+    "achievements": "새로 새긴 인과록",
+    "total": "얻은 업",
+    "newAch": "인과록에 새겨짐 · {list}"
+  },
+  "achievementsScreen": {
+    "title": "인과록",
+    "sub": "새긴 인과 {got} / {all} · 겪어본 갈림길 {n}",
+    "locked": "???"
+  },
+  "karmaScreen": {
+    "title": "업",
+    "sub": "전생에서 쌓은 업이다.",
+    "empty": "업을 쓸 곳은 아직 정해지지 않았다."
+  },
+  "settings": {
+    "title": "설정",
+    "fontSize": "글자 크기",
+    "sizes": { "s": "작게", "m": "보통", "l": "크게", "xl": "아주 크게" },
+    "language": "언어",
+    "wipe": "기록 전부 지우기",
+    "wipeNote": "생의 횟수, 업, 인과록, 진행 중인 생이 모두 사라진다.",
+    "wipeBtn": "지우기",
+    "wipeConfirm": "정말 지운다",
+    "wiped": "지웠다"
+  },
+  "common": { "back": "돌아가기" },
+  "stats": {
+    "경지": "경지",
+    "체력": "체력",
+    "근골": "근골",
+    "민첩": "민첩",
+    "내공": "내공",
+    "은자": "은자"
+  },
+  "realms": ["범인", "삼류", "이류", "일류", "절정", "초절정", "화경", "현경"]
+}

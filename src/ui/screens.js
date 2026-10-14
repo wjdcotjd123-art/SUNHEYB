@@ -1,12 +1,13 @@
-// 메인 화면과 그 하위 화면(인과록, 업, 설정). 게임 규칙은 모른다.
+// 메인 화면과 그 하위 화면(인과록, 업, 설정). 게임 규칙은 모른다. 글은 모두 i18n에서 꺼낸다.
 // 조작: 메인에서는 숫자키로 바로 이동, 하위 화면은 Esc로 돌아가기.
 import { Keys } from "./keys.js";
 import { el } from "./view.js";
 import { FONT_SIZES } from "../meta/settings.js";
 
 export class MenuScreens {
-  constructor(root) {
+  constructor(root, i18n) {
     this.layer = root.querySelector("#screen");
+    this.i = i18n;
   }
 
   hide() {
@@ -20,7 +21,7 @@ export class MenuScreens {
     if (onBack) {
       const back = el("button", "back");
       back.type = "button";
-      back.innerHTML = `돌아가기<kbd>Esc</kbd>`;
+      back.innerHTML = `${this.i.t("common.back")}<kbd>Esc</kbd>`;
       back.addEventListener("click", onBack);
       sec.prepend(back);
       Keys.set((e) => (e.key === "Escape" ? (onBack(), true) : false));
@@ -29,32 +30,33 @@ export class MenuScreens {
 
   // info: { lives, karma, hasSave }, h: { continue, newLife, achievements, karma, settings }
   main(info, h) {
+    const t = (k, v) => this.i.t(k, v);
     const sec = el("section", "menu");
     sec.innerHTML = `
       <div class="mast">
-        <p class="eyebrow">하계 · 무림 · 표류</p>
-        <h1>선협</h1>
-        <p class="sub">${info.lives ? `지금까지 <b>${info.lives}</b>번의 생을 살았다 · 업 <b>${info.karma}</b>` : "아직 한 번도 살지 않았다."}</p>
+        <p class="eyebrow">${t("menu.eyebrow")}</p>
+        <h1>${t("menu.title")}</h1>
+        <p class="sub">${info.lives ? t("menu.livesLine", { n: `<b>${info.lives}</b>`, k: `<b>${info.karma}</b>` }) : t("menu.noLives")}</p>
       </div>`;
     const items = [
-      { label: "이어서 하기", run: h.continue, off: !info.hasSave, note: info.hasSave ? "" : "이어갈 생이 없다" },
-      { label: "새로 하기", run: h.newLife, note: info.hasSave ? "진행 중인 생은 사라진다" : "" },
-      { label: "인과록", run: h.achievements },
-      { label: "업", run: h.karma },
-      { label: "설정", run: h.settings },
+      { key: "continue", run: h.continue, off: !info.hasSave, note: info.hasSave ? "" : t("menu.noSave") },
+      { key: "newLife", run: h.newLife, note: info.hasSave ? t("menu.loseSave") : "" },
+      { key: "achievements", run: h.achievements },
+      { key: "karma", run: h.karma },
+      { key: "settings", run: h.settings },
     ];
     const nav = el("nav", "menu-list");
     let armed = false; // 새로 하기 두 번 확인용
-    items.forEach((it, i) => {
+    items.forEach((it, n) => {
       const b = el("button", "menu-item");
       b.type = "button";
       b.disabled = !!it.off;
-      b.innerHTML = `<span class="num">${i + 1}</span><span class="lbl">${it.label}</span>${it.note ? `<span class="mnote">${it.note}</span>` : ""}`;
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="lbl">${t("menu." + it.key)}</span>${it.note ? `<span class="mnote">${it.note}</span>` : ""}`;
       b.addEventListener("click", () => {
-        if (it.label === "새로 하기" && info.hasSave && !armed) {
+        if (it.key === "newLife" && info.hasSave && !armed) {
           armed = true;
           b.classList.add("armed");
-          b.querySelector(".mnote").textContent = "한 번 더 누르면 진행 중인 생을 버리고 시작한다";
+          b.querySelector(".mnote").textContent = t("menu.confirmNew");
           return;
         }
         it.run();
@@ -72,65 +74,76 @@ export class MenuScreens {
   }
 
   achievements(list, unlocked, outcomeCount, onBack) {
+    const i = this.i;
     const sec = el("section", "sub-screen");
     const got = list.filter((a) => unlocked.includes(a.id)).length;
     sec.innerHTML = `
-      <h2>인과록</h2>
-      <p class="sub">새긴 인과 <b>${got}</b> / ${list.length} · 겪어본 갈림길 <b>${outcomeCount}</b></p>
+      <h2>${i.t("achievementsScreen.title")}</h2>
+      <p class="sub">${i.t("achievementsScreen.sub", { got: `<b>${got}</b>`, all: list.length, n: `<b>${outcomeCount}</b>` })}</p>
       <ul class="ach-list">${list
         .map((a) =>
           unlocked.includes(a.id)
-            ? `<li class="on"><b>${a.name}</b><span>${a.desc}</span></li>`
-            : `<li><b>???</b><span>${a.hint}</span></li>`
+            ? `<li class="on"><b>${i.ach(a.id, "name")}</b><span>${i.ach(a.id, "desc")}</span></li>`
+            : `<li><b>${i.t("achievementsScreen.locked")}</b><span>${i.ach(a.id, "hint")}</span></li>`
         )
         .join("")}</ul>`;
     this.show(sec, onBack);
   }
 
   karma(total, onBack) {
+    const t = (k) => this.i.t(k);
     const sec = el("section", "sub-screen");
     sec.innerHTML = `
-      <h2>업</h2>
+      <h2>${t("karmaScreen.title")}</h2>
       <p class="big">${total}</p>
-      <p class="sub">전생에서 쌓은 업이다.</p>
-      <p class="empty">업을 쓸 곳은 아직 정해지지 않았다.</p>`;
+      <p class="sub">${t("karmaScreen.sub")}</p>
+      <p class="empty">${t("karmaScreen.empty")}</p>`;
     this.show(sec, onBack);
   }
 
-  settings(current, h, onBack) {
+  // current: 설정값, languages: [{id, name}], h: { fontSize, language, wipe }
+  settings(current, languages, h, onBack) {
+    const t = (k) => this.i.t(k);
     const sec = el("section", "sub-screen");
-    sec.innerHTML = `<h2>설정</h2>
-      <div class="set-row"><span class="set-lbl">글자 크기</span><div class="seg" role="group" aria-label="글자 크기"></div></div>
-      <div class="set-row danger"><span class="set-lbl">기록 전부 지우기</span><p class="set-note">생의 횟수, 업, 인과록, 진행 중인 생이 모두 사라진다.</p></div>`;
-    const seg = sec.querySelector(".seg");
-    FONT_SIZES.forEach((f) => {
-      const b = el("button", "seg-btn" + (f.id === current.fontSize ? " on" : ""));
-      b.type = "button";
-      b.id = `fs-${f.id}`;
-      b.textContent = f.label;
-      b.addEventListener("click", () => {
-        h.fontSize(f.id);
-        seg.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
-      });
-      seg.append(b);
-    });
+    sec.innerHTML = `<h2>${t("settings.title")}</h2>
+      <div class="set-row"><span class="set-lbl">${t("settings.fontSize")}</span><div class="seg" id="seg-fs" role="group"></div></div>
+      ${languages.length > 1 ? `<div class="set-row"><span class="set-lbl">${t("settings.language")}</span><div class="seg" id="seg-lang" role="group"></div></div>` : ""}
+      <div class="set-row danger"><span class="set-lbl">${t("settings.wipe")}</span><p class="set-note">${t("settings.wipeNote")}</p></div>`;
+    segment(sec.querySelector("#seg-fs"), FONT_SIZES.map((f) => ({ id: f.id, label: t(`settings.sizes.${f.id}`) })), current.fontSize, "fs", h.fontSize);
+    const langSeg = sec.querySelector("#seg-lang");
+    if (langSeg) segment(langSeg, languages.map((l) => ({ id: l.id, label: l.name })), current.language, "lang", h.language);
+
     const wipe = el("button", "wipe");
     wipe.type = "button";
     wipe.id = "wipe";
-    wipe.textContent = "지우기";
+    wipe.textContent = t("settings.wipeBtn");
     let armed = false;
     wipe.addEventListener("click", () => {
       if (!armed) {
         armed = true;
-        wipe.textContent = "정말 지운다";
+        wipe.textContent = t("settings.wipeConfirm");
         wipe.classList.add("armed");
         return;
       }
       h.wipe();
-      wipe.textContent = "지웠다";
+      wipe.textContent = t("settings.wiped");
       wipe.disabled = true;
     });
     sec.querySelector(".danger").append(wipe);
     this.show(sec, onBack);
   }
+}
+
+function segment(box, options, currentId, prefix, onPick) {
+  options.forEach((o) => {
+    const b = el("button", "seg-btn" + (o.id === currentId ? " on" : ""));
+    b.type = "button";
+    b.id = `${prefix}-${o.id}`;
+    b.textContent = o.label;
+    b.addEventListener("click", () => {
+      box.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+      onPick(o.id);
+    });
+    box.append(b);
+  });
 }

@@ -1,17 +1,17 @@
-// 사용자 설정. 지금은 글자 크기만.
+// 사용자 설정: 글자 크기, 언어.
 import { Store } from "../core/store.js";
 
 export const FONT_SIZES = [
-  { id: "s", label: "작게", px: 15 },
-  { id: "m", label: "보통", px: 17 },
-  { id: "l", label: "크게", px: 19 },
-  { id: "xl", label: "아주 크게", px: 21 },
+  { id: "s", px: 15 },
+  { id: "m", px: 17 },
+  { id: "l", px: 19 },
+  { id: "xl", px: 21 },
 ];
 
 export class Settings {
   constructor(config) {
     this.key = config.storage.settings;
-    this.data = { fontSize: "m", ...Store.get(this.key, {}) };
+    this.data = { fontSize: "m", language: config.defaultLanguage, ...Store.get(this.key, {}) };
   }
   set(k, v) {
     this.data[k] = v;
