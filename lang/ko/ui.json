@@ -104,10 +104,10 @@
       }
     },
     "traitTitle": "체질",
-    "traitOn": "깨어 있음",
-    "traitOff": "잠들어 있음",
-    "turnOn": "깨운다",
-    "turnOff": "재운다",
+    "traitOn": "활성화됨",
+    "traitOff": "비활성화됨",
+    "turnOn": "활성화",
+    "turnOff": "비활성화",
     "traits": {
       "철위": {
         "name": "철위(鐵胃)",
