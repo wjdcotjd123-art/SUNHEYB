@@ -95,12 +95,11 @@ class App {
   play(ev) {
     if (!ev) return this.finish("end");
     const s = this.state;
-    if (!s.seen.has(ev.id)) {
-      s.seen.add(ev.id);
-      s.scenes += 1;
-    }
+    s.seen.add(ev.id);
+    s.lastEventId = ev.id;
     this.saves.save(s, ev.id);
     this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
+      s.scenes += 1;
       const outcome = this.resolver.pick(choice, s);
       const textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);

@@ -23,7 +23,13 @@ def fmt_cond(cond):
     if "stat_min_any" in cond:
         parts.append(" 또는 ".join(f"{k} {v} 이상" for k, v in cond["stat_min_any"].items()))
     if "realm_min" in cond:
-        parts.append(f"경지 {cond['realm_min']} 이상(삼류↑)")
+        parts.append(f"경지 {cond['realm_min']} 이상")
+    if "realm_max" in cond:
+        parts.append(f"경지 {cond['realm_max']} 이하")
+    if "affiliation" in cond:
+        parts.append(f"소속: {cond['affiliation']}")
+    if "affiliation_not" in cond:
+        parts.append("소속 아님: " + ", ".join(cond["affiliation_not"]))
     return " / ".join(parts)
 
 
@@ -71,7 +77,7 @@ def fmt_chance(o):
 def render(data):
     out = [f"# {data['chapter']} · {data['part']} · {data['phase']} — {data['batch']}", "", f"> {data['note']}", ""]
     for ev in data["events"]:
-        tag = {"chain": " `연결 전용`", "fixed": " `고정`"}.get(ev.get("pool"), "")
+        tag = {"chain": " `연결 전용`", "fixed": " `고정`"}.get(ev.get("pool"), "") + (" `반복`" if ev.get("repeat") else "")
         out += [f"## {ev['id']} {ev['title']} `{TYPE_LABEL[ev['type']]}`{tag}", ""]
         if ev.get("conditions"):
             out += [f"*등장 조건 — {fmt_cond(ev['conditions'])}*", ""]

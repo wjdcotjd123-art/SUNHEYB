@@ -10,7 +10,9 @@
       "title": "낯선 열매",
       "type": "minor",
       "weight": 10,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 0
+      },
       "description": [
         "배가 쓰리다.",
         "마지막으로 뭘 먹은 게 언제였는지 기억도 나지 않는다.",
@@ -156,7 +158,9 @@
       "title": "맑은 샘물",
       "type": "minor",
       "weight": 10,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 0
+      },
       "description": [
         "목이 타들어 간다.",
         "입술이 갈라져 피 맛이 난다.",
@@ -278,7 +282,9 @@
       "title": "덤불 속 산토끼",
       "type": "minor",
       "weight": 8,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 0
+      },
       "description": [
         "부스럭.",
         "",
@@ -389,7 +395,9 @@
       "title": "버려진 오두막",
       "type": "minor",
       "weight": 8,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 0
+      },
       "description": [
         "해가 진다.",
         "숲이 금세 어두워진다.",
@@ -502,7 +510,9 @@
       "title": "얼어붙는 밤",
       "type": "minor",
       "weight": 8,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 0
+      },
       "description": [
         "밤이 깊다.",
         "기온이 뚝 떨어졌다.",
@@ -645,7 +655,9 @@
       "title": "약초꾼 노인",
       "type": "minor",
       "weight": 6,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 0
+      },
       "description": [
         "산비탈에서 **노인 하나**가 땅을 파고 있다.",
         "",
@@ -769,7 +781,9 @@
       "title": "불어난 강",
       "type": "minor",
       "weight": 6,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 0
+      },
       "description": [
         "길이 끊겼다.",
         "",

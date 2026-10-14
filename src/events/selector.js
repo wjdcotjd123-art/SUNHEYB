@@ -8,6 +8,7 @@ export function meetsCondition(state, cond = {}) {
   if (cond.stat_min && !Object.entries(cond.stat_min).every(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.stat_min_any && !Object.entries(cond.stat_min_any).some(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.realm_min != null && state.stat("경지") < cond.realm_min) return false;
+  if (cond.realm_max != null && state.stat("경지") > cond.realm_max) return false;
   // 소속: "none"이면 무소속일 때만, 이름이면 그 소속일 때만. affiliation_not은 그 소속이면 안 됨.
   const aff = state.affiliation ?? "none";
   if (cond.affiliation && cond.affiliation !== aff) return false;
@@ -25,9 +26,11 @@ export class EventSelector {
     return this.events.get(id) ?? null;
   }
   next(state) {
-    const pool = [...this.events.values()].filter(
-      (ev) => (ev.pool ?? "pool") === "pool" && !state.seen.has(ev.id) && meetsCondition(state, ev.conditions)
+    // repeat=true인 장면(수련 등)은 여러 번 나올 수 있다. 단, 방금 본 장면은 다른 후보가 있으면 건너뛴다.
+    let pool = [...this.events.values()].filter(
+      (ev) => (ev.pool ?? "pool") === "pool" && (ev.repeat || !state.seen.has(ev.id)) && meetsCondition(state, ev.conditions)
     );
+    if (pool.length > 1) pool = pool.filter((ev) => ev.id !== state.lastEventId);
     if (!pool.length) return null;
     // 내 소속과 같은 group의 장면은 더 자주 나온다.
     const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1);
