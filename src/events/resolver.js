@@ -8,7 +8,8 @@ export class ResultResolver {
   chanceOf(outcome, state) {
     let c = outcome.chance;
     for (const [stat, per] of Object.entries(outcome.mods ?? {})) c += per * state.stat(stat);
-    return Math.min(this.config.chanceMax, Math.max(this.config.chanceMin, c));
+    // 하한은 chanceMin이지만, 원래부터 그보다 낮게 잡은 극악 확률은 그대로 둔다.
+    return Math.min(this.config.chanceMax, Math.max(Math.min(this.config.chanceMin, outcome.chance), c));
   }
 
   // chance가 있는 결과들을 차례로 쌓고, 남은 확률은 chance 없는 결과가 가져간다.

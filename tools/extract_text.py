@@ -58,6 +58,8 @@ def main():
             i = ev["id"]
             events[f"{i}.title"] = ev["title"]
             events[f"{i}.desc"] = ev["description"]
+            if "intro" in ev:
+                events[f"{i}.intro"] = ev["intro"]
             for c in ev["choices"]:
                 events[f"{i}.c{c['id']}.tag"] = c["tag"]
                 events[f"{i}.c{c['id']}.text"] = c["text"]

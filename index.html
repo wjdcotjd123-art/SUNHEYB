@@ -63,6 +63,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .choice.earned .tag { color: var(--gold); }
 .choice:hover:not(:disabled), .choice:focus-visible { border-color: var(--accent); background: #20252f; outline: none; }
 .choice:disabled { cursor: default; }
+.choice.warn { background: rgba(224, 103, 92, 0.12); border-color: rgba(224, 103, 92, 0.45); opacity: 0.8; flex-wrap: wrap; }
+.choice.warn .tag { color: var(--red); }
+.choice.warn .warn-label { margin-left: auto; font-size: 11px; letter-spacing: 0.08em; color: var(--red); border: 1px solid rgba(224, 103, 92, 0.6); border-radius: 2px; padding: 0 6px; align-self: center; }
+.choice.warn:hover:not(:disabled), .choice.warn:focus-visible { border-color: var(--red); background: rgba(224, 103, 92, 0.2); opacity: 1; }
+.intro { padding-top: 12vh; }
+.intro .prose { font-size: 1.05em; }
 .choice.picked { border-color: var(--accent); background: #262b35; box-shadow: inset 0 0 0 1px var(--accent); }
 .choice.picked .num { color: var(--accent); }
 .choice.dim { opacity: 0.45; }

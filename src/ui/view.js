@@ -115,9 +115,9 @@ export class GameView {
     };
 
     choices.forEach((c, n) => {
-      const b = el("button", "choice" + (c.condition ? " earned" : ""));
+      const b = el("button", "choice" + (c.condition ? " earned" : "") + (c.warn ? " warn" : ""));
       b.type = "button";
-      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>`;
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });
@@ -130,6 +130,16 @@ export class GameView {
       if (e.key === "Enter" && picked) { go(); return true; }
       return false;
     });
+  }
+
+  // 첫 생에만 나오는 도입 화면.
+  intro(evId, onDone) {
+    const sec = el("section", "intro");
+    sec.innerHTML = `<div class="prose">${linesToHtml(this.i.ev(evId, "intro"))}</div>`;
+    const b = button(this.i.t("game.continue"), onDone);
+    sec.append(b);
+    this.show(sec);
+    this.keys((e) => (e.key === "Enter" ? (b.click(), true) : false));
   }
 
   // 결과는 같은 화면, 고른 항목 아래에 붙는다. textKey 예: "c2.o0"

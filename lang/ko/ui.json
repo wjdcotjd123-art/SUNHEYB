@@ -27,7 +27,8 @@
     "emptyHands": "빈손",
     "logTitle": "지나온 길",
     "logEmpty": "아직 아무것도 하지 않았다.",
-    "death": "죽음"
+    "death": "죽음",
+    "warn": "비추천"
   },
   "changes": {
     "gain": "{item} 획득",
