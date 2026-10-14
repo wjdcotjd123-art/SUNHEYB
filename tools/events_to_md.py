@@ -14,6 +14,12 @@ def fmt_cond(cond):
         parts.append("보유: " + ", ".join(cond["items"]))
     if "flags" in cond:
         parts.append("조건: " + ", ".join(cond["flags"]))
+    if "flags_any" in cond:
+        parts.append("하나라도: " + ", ".join(cond["flags_any"]))
+    if "flags_none" in cond:
+        parts.append("없어야 함: " + ", ".join(cond["flags_none"]))
+    if "stat_min" in cond:
+        parts.append(", ".join(f"{k} {v} 이상" for k, v in cond["stat_min"].items()))
     if "realm_min" in cond:
         parts.append(f"경지 {cond['realm_min']} 이상(삼류↑)")
     return " / ".join(parts)
@@ -38,8 +44,12 @@ def fmt_effects(eff):
             parts.append(f"→ 후속 이벤트 `{v}`")
         elif k == "achievement":
             parts.append(f"인과록: {v}")
-        elif k == "인연":
-            parts.append(", ".join(f"인연 {n} +{p}" for n, p in v.items()))
+        elif k == "flags_remove":
+            parts.append("플래그 제거: " + ", ".join(v))
+        elif isinstance(v, dict):
+            parts.append(", ".join(f"{k} {n} {p:+d}" for n, p in v.items()))
+        elif isinstance(v, str):
+            parts.append(f"{k} = {v}")
         elif k.endswith("_set"):
             parts.append(f"{k[:-4]} = {v}")
         else:
@@ -59,7 +69,10 @@ def fmt_chance(o):
 def render(data):
     out = [f"# {data['chapter']} · {data['part']} · {data['phase']} — {data['batch']}", "", f"> {data['note']}", ""]
     for ev in data["events"]:
-        out += [f"## {ev['id']} {ev['title']} `{TYPE_LABEL[ev['type']]}`", "", "### A. 이벤트", ""]
+        out += [f"## {ev['id']} {ev['title']} `{TYPE_LABEL[ev['type']]}`" + (" `연결 전용`" if ev.get("pool") == "chain" else ""), ""]
+        if ev.get("conditions"):
+            out += [f"*등장 조건 — {fmt_cond(ev['conditions'])}*", ""]
+        out += ["### A. 이벤트", ""]
         out += [line + "  " if line else "" for line in ev["description"]]
         out += ["", "### B. 선택지", ""]
         for c in ev["choices"]:
