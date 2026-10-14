@@ -44,7 +44,11 @@ export class EventSelector {
       const left = pool.filter((ev) => !recent.slice(-n).includes(ev.id));
       if (left.length) { pool = left; break; }
     }
-    if (!pool.length) return null;
+    if (!pool.length) {
+      // 이 경지에서 더 나올 장면이 없으면 경지별 마지막 장면(한 번만)
+      const fb = this.byId(this.config.fallbackEvents?.[state.stat("경지")]);
+      return fb && !state.seen.has(fb.id) ? fb : null;
+    }
     // 내 소속과 같은 group의 장면은 더 자주 나온다.
     const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1) * this.personBoost(ev, state);
     return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev));
