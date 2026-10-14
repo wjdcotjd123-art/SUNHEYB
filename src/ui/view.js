@@ -1,7 +1,7 @@
 // 플레이 화면 그리기 전담. 게임 규칙은 모른다. 글은 모두 i18n에서 꺼낸다.
 // 화면에는 지금 장면 하나만 보이고, 지나온 행동은 하단 기록창에 한 줄씩 쌓인다.
 // 조작: 숫자키(1~9)로 고르기, Enter로 확인, Esc로 메인.
-import { linesToHtml } from "./markup.js";
+import { lineToHtml, linesToHtml } from "./markup.js";
 import { Keys } from "./keys.js";
 
 export class GameView {
@@ -48,7 +48,7 @@ export class GameView {
     for (const s of this.config.shownStats) rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}</b></div>`);
     this.$("#stats").innerHTML = rows.join("");
     this.$("#items").innerHTML = state.items.length
-      ? state.items.map((x) => `<li>${i.item(x)}</li>`).join("")
+      ? state.items.map((x) => `<li>${i.gloss(i.item(x)) ? `<span class="term" tabindex="0" data-term="${i.item(x)}">${i.item(x)}</span>` : i.item(x)}</li>`).join("")
       : `<li class="none">${i.t("game.emptyHands")}</li>`;
   }
 
@@ -60,6 +60,9 @@ export class GameView {
     if (c.type === "loseAll") return i.t("changes.loseAll");
     if (c.type === "realm") return i.t("changes.realm", { realm: i.realm(c.value) });
     if (c.type === "set") return `${i.stat(c.stat)} ${c.value}`;
+    if (c.type === "join") return i.t("changes.join", { name: i.name(c.name) });
+    if (c.type === "bond") return i.t(c.delta > 0 ? "changes.bondUp" : "changes.bondDown", { name: i.name(c.name) });
+    if (c.type === "fame") return i.t(c.delta > 0 ? "changes.fameUp" : "changes.fameDown", { name: i.name(c.name) });
     return `${i.stat(c.stat)} ${c.delta > 0 ? "+" : ""}${c.delta}`;
   }
 
@@ -114,7 +117,7 @@ export class GameView {
     choices.forEach((c, n) => {
       const b = el("button", "choice" + (c.condition ? " earned" : ""));
       b.type = "button";
-      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${i.ev(ev.id, `c${c.id}.text`)}</span>`;
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });

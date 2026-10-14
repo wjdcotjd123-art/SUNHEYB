@@ -11,6 +11,7 @@ import { Settings } from "./meta/settings.js";
 import { SaveManager } from "./save/saveManager.js";
 import { GameView } from "./ui/view.js";
 import { MenuScreens } from "./ui/screens.js";
+import { Tooltip } from "./ui/tooltip.js";
 
 class App {
   constructor(events, achievements, i18n, settings) {
@@ -130,6 +131,7 @@ async function boot() {
   const i18n = new I18n(CONFIG.langDir);
   const lang = CONFIG.languages.includes(settings.data.language) ? settings.data.language : CONFIG.defaultLanguage;
   await i18n.use(lang);
+  new Tooltip(document, i18n);
   const loader = new EventLoader(CONFIG.eventIndex, CONFIG.achievementsPath);
   const [events, ach] = await Promise.all([loader.load(), loader.loadAchievements()]);
   new App(events, ach, i18n, settings).home();

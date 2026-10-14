@@ -1,4 +1,5 @@
-// 본문 표기 규칙을 HTML로 바꾼다. **굵게**, <red>…</red> 등 색 태그.
+// 본문 표기 규칙을 HTML로 바꾼다. **굵게**, <red>…</red> 등 색 태그,
+// {용어} 또는 {용어|보이는글} → 마우스를 올리면 풀이가 뜨는 단어.
 // 색 태그: red(위험·피해) purple(독·마기) green(획득·상승) gold(기연·희귀)
 const COLORS = ["red", "purple", "green", "gold"];
 
@@ -8,6 +9,7 @@ export function lineToHtml(line) {
   for (const c of COLORS) {
     s = s.replaceAll(`&lt;${c}&gt;`, `<span class="c-${c}">`).replaceAll(`&lt;/${c}&gt;`, "</span>");
   }
+  s = s.replace(/\{([^{}|]+)(?:\|([^{}]+))?\}/g, (_, term, shown) => `<span class="term" tabindex="0" data-term="${term}">${shown ?? term}</span>`);
   return s;
 }
 

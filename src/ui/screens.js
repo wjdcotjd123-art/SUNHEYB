@@ -73,20 +73,44 @@ export class MenuScreens {
     });
   }
 
+  // 분류 탭(전체 + 지역·모임별). 달성한 것은 이름·설명·달성 조건, 못 한 것은 힌트만.
   achievements(list, unlocked, outcomeCount, onBack) {
     const i = this.i;
     const sec = el("section", "sub-screen");
     const got = list.filter((a) => unlocked.includes(a.id)).length;
+    const cats = Object.keys(i.t("achievementsScreen.categories")).filter((c) => list.some((a) => a.category === c));
+    const tabs = [{ id: "*", label: i.t("achievementsScreen.all"), items: list }].concat(
+      cats.map((c) => ({ id: c, label: i.t(`achievementsScreen.categories.${c}`), items: list.filter((a) => a.category === c) }))
+    );
     sec.innerHTML = `
       <h2>${i.t("achievementsScreen.title")}</h2>
       <p class="sub">${i.t("achievementsScreen.sub", { got: `<b>${got}</b>`, all: list.length, n: `<b>${outcomeCount}</b>` })}</p>
-      <ul class="ach-list">${list
+      <div class="tabs" role="tablist"></div>
+      <ul class="ach-list"></ul>`;
+    const bar = sec.querySelector(".tabs");
+    const ul = sec.querySelector(".ach-list");
+    const render = (tab) => {
+      bar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === tab.id));
+      ul.innerHTML = tab.items
         .map((a) =>
           unlocked.includes(a.id)
-            ? `<li class="on"><b>${i.ach(a.id, "name")}</b><span>${i.ach(a.id, "desc")}</span></li>`
+            ? `<li class="on"><b>${i.ach(a.id, "name")}</b><span>${i.ach(a.id, "desc")}</span><span class="cond">${i.t("achievementsScreen.condLabel")} · ${i.ach(a.id, "cond")}</span></li>`
             : `<li><b>${i.t("achievementsScreen.locked")}</b><span>${i.ach(a.id, "hint")}</span></li>`
         )
-        .join("")}</ul>`;
+        .join("");
+    };
+    tabs.forEach((tab) => {
+      const b = el("button", "tab");
+      b.type = "button";
+      b.id = `tab-${tab.id === "*" ? "all" : tab.id}`;
+      b.dataset.id = tab.id;
+      b.setAttribute("role", "tab");
+      const n = tab.items.filter((a) => unlocked.includes(a.id)).length;
+      b.innerHTML = `${tab.label}<small>${n}/${tab.items.length}</small>`;
+      b.addEventListener("click", () => render(tab));
+      bar.append(b);
+    });
+    render(tabs[0]);
     this.show(sec, onBack);
   }
 

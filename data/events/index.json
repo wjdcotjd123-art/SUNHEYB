@@ -1,3 +1,7 @@
 {
-  "batches": ["drift_01.json", "drift_02.json"]
+  "batches": [
+    "drift_01.json",
+    "drift_02.json",
+    "drift_03.json"
+  ]
 }

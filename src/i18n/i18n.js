@@ -1,6 +1,6 @@
 // 언어 파일 읽기와 글 꺼내기. 화면에 나가는 모든 글은 여기를 거친다.
-// 언어 파일: lang/<언어>/ui.json, events.json, achievements.json, items.json
-const FILES = ["ui", "events", "achievements", "items"];
+// 언어 파일: lang/<언어>/ui.json, events.json, achievements.json, items.json, names.json(인물·세력), glossary.json(용어 풀이)
+const FILES = ["ui", "events", "achievements", "items", "names", "glossary"];
 
 export class I18n {
   constructor(langDir) {
@@ -42,6 +42,15 @@ export class I18n {
 
   item(id) {
     return this.p.items[id] ?? id.replaceAll("_", " ");
+  }
+
+  name(id) {
+    return this.p.names?.[id] ?? id.replaceAll("_", " ");
+  }
+
+  // 용어 풀이. 없으면 null
+  gloss(term) {
+    return this.p.glossary?.[term] ?? null;
   }
 
   stat(id) {
