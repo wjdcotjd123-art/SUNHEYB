@@ -146,5 +146,17 @@
     "초절정",
     "화경",
     "현경"
-  ]
+  ],
+  "codex": {
+    "sections": {
+      "people": "인물",
+      "arts": "무공",
+      "groups": "집단",
+      "items": "물건",
+      "achievements": "업적"
+    },
+    "unknown": "???",
+    "more": "아직 모르는 것이 남아 있다.",
+    "count": "{got} / {all}"
+  }
 }

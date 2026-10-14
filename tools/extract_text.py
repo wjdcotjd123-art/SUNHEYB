@@ -74,6 +74,14 @@ def main():
             ach[f"{a['id']}.{field}"] = a[field]
     write(LANG / "achievements.json", ach)
 
+    codex = {}
+    for sec in read(ROOT / "data/codex.json")["sections"]:
+        for e in sec["entries"]:
+            codex[f"{e['id']}.name"] = e["name"]
+            for n, st in enumerate(e["stages"]):
+                codex[f"{e['id']}.s{n}"] = st["text"]
+    write(LANG / "codex.json", codex)
+
     config = (ROOT / "src/config.js").read_text(encoding="utf-8")
     m = re.search(r"startItems:\s*\[([^\]]*)\]", config)
     if m:

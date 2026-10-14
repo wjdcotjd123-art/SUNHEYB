@@ -15,7 +15,8 @@ import { MenuScreens } from "./ui/screens.js";
 import { Tooltip } from "./ui/tooltip.js";
 
 class App {
-  constructor(events, achievements, i18n, settings) {
+  constructor(events, achievements, codex, i18n, settings) {
+    this.codex = codex;
     this.rng = new Rng();
     this.selector = new EventSelector(events, this.rng, CONFIG);
     this.resolver = new ResultResolver(this.rng, CONFIG);
@@ -37,8 +38,7 @@ class App {
       {
         continue: () => this.continueLife(),
         newLife: () => this.newLife(),
-        achievements: () =>
-          this.menu.achievements(this.achievements, this.record.data.achievements, this.record.data.outcomes.length, () => this.home()),
+        achievements: () => this.menu.codex(this.codex, this.achievements, this.record, () => this.home()),
         karma: () => this.openShop(),
         settings: () => this.openSettings(),
       }
@@ -70,6 +70,18 @@ class App {
     );
   }
 
+  // 인과록 도감: 지금 상태에서 알게 된 것을 기록
+  learnFrom(s, evId) {
+    this.record.learn([
+      `ev:${evId}`,
+      ...[...s.flags].map((f) => `flag:${f}`),
+      ...s.items.map((x) => `item:${x}`),
+      ...Object.keys(s.bonds).map((b) => `bond:${b}`),
+      ...s.achievements.map((a) => `ach:${a}`),
+      ...(s.affiliation ? [`aff:${s.affiliation}`] : []),
+    ]);
+  }
+
   // ── 플레이 ──
   enterGame() {
     this.menu.hide();
@@ -85,6 +97,7 @@ class App {
     this.state = new GameState(CONFIG);
     this.state.stats.업 = this.record.data.karmaEarned; // 지금까지 쌓은 업 총량이 확률 보정에 쓰인다 (화면에는 안 보임)
     this.shop.apply(this.state);
+    this.record.learn(this.state.items.map((x) => `item:${x}`));
     const life = this.record.startLife();
     this.enterGame();
     const first = this.selector.byId(CONFIG.prologueId);
@@ -127,6 +140,7 @@ class App {
       if (rare) s.rare += 1;
       const changes = this.resolver.apply(outcome, s);
       s.log.push({ ev: ev.id, c: choice.id, changes, dead: s.dead });
+      this.learnFrom(s, ev.id);
       this.view.stats(s);
       this.view.renderLog(s.log);
 
@@ -158,9 +172,9 @@ async function boot() {
   const lang = CONFIG.languages.includes(settings.data.language) ? settings.data.language : CONFIG.defaultLanguage;
   await i18n.use(lang);
   new Tooltip(document, i18n);
-  const loader = new EventLoader(CONFIG.eventIndex, CONFIG.achievementsPath);
-  const [events, ach] = await Promise.all([loader.load(), loader.loadAchievements()]);
-  new App(events, ach, i18n, settings).home();
+  const loader = new EventLoader(CONFIG.eventIndex, CONFIG.achievementsPath, CONFIG.codexPath);
+  const [events, ach, codex] = await Promise.all([loader.load(), loader.loadAchievements(), loader.loadCodex()]);
+  new App(events, ach, codex, i18n, settings).home();
 }
 
 boot();

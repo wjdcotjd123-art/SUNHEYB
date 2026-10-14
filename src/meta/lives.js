@@ -1,7 +1,7 @@
 // 회차(몇 번째 생)와 업(業), 인과록, 전생의 죽음 기록, 업 상점 단계.
 import { Store } from "../core/store.js";
 
-const empty = () => ({ life: 0, karma: 0, karmaEarned: 0, outcomes: [], achievements: [], deaths: {}, shop: {} });
+const empty = () => ({ life: 0, karma: 0, karmaEarned: 0, outcomes: [], achievements: [], deaths: {}, shop: {}, known: [] });
 
 export class LifeRecord {
   constructor(config) {
@@ -10,6 +10,8 @@ export class LifeRecord {
     this.data = { ...empty(), ...saved };
     // 예전 기록에는 누적 업이 없으므로 남은 업으로 채운다.
     if (saved.karmaEarned == null) this.data.karmaEarned = this.data.karma;
+    // 예전 기록의 인과록(업적)도 도감 지식으로 옮겨 둔다.
+    this.data.known = [...new Set([...this.data.known, ...this.data.achievements.map((a) => `ach:${a}`)])];
   }
   save() {
     Store.set(this.config.storage.meta, this.data);
@@ -22,6 +24,16 @@ export class LifeRecord {
     this.data.life += 1;
     this.save();
     return this.data.life;
+  }
+  // 인과록 도감용: 모든 생을 통틀어 겪은 것(ev:/flag:/item:/ach:/bond:/aff:)
+  learn(keys) {
+    const set = new Set(this.data.known);
+    const before = set.size;
+    keys.forEach((k) => set.add(k));
+    if (set.size !== before) { this.data.known = [...set]; this.save(); }
+  }
+  knows(key) {
+    return this.data.known.includes(key);
   }
   // 전생의 기억: 어떤 선택지에서 몇 번 죽었는지
   deathsAt(evId, choiceId) {

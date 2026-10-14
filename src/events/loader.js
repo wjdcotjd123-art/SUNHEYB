@@ -1,7 +1,8 @@
 // 데이터 읽기. 이벤트 묶음 목록은 data/events/index.json에 있다.
 // 단일 파일로 빌드된 판에서는 window.EVENT_DATA / window.ACHIEVEMENT_DATA를 그대로 쓴다.
 export class EventLoader {
-  constructor(indexPath, achievementsPath) {
+  constructor(indexPath, achievementsPath, codexPath) {
+    this.codexPath = codexPath;
     this.indexPath = indexPath;
     this.achievementsPath = achievementsPath;
   }
@@ -11,6 +12,10 @@ export class EventLoader {
     const index = await (await fetch(this.indexPath)).json();
     const batches = await Promise.all(index.batches.map(async (f) => (await fetch(base + f)).json()));
     return this.merge(batches);
+  }
+  async loadCodex() {
+    const data = window.CODEX_DATA ?? (await (await fetch(this.codexPath)).json());
+    return data.sections;
   }
   async loadAchievements() {
     const data = window.ACHIEVEMENT_DATA ?? (await (await fetch(this.achievementsPath)).json());

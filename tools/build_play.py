@@ -23,6 +23,7 @@ def module_body(name):
 index = json.loads((ROOT / "data/events/index.json").read_text(encoding="utf-8"))
 batches = [json.loads((ROOT / "data/events" / f).read_text(encoding="utf-8")) for f in index["batches"]]
 data = json.dumps(batches, ensure_ascii=False).replace("</", "<\\/")
+codex = (ROOT / "data/codex.json").read_text(encoding="utf-8").replace("</", "<\\/")
 ach = (ROOT / "data/achievements.json").read_text(encoding="utf-8").replace("</", "<\\/")
 langs = {}
 for d in sorted((ROOT / "lang").iterdir()):
@@ -30,7 +31,7 @@ for d in sorted((ROOT / "lang").iterdir()):
         langs[d.name] = {f.stem: json.loads(f.read_text(encoding="utf-8")) for f in d.glob("*.json")}
 lang_data = json.dumps(langs, ensure_ascii=False).replace("</", "<\\/")
 code = "\n".join(module_body(m) for m in ORDER)
-script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\nwindow.LANG_DATA = {lang_data};\n(() => {{\n{code}\n}})();\n</script>"
+script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\nwindow.CODEX_DATA = {codex};\nwindow.LANG_DATA = {lang_data};\n(() => {{\n{code}\n}})();\n</script>"
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 html = html.replace('<script type="module" src="src/main.js"></script>', script)

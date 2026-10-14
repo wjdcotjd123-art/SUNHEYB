@@ -29,4 +29,5 @@ export const CONFIG = {
   scaleGuard: { item: "검은_비늘", event: "SYS_SCALE", usedFlag: "비늘이_막음" }, // 한 생에 한 번만
   eventIndex: "data/events/index.json",
   achievementsPath: "data/achievements.json",
+  codexPath: "data/codex.json",
 };

@@ -72,6 +72,13 @@
 
 - 검은 비늘: 지니고 있으면 `"weak": true`인 죽음 결과(수준 낮은 적의 공격)를 한 생에 한 번 막는다(비늘은 부서지지 않음). 결과 글은 `data/events/system.json`의 SYS_SCALE
 
+## 인과록 도감
+
+- `data/codex.json`: 인물 / 무공 / 집단 / 물건 항목. 항목마다 단계(stages)가 있고, 모든 생을 통틀어 `req` 중 하나라도 겪었으면 그 단계가 열린다
+- `req` 형식: `ev:장면id`, `flag:플래그`, `item:소지품`, `ach:인과록id`, `bond:인연id`, `aff:소속`
+- 첫 단계가 열리기 전에는 이름까지 `???`
+- 업적은 인과록의 '업적' 탭 (`data/achievements.json`)
+
 ## 번역
 
 1. `lang/ko/`의 `ui.json`, `events.json`, `achievements.json`, `items.json`을 번역해 `lang/<언어>/`에 같은 이름으로 저장

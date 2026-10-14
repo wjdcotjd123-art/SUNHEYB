@@ -73,44 +73,80 @@ export class MenuScreens {
     });
   }
 
-  // 분류 탭(전체 + 지역·모임별). 달성한 것은 이름·설명·달성 조건, 못 한 것은 힌트만.
-  achievements(list, unlocked, outcomeCount, onBack) {
+  // 인과록: 인물 / 무공 / 집단 / 물건 / 업적 탭.
+  // 도감 항목은 단계마다 req 중 하나라도 겪었으면 열린다(모든 생 누적). 첫 단계 전에는 이름도 ???.
+  codex(sections, achList, record, onBack, startTab = "people") {
     const i = this.i;
-    const sec = el("section", "sub-screen");
-    const got = list.filter((a) => unlocked.includes(a.id)).length;
-    const cats = Object.keys(i.t("achievementsScreen.categories")).filter((c) => list.some((a) => a.category === c));
-    const tabs = [{ id: "*", label: i.t("achievementsScreen.all"), items: list }].concat(
-      cats.map((c) => ({ id: c, label: i.t(`achievementsScreen.categories.${c}`), items: list.filter((a) => a.category === c) }))
-    );
-    sec.innerHTML = `
-      <h2>${i.t("achievementsScreen.title")}</h2>
-      <p class="sub">${i.t("achievementsScreen.sub", { got: `<b>${got}</b>`, all: list.length, n: `<b>${outcomeCount}</b>` })}</p>
-      <div class="tabs" role="tablist"></div>
-      <ul class="ach-list"></ul>`;
-    const bar = sec.querySelector(".tabs");
-    const ul = sec.querySelector(".ach-list");
-    const render = (tab) => {
-      bar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === tab.id));
-      ul.innerHTML = tab.items
-        .map((a) =>
-          unlocked.includes(a.id)
-            ? `<li class="on"><b>${i.ach(a.id, "name")}</b><span>${i.ach(a.id, "desc")}</span><span class="cond">${i.t("achievementsScreen.condLabel")} · ${i.ach(a.id, "cond")}</span></li>`
-            : `<li><b>${i.t("achievementsScreen.locked")}</b><span>${i.ach(a.id, "hint")}</span></li>`
-        )
-        .join("");
+    const sec = el("section", "sub-screen codex");
+    const unlocked = record.data.achievements;
+    const opened = (st) => st.req.some((r) => record.knows(r));
+    const tabs = sections.map((s) => s.id).concat("achievements");
+    const countOf = (id) => {
+      if (id === "achievements") return [achList.filter((a) => unlocked.includes(a.id)).length, achList.length];
+      const es = sections.find((s) => s.id === id).entries;
+      return [es.filter((e) => opened(e.stages[0])).length, es.length];
     };
-    tabs.forEach((tab) => {
+    sec.innerHTML = `<h2>${i.t("achievementsScreen.title")}</h2><div class="tabs main-tabs" role="tablist"></div><div class="codex-body"></div>`;
+    const bar = sec.querySelector(".main-tabs");
+    const body = sec.querySelector(".codex-body");
+
+    const renderEntries = (id) => {
+      const es = sections.find((s) => s.id === id).entries;
+      body.innerHTML = `<ul class="ach-list codex-list">${es
+        .map((e) => {
+          const open = e.stages.filter(opened);
+          if (!open.length || !opened(e.stages[0])) return `<li><b>${i.t("codex.unknown")}</b></li>`;
+          const lines = e.stages.map((st, n) => (opened(st) ? `<span>${i.codex(e.id, `s${n}`)}</span>` : "")).join("");
+          const more = open.length < e.stages.length ? `<span class="more">${i.t("codex.more")}</span>` : "";
+          return `<li class="on"><b>${i.codex(e.id, "name")}</b>${lines}${more}</li>`;
+        })
+        .join("")}</ul>`;
+    };
+    const renderAch = () => {
+      body.innerHTML = `<p class="sub">${i.t("achievementsScreen.sub", { got: `<b>${unlocked.filter((a) => achList.some((x) => x.id === a)).length}</b>`, all: achList.length, n: `<b>${record.data.outcomes.length}</b>` })}</p><div class="tabs sub-tabs" role="tablist"></div><ul class="ach-list"></ul>`;
+      const sbar = body.querySelector(".sub-tabs");
+      const ul = body.querySelector(".ach-list");
+      const cats = Object.keys(i.t("achievementsScreen.categories")).filter((c) => achList.some((a) => a.category === c));
+      const stabs = [{ id: "*", label: i.t("achievementsScreen.all"), items: achList }].concat(
+        cats.map((c) => ({ id: c, label: i.t(`achievementsScreen.categories.${c}`), items: achList.filter((a) => a.category === c) }))
+      );
+      const draw = (tab) => {
+        sbar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === tab.id));
+        ul.innerHTML = tab.items
+          .map((a) =>
+            unlocked.includes(a.id)
+              ? `<li class="on"><b>${i.ach(a.id, "name")}</b><span>${i.ach(a.id, "desc")}</span><span class="cond">${i.t("achievementsScreen.condLabel")} · ${i.ach(a.id, "cond")}</span></li>`
+              : `<li><b>${i.t("achievementsScreen.locked")}</b><span>${i.ach(a.id, "hint")}</span></li>`
+          )
+          .join("");
+      };
+      stabs.forEach((tab) => {
+        const b = el("button", "tab");
+        b.type = "button";
+        b.id = `tab-${tab.id === "*" ? "all" : tab.id}`;
+        b.dataset.id = tab.id;
+        const n = tab.items.filter((a) => unlocked.includes(a.id)).length;
+        b.innerHTML = `${tab.label}<small>${n}/${tab.items.length}</small>`;
+        b.addEventListener("click", () => draw(tab));
+        sbar.append(b);
+      });
+      draw(stabs[0]);
+    };
+    const select = (id) => {
+      bar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === id));
+      id === "achievements" ? renderAch() : renderEntries(id);
+    };
+    tabs.forEach((id) => {
       const b = el("button", "tab");
       b.type = "button";
-      b.id = `tab-${tab.id === "*" ? "all" : tab.id}`;
-      b.dataset.id = tab.id;
-      b.setAttribute("role", "tab");
-      const n = tab.items.filter((a) => unlocked.includes(a.id)).length;
-      b.innerHTML = `${tab.label}<small>${n}/${tab.items.length}</small>`;
-      b.addEventListener("click", () => render(tab));
+      b.id = `codex-${id}`;
+      b.dataset.id = id;
+      const [got, all] = countOf(id);
+      b.innerHTML = `${i.t(`codex.sections.${id}`)}<small>${got}/${all}</small>`;
+      b.addEventListener("click", () => select(id));
       bar.append(b);
     });
-    render(tabs[0]);
+    select(startTab);
     this.show(sec, onBack);
   }
 

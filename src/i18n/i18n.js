@@ -1,6 +1,6 @@
 // 언어 파일 읽기와 글 꺼내기. 화면에 나가는 모든 글은 여기를 거친다.
 // 언어 파일: lang/<언어>/ui.json, events.json, achievements.json, items.json, names.json(인물·세력), glossary.json(용어 풀이)
-const FILES = ["ui", "events", "achievements", "items", "names", "glossary"];
+const FILES = ["ui", "events", "achievements", "items", "names", "glossary", "codex"];
 
 export class I18n {
   constructor(langDir) {
@@ -38,6 +38,11 @@ export class I18n {
 
   ach(id, field) {
     return this.p.achievements[`${id}.${field}`] ?? id;
+  }
+
+  // 인과록 도감 글. part: "name" 또는 "s0", "s1" …
+  codex(id, part) {
+    return this.p.codex?.[`${id}.${part}`] ?? id;
   }
 
   item(id) {
