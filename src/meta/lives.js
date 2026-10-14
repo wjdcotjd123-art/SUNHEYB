@@ -1,7 +1,7 @@
 // 회차(몇 번째 생)와 업(業), 인과록, 전생의 죽음 기록, 업 상점 단계.
 import { Store } from "../core/store.js";
 
-const empty = () => ({ life: 0, karma: 0, karmaEarned: 0, outcomes: [], achievements: [], deaths: {}, shop: {}, known: [] });
+const empty = () => ({ life: 0, karma: 0, karmaEarned: 0, outcomes: [], achievements: [], deaths: {}, shop: {}, traits: {}, known: [] });
 
 export class LifeRecord {
   constructor(config) {

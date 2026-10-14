@@ -23,6 +23,8 @@ export const CONFIG = {
     { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.2, max: 10 },
     { id: "내공", stat: "내공", amount: 1, base: 60, growth: 1.4, max: 7 },
   ],
+  // 특성: 한 번 사면 모든 생에 유지, 켜고 끌 수 있다. blocks: 이 표시가 달린 결과(예: "food": true)는 나오지 않는다
+  traits: [{ id: "철위", price: 40, blocks: "food" }],
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면
   // 검은 비늘: 지니고 있으면 weak=true인 죽음(수준 낮은 적의 공격)을 한 번 막아준다

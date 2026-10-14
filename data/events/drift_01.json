@@ -48,7 +48,8 @@
               ],
               "effects": {
                 "체력": -3
-              }
+              },
+              "food": true
             },
             {
               "chance": 2,
@@ -195,7 +196,8 @@
               ],
               "effects": {
                 "체력": -3
-              }
+              },
+              "food": true
             },
             {
               "text": [

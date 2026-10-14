@@ -151,7 +151,7 @@ export class MenuScreens {
   }
 
   // 업 상점. shop: KarmaShop, onBuy(id)
-  karma(total, shop, onBuy, onBack) {
+  karma(total, shop, onBuy, onBack, tr) {
     const t = (k, v) => this.i.t(k, v);
     const sec = el("section", "sub-screen");
     sec.innerHTML = `
@@ -159,7 +159,9 @@ export class MenuScreens {
       <p class="big">${total}</p>
       <p class="sub">${t("karmaScreen.sub")}</p>
       <h3 class="shop-title">${t("karmaScreen.shopTitle")}</h3>
-      <ul class="shop"></ul>`;
+      <ul class="shop"></ul>
+      <h3 class="shop-title">${t("karmaScreen.traitTitle")}</h3>
+      <ul class="shop traits"></ul>`;
     const ul = sec.querySelector(".shop");
     shop.items.forEach((it, n) => {
       const lv = shop.level(it.id);
@@ -175,6 +177,26 @@ export class MenuScreens {
       b.addEventListener("click", () => onBuy(it.id));
       li.append(b);
       ul.append(li);
+    });
+    const tl = sec.querySelector(".traits");
+    shop.traits.forEach((it, n) => {
+      const owned = shop.hasTrait(it.id);
+      const on = shop.traitOn(it.id);
+      const li = el("li", "shop-row");
+      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.traits.${it.id}.name`)}</b><span>${t(`karmaScreen.traits.${it.id}.desc`)}</span>${owned ? `<span class="shop-lv">${t(on ? "karmaScreen.traitOn" : "karmaScreen.traitOff")}</span>` : ""}</div>`;
+      const b = el("button", "shop-buy");
+      b.type = "button";
+      b.id = `trait-${n}`;
+      if (owned) {
+        b.textContent = t(on ? "karmaScreen.turnOff" : "karmaScreen.turnOn");
+        b.addEventListener("click", () => tr.toggle(it.id));
+      } else {
+        b.textContent = t("karmaScreen.buy", { p: it.price });
+        b.disabled = total < it.price;
+        b.addEventListener("click", () => tr.buy(it.id));
+      }
+      li.append(b);
+      tl.append(li);
     });
     this.show(sec, onBack);
   }

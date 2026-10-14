@@ -46,7 +46,13 @@ class App {
   }
 
   openShop() {
-    this.menu.karma(this.record.data.karma, this.shop, (id) => { this.shop.buy(id); this.openShop(); }, () => this.home());
+    this.menu.karma(
+      this.record.data.karma,
+      this.shop,
+      (id) => { this.shop.buy(id); this.openShop(); },
+      () => this.home(),
+      { buy: (id) => { this.shop.buyTrait(id); this.openShop(); }, toggle: (id) => { this.shop.toggleTrait(id); this.openShop(); } }
+    );
   }
 
   async openSettings() {
@@ -125,7 +131,11 @@ class App {
       s.scenes += 1;
       // memory=false인 장면(첫 장면 등)은 전생의 기억 보정을 받지 않는다.
       const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
-      let outcome = this.resolver.pick(choice, s, deaths);
+      // 켜 둔 특성이 막는 결과(예: 먹고 탈 나는 결과)는 빼고 굴린다.
+      const blocked = this.shop.blockedTags();
+      const outs = choice.outcomes.filter((o) => !blocked.some((tag) => o[tag]));
+      const rolled = outs.length && outs.length !== choice.outcomes.length ? { ...choice, outcomes: outs } : choice;
+      let outcome = this.resolver.pick(rolled, s, deaths);
       let textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
       let textEv = ev.id;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);

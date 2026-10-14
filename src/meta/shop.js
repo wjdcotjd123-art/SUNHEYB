@@ -2,6 +2,7 @@
 export class KarmaShop {
   constructor(config, record) {
     this.items = config.shop;
+    this.traits = config.traits ?? [];
     this.record = record;
   }
   level(id) {
@@ -24,5 +25,28 @@ export class KarmaShop {
   // 새 생의 상태에 산 만큼 더해준다.
   apply(state) {
     for (const it of this.items) state.stats[it.stat] = state.stat(it.stat) + it.amount * this.level(it.id);
+  }
+  // 특성: { 산 것: true/false(켜짐) }
+  hasTrait(id) {
+    return id in this.record.data.traits;
+  }
+  traitOn(id) {
+    return this.record.data.traits[id] === true;
+  }
+  buyTrait(id) {
+    const tr = this.traits.find((x) => x.id === id);
+    if (!tr || this.hasTrait(id) || !this.record.spend(tr.price)) return false;
+    this.record.data.traits[id] = true;
+    this.record.save();
+    return true;
+  }
+  toggleTrait(id) {
+    if (!this.hasTrait(id)) return;
+    this.record.data.traits[id] = !this.traitOn(id);
+    this.record.save();
+  }
+  // 켜 둔 특성이 막는 결과 표시들
+  blockedTags() {
+    return this.traits.filter((x) => this.traitOn(x.id)).map((x) => x.blocks);
   }
 }
