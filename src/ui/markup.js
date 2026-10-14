@@ -13,7 +13,18 @@ export function lineToHtml(line) {
   return s;
 }
 
-// 줄 간격 규칙: 지문이든 대사든 한 줄이 한 문단, 문단 사이 간격은 모두 같다. 원본의 빈 줄은 무시한다.
+// 줄 간격 규칙: 문장이 끝난 줄(. ? ! … " 등으로 끝남)마다 한 문단, 문단 사이 간격은 모두 같다.
+// 문장이 안 끝난 줄은 다음 줄과 이어 붙인다(강제 개행 없음). 원본의 빈 줄은 무시한다.
+const SENTENCE_END = /[.?!…"”'’」』)~]$/;
+const plain = (l) => l.replace(/\*\*/g, "").replace(/<\/?(red|purple|green|gold)>/g, "").replace(/[{}]/g, "").trim();
 export function linesToHtml(lines) {
-  return lines.filter((l) => l !== "").map((l) => `<p>${lineToHtml(l)}</p>`).join("");
+  const paras = [];
+  let buf = [];
+  for (const l of lines) {
+    if (l === "") continue;
+    buf.push(lineToHtml(l));
+    if (SENTENCE_END.test(plain(l))) { paras.push(buf.join(" ")); buf = []; }
+  }
+  if (buf.length) paras.push(buf.join(" "));
+  return paras.map((p) => `<p>${p}</p>`).join("");
 }
