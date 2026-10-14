@@ -54,7 +54,8 @@
 1. `lang/ko/`의 `ui.json`, `events.json`, `achievements.json`, `items.json`을 번역해 `lang/<언어>/`에 같은 이름으로 저장
    - 열쇠(왼쪽)는 그대로 두고 값(오른쪽)만 번역
    - `{n}` 같은 자리표시와 `**`, `<red>` 같은 표기는 그대로 유지
-   - `ui.json`의 `stats`, `achievementsScreen.categories` 열쇠와 `glossary.json`의 열쇠는 그 언어로 바꾸되, 본문 `{용어}` 표시와 같은 글자로 맞출 것
+   - `ui.json`의 `stats`, `achievementsScreen.categories` 열쇠는 내부 이름이므로 바꾸지 않음
+   - 예외로 `glossary.json`의 열쇠는 그 언어로 바꾸고, 번역된 본문의 `{용어}` 표시와 같은 글자로 맞출 것
    - `glossary.json`, `names.json`도 함께 번역
 2. `src/config.js`의 `languages`에 언어 코드 추가 (예: `["ko", "en"]`)
 3. 설정 화면에 언어 선택이 자동으로 나타남
