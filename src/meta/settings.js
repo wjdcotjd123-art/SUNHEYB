@@ -1,4 +1,5 @@
-// 사용자 설정: 글자 크기, 언어.
+// 사용자 설정: 글자 크기, 언어, 용어 밑줄(twice: 한 생에 용어당 두 번까지 / always / off).
+export const TERM_MODES = ["twice", "always", "off"];
 import { Store } from "../core/store.js";
 
 export const FONT_SIZES = [
@@ -11,7 +12,7 @@ export const FONT_SIZES = [
 export class Settings {
   constructor(config) {
     this.key = config.storage.settings;
-    this.data = { fontSize: "m", language: config.defaultLanguage, ...Store.get(this.key, {}) };
+    this.data = { fontSize: "m", language: config.defaultLanguage, termMode: "twice", ...Store.get(this.key, {}) };
   }
   set(k, v) {
     this.data[k] = v;

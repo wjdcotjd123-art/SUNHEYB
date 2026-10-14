@@ -7,6 +7,7 @@ export const CONFIG = {
   rareChance: 5, // 기본 확률이 이 값(%) 이하인 생존 결과는 '드문 인과'
   // 전생의 기억: 같은 선택지에서 죽은 횟수당 생존 확률 +perDeath %p (최대 cap). 대박 결과는 횟수당 ×(1+rarePerDeath)
   deathMemory: { perDeath: 2, cap: 10, rarePerDeath: 0.1, rareCap: 0.5 },
+  termLimit: 2, // 용어 밑줄: 한 생에 용어당 최대 표시 횟수
   chanceMin: 2,
   chanceMax: 95,
   languages: ["ko"],
@@ -16,11 +17,11 @@ export const CONFIG = {
   karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5, perSceneMult: 0.02, maxMult: 2 }, // 배율 = 1 + 턴×0.02 (최대 ×2)
   // 업 상점: 산 만큼 매 생 시작할 때 적용. 값 = round(base × growth^현재단계)
   shop: [
-    { id: "근골", stat: "근골", amount: 1, base: 20, growth: 1.6, max: 15 },
-    { id: "민첩", stat: "민첩", amount: 1, base: 20, growth: 1.6, max: 15 },
-    { id: "체력", stat: "체력", amount: 2, base: 15, growth: 1.5, max: 10 },
-    { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.4, max: 10 },
-    { id: "내공", stat: "내공", amount: 1, base: 60, growth: 1.8, max: 7 },
+    { id: "근골", stat: "근골", amount: 1, base: 20, growth: 1.3, max: 15 },
+    { id: "민첩", stat: "민첩", amount: 1, base: 20, growth: 1.3, max: 15 },
+    { id: "체력", stat: "체력", amount: 2, base: 15, growth: 1.25, max: 10 },
+    { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.2, max: 10 },
+    { id: "내공", stat: "내공", amount: 1, base: 60, growth: 1.4, max: 7 },
   ],
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면

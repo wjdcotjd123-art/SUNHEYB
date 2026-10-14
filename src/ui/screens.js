@@ -2,7 +2,7 @@
 // 조작: 메인에서는 숫자키로 바로 이동, 하위 화면은 Esc로 돌아가기.
 import { Keys } from "./keys.js";
 import { el } from "./view.js";
-import { FONT_SIZES } from "../meta/settings.js";
+import { FONT_SIZES, TERM_MODES } from "../meta/settings.js";
 
 export class MenuScreens {
   constructor(root, i18n) {
@@ -149,9 +149,11 @@ export class MenuScreens {
     const sec = el("section", "sub-screen");
     sec.innerHTML = `<h2>${t("settings.title")}</h2>
       <div class="set-row"><span class="set-lbl">${t("settings.fontSize")}</span><div class="seg" id="seg-fs" role="group"></div></div>
+      <div class="set-row"><span class="set-lbl">${t("settings.termMode")}</span><p class="set-note">${t("settings.termNote")}</p><div class="seg" id="seg-term" role="group"></div></div>
       ${languages.length > 1 ? `<div class="set-row"><span class="set-lbl">${t("settings.language")}</span><div class="seg" id="seg-lang" role="group"></div></div>` : ""}
       <div class="set-row danger"><span class="set-lbl">${t("settings.wipe")}</span><p class="set-note">${t("settings.wipeNote")}</p></div>`;
     segment(sec.querySelector("#seg-fs"), FONT_SIZES.map((f) => ({ id: f.id, label: t(`settings.sizes.${f.id}`) })), current.fontSize, "fs", h.fontSize);
+    segment(sec.querySelector("#seg-term"), TERM_MODES.map((m) => ({ id: m, label: t(`settings.termModes.${m}`) })), current.termMode ?? "twice", "term", h.termMode);
     const langSeg = sec.querySelector("#seg-lang");
     if (langSeg) segment(langSeg, languages.map((l) => ({ id: l.id, label: l.name })), current.language, "lang", h.language);
 

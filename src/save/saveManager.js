@@ -27,6 +27,7 @@ export class SaveManager {
         scenes: state.scenes,
         lastEventId: state.lastEventId,
         recent: state.recent,
+        termCounts: state.termCounts,
         rare: state.rare,
         log: state.log,
       },

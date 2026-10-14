@@ -72,8 +72,24 @@ export class GameView {
   }
 
   show(sec) {
+    this.limitTerms(sec);
     this.stage.replaceChildren(sec);
     window.scrollTo({ top: 0 });
+  }
+
+  // 용어 밑줄 정리: termContext = { mode: () => "twice"|"always"|"off", counts: {} }
+  // twice면 한 생에 용어마다 두 번까지만 밑줄을 남기고, 나머지는 보통 글자로 바꾼다.
+  limitTerms(root) {
+    const ctx = this.termContext;
+    if (!ctx) return;
+    const mode = ctx.mode();
+    if (mode === "always") return;
+    root.querySelectorAll(".term").forEach((t) => {
+      const term = t.dataset.term;
+      const n = ctx.counts[term] ?? 0;
+      if (mode === "off" || n >= this.config.termLimit) t.replaceWith(...t.childNodes);
+      else ctx.counts[term] = n + 1;
+    });
   }
 
   // 기록창 전체를 다시 그린다 (최신이 맨 위). 기록에는 글 대신 id만 있어서 언어를 바꿔도 맞게 나온다.

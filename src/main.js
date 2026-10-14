@@ -62,6 +62,7 @@ class App {
       langs,
       {
         fontSize: (id) => this.settings.set("fontSize", id),
+        termMode: (id) => this.settings.set("termMode", id),
         language: async (id) => { this.settings.set("language", id); await this.i18n.use(id); this.openSettings(); },
         wipe: () => { this.record.wipe(); this.saves.clear(); },
       },
@@ -72,6 +73,7 @@ class App {
   // ── 플레이 ──
   enterGame() {
     this.menu.hide();
+    this.view.termContext = { mode: () => this.settings.data.termMode, counts: this.state.termCounts };
     this.view.open(() => this.home());
     this.view.header(this.record.data.life, this.record.data.karma);
     this.view.stats(this.state);

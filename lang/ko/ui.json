@@ -117,7 +117,14 @@
     "wipeNote": "생의 횟수, 업, 인과록, 진행 중인 생이 모두 사라진다.",
     "wipeBtn": "지우기",
     "wipeConfirm": "정말 지운다",
-    "wiped": "지웠다"
+    "wiped": "지웠다",
+    "termMode": "용어 밑줄",
+    "termNote": "밑줄 친 용어에 마우스를 올리면 풀이가 나온다.",
+    "termModes": {
+      "twice": "한 생에 두 번까지",
+      "always": "항상",
+      "off": "끄기"
+    }
   },
   "common": {
     "back": "돌아가기"
