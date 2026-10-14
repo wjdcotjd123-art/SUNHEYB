@@ -12,20 +12,37 @@ export class ResultResolver {
     return Math.min(this.config.chanceMax, Math.max(Math.min(this.config.chanceMin, outcome.chance), c));
   }
 
+  // 드문 인과: 기본 확률이 rareChance 이하이면서 죽음이 아닌 결과.
+  isRare(outcome) {
+    return outcome.chance != null && outcome.chance <= this.config.rareChance && !outcome.effects?.death;
+  }
+
   // chance가 있는 결과들을 차례로 쌓고, 남은 확률은 chance 없는 결과가 가져간다.
-  pick(choice, state) {
+  // deaths: 전생에 이 선택지에서 죽은 횟수. 죽음 확률을 조금 깎아준다(전생의 기억).
+  //  - 죽음 결과에 chance가 있으면 그만큼 빼고,
+  //  - 죽음이 나머지 확률이면 처음 나오는 평범한 생존 결과에 더한다.
+  //  - 드문 인과(대박)는 배율로만 조금 올려서 대박의 희소함은 지킨다.
+  pick(choice, state, deaths = 0) {
+    const m = this.config.deathMemory;
+    const bonus = Math.min(m.cap, deaths * m.perDeath);
+    const outs = choice.outcomes;
+    const fallback = outs.find((o) => o.chance == null) ?? null;
+    const fallbackDeath = !!fallback?.effects?.death;
+    let boosted = false;
     const r = this.rng.percent();
     let acc = 0;
-    let fallback = null;
-    for (const o of choice.outcomes) {
-      if (o.chance == null) {
-        fallback = fallback ?? o;
-        continue;
+    for (const o of outs) {
+      if (o.chance == null) continue;
+      let c = this.chanceOf(o, state);
+      if (bonus) {
+        if (o.effects?.death) c = Math.max(0, c - bonus);
+        else if (this.isRare(o)) c *= 1 + Math.min(m.rareCap, deaths * m.rarePerDeath);
+        else if (fallbackDeath && !boosted) { c += bonus; boosted = true; }
       }
-      acc += this.chanceOf(o, state);
+      acc += c;
       if (r < acc) return o;
     }
-    return fallback ?? choice.outcomes[choice.outcomes.length - 1];
+    return fallback ?? outs[outs.length - 1];
   }
 
   // 효과를 적용하고, 화면에 보여줄 변화 목록(언어와 무관한 구조)을 돌려준다.

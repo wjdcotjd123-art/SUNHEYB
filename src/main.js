@@ -8,6 +8,7 @@ import { ResultResolver } from "./events/resolver.js";
 import { I18n } from "./i18n/i18n.js";
 import { LifeRecord } from "./meta/lives.js";
 import { Settings } from "./meta/settings.js";
+import { KarmaShop } from "./meta/shop.js";
 import { SaveManager } from "./save/saveManager.js";
 import { GameView } from "./ui/view.js";
 import { MenuScreens } from "./ui/screens.js";
@@ -19,6 +20,7 @@ class App {
     this.selector = new EventSelector(events, this.rng, CONFIG);
     this.resolver = new ResultResolver(this.rng, CONFIG);
     this.record = new LifeRecord(CONFIG);
+    this.shop = new KarmaShop(CONFIG, this.record);
     this.saves = new SaveManager(CONFIG);
     this.settings = settings;
     this.i18n = i18n;
@@ -37,10 +39,14 @@ class App {
         newLife: () => this.newLife(),
         achievements: () =>
           this.menu.achievements(this.achievements, this.record.data.achievements, this.record.data.outcomes.length, () => this.home()),
-        karma: () => this.menu.karma(this.record.data.karma, () => this.home()),
+        karma: () => this.openShop(),
         settings: () => this.openSettings(),
       }
     );
+  }
+
+  openShop() {
+    this.menu.karma(this.record.data.karma, this.shop, (id) => { this.shop.buy(id); this.openShop(); }, () => this.home());
   }
 
   async openSettings() {
@@ -75,7 +81,8 @@ class App {
   newLife() {
     this.saves.clear();
     this.state = new GameState(CONFIG);
-    this.state.stats.업 = this.record.data.karma; // 쌓은 업이 확률 보정에 쓰인다 (화면에는 안 보임)
+    this.state.stats.업 = this.record.data.karmaEarned; // 지금까지 쌓은 업 총량이 확률 보정에 쓰인다 (화면에는 안 보임)
+    this.shop.apply(this.state);
     const life = this.record.startLife();
     this.enterGame();
     const first = this.selector.byId(CONFIG.prologueId);
@@ -100,7 +107,9 @@ class App {
     this.saves.save(s, ev.id);
     this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
       s.scenes += 1;
-      const outcome = this.resolver.pick(choice, s);
+      const outcome = this.resolver.pick(choice, s, this.record.deathsAt(ev.id, choice.id));
+      const rare = this.resolver.isRare(outcome);
+      if (rare) s.rare += 1;
       const textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);
       const changes = this.resolver.apply(outcome, s);
@@ -110,13 +119,14 @@ class App {
 
       if (s.dead) {
         this.saves.clear();
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"));
+        this.record.recordDeath(ev.id, choice.id);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare);
       }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       const nextId = outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
-      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next));
+      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare);
     });
   }
 

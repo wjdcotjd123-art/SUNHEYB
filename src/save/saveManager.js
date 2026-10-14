@@ -26,6 +26,7 @@ export class SaveManager {
         achievements: state.achievements,
         scenes: state.scenes,
         lastEventId: state.lastEventId,
+        rare: state.rare,
         log: state.log,
       },
     });

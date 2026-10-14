@@ -116,7 +116,7 @@ export class GameView {
     choices.forEach((c, n) => {
       const b = el("button", "choice" + (c.condition ? " earned" : "") + (c.warn ? " warn" : ""));
       b.type = "button";
-      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}${c.condition && !c.warn ? `<span class="earned-label">${i.t("game.earned")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });
@@ -142,10 +142,10 @@ export class GameView {
   }
 
   // 결과는 새 화면으로: 장면 제목, 고른 선택 한 줄, 결과 글. textKey 예: "c2.o0"
-  outcome(evId, choiceId, textKey, changes, buttonKey, onNext) {
+  outcome(evId, choiceId, textKey, changes, buttonKey, onNext, rare = false) {
     const i = this.i;
-    const sec = el("section", "outcome");
-    sec.innerHTML = `<h2>${i.ev(evId, "title")}</h2>
+    const sec = el("section", "outcome" + (rare ? " rare" : ""));
+    sec.innerHTML = `${rare ? `<p class="rare-banner">${i.t("game.rare", { n: this.config.karma.perRare })}</p>` : ""}<h2>${i.ev(evId, "title")}</h2>
       <p class="chosen"><span class="tag">[${i.ev(evId, `c${choiceId}.tag`)}]</span> ${lineToHtml(i.ev(evId, `c${choiceId}.text`))}</p>
       <div class="prose">${linesToHtml(i.ev(evId, textKey))}</div>`;
     if (changes.length) {
@@ -164,7 +164,7 @@ export class GameView {
     const head = kind === "death" ? i.t("ending.deathHead") : i.t("ending.endHead");
     const sub = kind === "death" ? "" : `<p class="note">${i.t("ending.endNote")}</p>`;
     sec.innerHTML = `<h2>${head}</h2>${sub}
-      <dl class="karma">${summary.parts.map((p) => `<div><dt>${i.t(`ending.${p.id}`)}</dt><dd>+${p.value}</dd></div>`).join("")}
+      <dl class="karma">${summary.parts.filter((p) => p.value > 0 || ["scenes", "fresh"].includes(p.id)).map((p) => `<div class="part-${p.id}"><dt>${i.t(`ending.${p.id}`, { w: p.note ?? 0 })}</dt><dd>+${p.value}</dd></div>`).join("")}
       <div class="total"><dt>${i.t("ending.total")}</dt><dd>+${summary.total}</dd></div></dl>
       ${summary.newAch.length ? `<p class="ach">${i.t("ending.newAch", { list: summary.newAch.map((a) => i.ach(a, "name")).join(", ") })}</p>` : ""}`;
     const b = button(i.t("game.toMain"), onDone);

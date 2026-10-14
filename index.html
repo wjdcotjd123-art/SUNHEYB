@@ -59,8 +59,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .choice .num { color: var(--muted); font-size: 13px; min-width: 1em; font-variant-numeric: tabular-nums; }
 .choice .tag { color: var(--accent); white-space: nowrap; font-weight: 500; }
 .choice .txt { min-width: 0; }
-.choice.earned { border-style: dashed; border-color: #6d5a33; }
+.choice.earned { border-color: rgba(232, 194, 110, 0.7); background: linear-gradient(100deg, rgba(232,194,110,0.10), rgba(232,194,110,0.02) 60%); box-shadow: 0 0 0 1px rgba(232,194,110,0.25), 0 0 18px rgba(232,194,110,0.18); animation: earnedGlow 2.4s ease-in-out infinite; flex-wrap: wrap; }
 .choice.earned .tag { color: var(--gold); }
+.choice .earned-label { margin-left: auto; font-size: 11px; letter-spacing: 0.12em; color: var(--ink); background: var(--gold); border-radius: 2px; padding: 0 7px; align-self: center; }
+@keyframes earnedGlow { 0%, 100% { box-shadow: 0 0 0 1px rgba(232,194,110,0.25), 0 0 12px rgba(232,194,110,0.12); } 50% { box-shadow: 0 0 0 1px rgba(232,194,110,0.55), 0 0 26px rgba(232,194,110,0.32); } }
+.rare-banner { margin: 0 0 18px; padding: 10px 14px; font-family: var(--f-display); font-size: 20px; letter-spacing: 0.14em; color: var(--ink); background: linear-gradient(90deg, #b8913f, var(--gold), #f6dd9a, var(--gold), #b8913f); background-size: 200% 100%; border-radius: 3px; text-align: center; animation: rareSweep 1.6s ease-out 1, rarePulse 2.6s ease-in-out 1.6s infinite; box-shadow: 0 0 30px rgba(232,194,110,0.35); }
+@keyframes rareSweep { from { background-position: 100% 0; transform: scale(0.96); opacity: 0; } to { background-position: 0 0; transform: scale(1); opacity: 1; } }
+@keyframes rarePulse { 0%, 100% { box-shadow: 0 0 22px rgba(232,194,110,0.25); } 50% { box-shadow: 0 0 40px rgba(232,194,110,0.5); } }
+.outcome.rare .prose strong { color: #fff4d6; }
+.karma .part-rare dt, .karma .part-rare dd { color: var(--gold); }
 .choice:hover:not(:disabled), .choice:focus-visible { border-color: var(--accent); background: #20252f; outline: none; }
 .choice:disabled { cursor: default; }
 .choice.warn { background: rgba(224, 103, 92, 0.12); border-color: rgba(224, 103, 92, 0.45); opacity: 0.8; flex-wrap: wrap; }
@@ -128,6 +135,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .back kbd, #toMenu kbd { font-family: var(--f-ui); font-size: 11px; margin-left: 10px; opacity: 0.7; }
 .sub-screen h2 { font-family: var(--f-display); font-weight: 400; font-size: 34px; margin: 0 0 8px; letter-spacing: 0.08em; }
 .sub-screen .big { font-family: var(--f-display); font-size: 64px; color: var(--accent); margin: 8px 0 0; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.shop-title { font-family: var(--f-ui); font-size: 13px; font-weight: 500; letter-spacing: 0.14em; color: var(--muted); margin: 32px 0 6px; }
+.shop { list-style: none; margin: 0; padding: 0; display: grid; }
+.shop-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line); font-family: var(--f-ui); }
+.shop-info { display: grid; gap: 2px; min-width: 0; }
+.shop-info b { font-weight: 500; }
+.shop-info span { font-size: 13px; color: var(--muted); }
+.shop-info .shop-lv { color: var(--accent); }
+.shop-buy { flex: none; font-family: var(--f-ui); font-size: 14px; background: none; border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 6px 14px; font-variant-numeric: tabular-nums; }
+.shop-buy:hover:not(:disabled), .shop-buy:focus-visible { background: var(--accent); color: var(--ink); outline: none; }
+.shop-buy:disabled { opacity: 0.35; cursor: default; }
 .sub-screen .empty { margin-top: 32px; padding: 18px; border: 1px dashed var(--line); border-radius: 3px; color: var(--muted); font-family: var(--f-ui); font-size: 15px; }
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }
 .tab { font-family: var(--f-ui); font-size: 14px; background: none; border: 1px solid var(--line); border-radius: 3px; padding: 5px 12px; color: var(--muted); display: flex; gap: 6px; align-items: baseline; }
@@ -156,7 +173,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .mast h1 { font-size: 56px; }
   #stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } }
 </style>
 
 <div class="wrap">

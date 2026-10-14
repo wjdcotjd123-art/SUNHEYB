@@ -114,14 +114,32 @@ export class MenuScreens {
     this.show(sec, onBack);
   }
 
-  karma(total, onBack) {
-    const t = (k) => this.i.t(k);
+  // 업 상점. shop: KarmaShop, onBuy(id)
+  karma(total, shop, onBuy, onBack) {
+    const t = (k, v) => this.i.t(k, v);
     const sec = el("section", "sub-screen");
     sec.innerHTML = `
       <h2>${t("karmaScreen.title")}</h2>
       <p class="big">${total}</p>
       <p class="sub">${t("karmaScreen.sub")}</p>
-      <p class="empty">${t("karmaScreen.empty")}</p>`;
+      <h3 class="shop-title">${t("karmaScreen.shopTitle")}</h3>
+      <ul class="shop"></ul>`;
+    const ul = sec.querySelector(".shop");
+    shop.items.forEach((it, n) => {
+      const lv = shop.level(it.id);
+      const price = shop.price(it.id);
+      const max = shop.isMax(it.id);
+      const li = el("li", "shop-row");
+      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.items.${it.id}.name`)}</b><span>${t(`karmaScreen.items.${it.id}.desc`)}</span><span class="shop-lv">${t("karmaScreen.level", { v: lv * it.amount })}</span></div>`;
+      const b = el("button", "shop-buy");
+      b.type = "button";
+      b.id = `buy-${n}`;
+      b.textContent = max ? t("karmaScreen.max") : t("karmaScreen.buy", { p: price });
+      b.disabled = max || total < price;
+      b.addEventListener("click", () => onBuy(it.id));
+      li.append(b);
+      ul.append(li);
+    });
     this.show(sec, onBack);
   }
 

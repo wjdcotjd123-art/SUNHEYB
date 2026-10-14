@@ -12,6 +12,7 @@ export class GameState {
     this.achievements = [];
     this.scenes = 0;
     this.lastEventId = null;
+    this.rare = 0; // 이번 생에 터진 드문 인과 수
     this.log = []; // 하단 기록창 내용 {title, tag, changes, dead}
     this.dead = false;
   }
