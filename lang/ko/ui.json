@@ -29,8 +29,8 @@
     "logEmpty": "아직 아무것도 하지 않았다.",
     "death": "죽음",
     "warn": "비추천",
-    "earned": "기연",
-    "rare": "드문 인과 · 업 +{n}"
+    "rare": "드문 인과 · 업 +{n}",
+    "fortune": "기연<span class=\"hanja\">(奇緣)</span>"
   },
   "changes": {
     "gain": "{item} 획득",

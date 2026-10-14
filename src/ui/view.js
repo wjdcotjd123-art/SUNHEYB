@@ -96,7 +96,8 @@ export class GameView {
   scene(ev, choices, onConfirm) {
     const i = this.i;
     const sec = el("section", "scene");
-    sec.innerHTML = `<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>`;
+    // 기연 장면이면 제목 위에 기연 표시 (선택지에는 힌트를 주지 않는다)
+    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>`;
     const list = el("div", "choices");
     const confirm = button(i.t("game.next"), () => go());
     confirm.hidden = true;
@@ -114,9 +115,9 @@ export class GameView {
     };
 
     choices.forEach((c, n) => {
-      const b = el("button", "choice" + (c.condition ? " earned" : "") + (c.warn ? " warn" : ""));
+      const b = el("button", "choice" + (c.warn ? " warn" : ""));
       b.type = "button";
-      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}${c.condition && !c.warn ? `<span class="earned-label">${i.t("game.earned")}</span>` : ""}`;
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });
@@ -142,10 +143,10 @@ export class GameView {
   }
 
   // 결과는 새 화면으로: 장면 제목, 고른 선택 한 줄, 결과 글. textKey 예: "c2.o0"
-  outcome(evId, choiceId, textKey, changes, buttonKey, onNext, rare = false) {
+  outcome(evId, choiceId, textKey, changes, buttonKey, onNext, rare = false, fortune = false) {
     const i = this.i;
     const sec = el("section", "outcome" + (rare ? " rare" : ""));
-    sec.innerHTML = `${rare ? `<p class="rare-banner">${i.t("game.rare", { n: this.config.karma.perRare })}</p>` : ""}<h2>${i.ev(evId, "title")}</h2>
+    sec.innerHTML = `${rare ? `<p class="rare-banner">${i.t("game.rare", { n: this.config.karma.perRare })}</p>` : fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(evId, "title")}</h2>
       <p class="chosen"><span class="tag">[${i.ev(evId, `c${choiceId}.tag`)}]</span> ${lineToHtml(i.ev(evId, `c${choiceId}.text`))}</p>
       <div class="prose">${linesToHtml(i.ev(evId, textKey))}</div>`;
     if (changes.length) {

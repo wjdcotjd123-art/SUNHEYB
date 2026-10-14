@@ -59,10 +59,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .choice .num { color: var(--muted); font-size: 13px; min-width: 1em; font-variant-numeric: tabular-nums; }
 .choice .tag { color: var(--accent); white-space: nowrap; font-weight: 500; }
 .choice .txt { min-width: 0; }
-.choice.earned { border-color: rgba(232, 194, 110, 0.7); background: linear-gradient(100deg, rgba(232,194,110,0.10), rgba(232,194,110,0.02) 60%); box-shadow: 0 0 0 1px rgba(232,194,110,0.25), 0 0 18px rgba(232,194,110,0.18); animation: earnedGlow 2.4s ease-in-out infinite; flex-wrap: wrap; }
-.choice.earned .tag { color: var(--gold); }
-.choice .earned-label { margin-left: auto; font-size: 11px; letter-spacing: 0.12em; color: var(--ink); background: var(--gold); border-radius: 2px; padding: 0 7px; align-self: center; }
-@keyframes earnedGlow { 0%, 100% { box-shadow: 0 0 0 1px rgba(232,194,110,0.25), 0 0 12px rgba(232,194,110,0.12); } 50% { box-shadow: 0 0 0 1px rgba(232,194,110,0.55), 0 0 26px rgba(232,194,110,0.32); } }
+.fortune-banner { margin: 0 0 10px; font-family: var(--f-display); font-size: 17px; letter-spacing: 0.2em; color: var(--gold); text-shadow: 0 0 14px rgba(232,194,110,0.55); animation: fortuneIn 1.2s ease-out 1; }
+.fortune-banner .hanja { color: var(--gold); opacity: 0.75; }
+@keyframes fortuneIn { from { opacity: 0; letter-spacing: 0.6em; } to { opacity: 1; letter-spacing: 0.2em; } }
 .rare-banner { margin: 0 0 18px; padding: 10px 14px; font-family: var(--f-display); font-size: 20px; letter-spacing: 0.14em; color: var(--ink); background: linear-gradient(90deg, #b8913f, var(--gold), #f6dd9a, var(--gold), #b8913f); background-size: 200% 100%; border-radius: 3px; text-align: center; animation: rareSweep 1.6s ease-out 1, rarePulse 2.6s ease-in-out 1.6s infinite; box-shadow: 0 0 30px rgba(232,194,110,0.35); }
 @keyframes rareSweep { from { background-position: 100% 0; transform: scale(0.96); opacity: 0; } to { background-position: 0 0; transform: scale(1); opacity: 1; } }
 @keyframes rarePulse { 0%, 100% { box-shadow: 0 0 22px rgba(232,194,110,0.25); } 50% { box-shadow: 0 0 40px rgba(232,194,110,0.5); } }
