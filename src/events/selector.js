@@ -41,7 +41,9 @@ export class EventSelector {
     const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1);
     return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev));
   }
+  // 비추천(warn) 선택지는 항상 맨 뒤로 보낸다.
   availableChoices(ev, state) {
-    return ev.choices.filter((c) => meetsCondition(state, c.condition));
+    const ok = ev.choices.filter((c) => meetsCondition(state, c.condition));
+    return [...ok.filter((c) => !c.warn), ...ok.filter((c) => c.warn)];
   }
 }

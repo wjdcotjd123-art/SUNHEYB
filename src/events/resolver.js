@@ -1,4 +1,5 @@
 // 선택 결과 판정(확률 + 스탯 보정)과 효과 적용.
+import { meetsCondition } from "./selector.js";
 export class ResultResolver {
   constructor(rng, config) {
     this.rng = rng;
@@ -23,6 +24,12 @@ export class ResultResolver {
   //  - 죽음이 나머지 확률이면 처음 나오는 평범한 생존 결과에 더한다.
   //  - 드문 인과(대박)는 배율로만 조금 올려서 대박의 희소함은 지킨다.
   pick(choice, state, deaths = 0) {
+    // noDeathIf: 이 조건을 채우면 이 선택지에서는 죽지 않는다 (남은 확률은 마지막 생존 결과가 가져감)
+    if (choice.noDeathIf && meetsCondition(state, choice.noDeathIf)) {
+      const alive = choice.outcomes.filter((o) => !o.effects?.death);
+      const last = alive[alive.length - 1];
+      choice = { ...choice, outcomes: alive.map((o) => (o === last ? { ...o, chance: undefined } : o)) };
+    }
     const m = this.config.deathMemory;
     const bonus = Math.min(m.cap, deaths * m.perDeath);
     const outs = choice.outcomes;
