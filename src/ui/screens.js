@@ -180,22 +180,33 @@ export class MenuScreens {
     });
     const tl = sec.querySelector(".traits");
     shop.traits.forEach((it, n) => {
-      const owned = shop.hasTrait(it.id);
+      const lv = shop.traitLevel(it.id);
       const on = shop.traitOn(it.id);
+      const tier = shop.tierOf(it);
+      const next = shop.nextTier(it);
       const li = el("li", "shop-row");
-      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.traits.${it.id}.name`)}</b><span>${t(`karmaScreen.traits.${it.id}.desc`)}</span>${owned ? `<span class="shop-lv">${t(on ? "karmaScreen.traitOn" : "karmaScreen.traitOff")}</span>` : ""}</div>`;
-      const b = el("button", "shop-buy");
-      b.type = "button";
-      b.id = `trait-${n}`;
-      if (owned) {
-        b.textContent = t(on ? "karmaScreen.turnOff" : "karmaScreen.turnOn");
-        b.addEventListener("click", () => tr.toggle(it.id));
-      } else {
-        b.textContent = t("karmaScreen.buy", { p: it.price });
-        b.disabled = total < it.price;
-        b.addEventListener("click", () => tr.buy(it.id));
+      const state = lv ? `<span class="shop-lv">${t(on ? "karmaScreen.traitOn" : "karmaScreen.traitOff")}</span>` : "";
+      const up = lv && next ? `<span>${t("karmaScreen.nextTier", { name: t(`karmaScreen.traits.${next.name}.name`), desc: t(`karmaScreen.traits.${next.name}.desc`) })}</span>` : "";
+      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.traits.${tier.name}.name`)}</b><span>${t(`karmaScreen.traits.${tier.name}.desc`)}</span>${up}${state}</div>`;
+      const box = el("div", "shop-btns");
+      if (lv) {
+        const tg = el("button", "shop-buy");
+        tg.type = "button";
+        tg.id = `trait-${n}-toggle`;
+        tg.textContent = t(on ? "karmaScreen.turnOff" : "karmaScreen.turnOn");
+        tg.addEventListener("click", () => tr.toggle(it.id));
+        box.append(tg);
       }
-      li.append(b);
+      if (next) {
+        const b = el("button", "shop-buy");
+        b.type = "button";
+        b.id = `trait-${n}`;
+        b.textContent = t(lv ? "karmaScreen.upgrade" : "karmaScreen.buy", { p: next.price });
+        b.disabled = total < next.price;
+        b.addEventListener("click", () => tr.buy(it.id));
+        box.append(b);
+      }
+      li.append(box);
       tl.append(li);
     });
     this.show(sec, onBack);

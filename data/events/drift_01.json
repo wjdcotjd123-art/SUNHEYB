@@ -98,7 +98,8 @@
               ],
               "effects": {
                 "체력": -1
-              }
+              },
+              "food": true
             },
             {
               "text": [
@@ -578,7 +579,8 @@
               ],
               "effects": {
                 "체력": -2
-              }
+              },
+              "chill": true
             },
             {
               "text": [
@@ -1333,7 +1335,8 @@
               "effects": {
                 "death": true
               },
-              "weak": true
+              "weak": true,
+              "wary": true
             }
           ]
         },

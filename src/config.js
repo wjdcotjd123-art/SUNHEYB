@@ -23,8 +23,14 @@ export const CONFIG = {
     { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.2, max: 10 },
     { id: "내공", stat: "내공", amount: 1, base: 60, growth: 1.4, max: 7 },
   ],
-  // 특성: 한 번 사면 모든 생에 유지, 켜고 끌 수 있다. blocks: 이 표시가 달린 결과(예: "food": true)는 나오지 않는다
-  traits: [{ id: "철위", price: 40, blocks: "food" }],
+  // 체질: 한 번 사면 모든 생에 유지, 켜고 끌 수 있다.
+  // blocks: 이 표시가 달린 결과(예: "food": true)가 나오면 그 결과를 빼고 다시 굴리고, 결과 화면에 체질 발동을 표시한다
+  // tiers: 단계별 이름(언어 파일 karmaScreen.traits.<이름>), 값, 막는 결과 표시
+  traits: [
+    { id: "철위", tiers: [{ name: "철위", price: 200, blocks: ["food"] }, { name: "만독불침", price: 800, blocks: ["food", "poison"] }] },
+    { id: "수화불침", tiers: [{ name: "수화불침", price: 200, blocks: ["chill"] }, { name: "한서불침", price: 800, blocks: ["chill", "frost"] }] },
+    { id: "선면", tiers: [{ name: "선면", price: 200, blocks: ["wary"] }] },
+  ],
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면
   // 검은 비늘: 지니고 있으면 weak=true인 죽음(수준 낮은 적의 공격)을 한 번 막아준다

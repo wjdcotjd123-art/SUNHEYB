@@ -65,6 +65,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .rare-banner { margin: 0 0 18px; padding: 10px 14px; font-family: var(--f-display); font-size: 20px; letter-spacing: 0.14em; color: var(--ink); background: linear-gradient(90deg, #b8913f, var(--gold), #f6dd9a, var(--gold), #b8913f); background-size: 200% 100%; border-radius: 3px; text-align: center; animation: rareSweep 1.6s ease-out 1, rarePulse 2.6s ease-in-out 1.6s infinite; box-shadow: 0 0 30px rgba(232,194,110,0.35); }
 @keyframes rareSweep { from { background-position: 100% 0; transform: scale(0.96); opacity: 0; } to { background-position: 0 0; transform: scale(1); opacity: 1; } }
 @keyframes rarePulse { 0%, 100% { box-shadow: 0 0 22px rgba(232,194,110,0.25); } 50% { box-shadow: 0 0 40px rgba(232,194,110,0.5); } }
+.trait-banner { margin: 0 0 16px; padding: 10px 14px; border-left: 3px solid var(--green, #7fbf8a); background: rgba(127,191,138,0.08); font-family: var(--f-ui); display: grid; gap: 4px; animation: fortuneIn 0.9s ease-out 1; }
+.trait-banner b { font-weight: 500; letter-spacing: 0.12em; color: var(--green, #7fbf8a); }
+.trait-banner span { font-size: 14px; color: var(--muted); }
 .outcome.rare .prose strong { color: #fff4d6; }
 .karma .part-rare dt, .karma .part-rare dd { color: var(--gold); }
 .karma .part-mult dt, .karma .part-mult dd { color: var(--accent); }
@@ -145,6 +148,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .shop-info .shop-lv { color: var(--accent); }
 .shop-buy { flex: none; font-family: var(--f-ui); font-size: 14px; background: none; border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 6px 14px; font-variant-numeric: tabular-nums; }
 .shop-buy:hover:not(:disabled), .shop-buy:focus-visible { background: var(--accent); color: var(--ink); outline: none; }
+.shop-btns { flex: none; display: flex; gap: 6px; }
 .shop-buy:disabled { opacity: 0.35; cursor: default; }
 .sub-screen .empty { margin-top: 32px; padding: 18px; border: 1px dashed var(--line); border-radius: 3px; color: var(--muted); font-family: var(--f-ui); font-size: 15px; }
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }

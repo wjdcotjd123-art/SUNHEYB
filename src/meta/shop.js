@@ -26,27 +26,46 @@ export class KarmaShop {
   apply(state) {
     for (const it of this.items) state.stats[it.stat] = state.stat(it.stat) + it.amount * this.level(it.id);
   }
-  // 특성: { 산 것: true/false(켜짐) }
-  hasTrait(id) {
-    return id in this.record.data.traits;
+  // 체질: record.data.traits[id] = { lv: 산 단계(1부터), on: 켜짐 }
+  traitData(id) {
+    const v = this.record.data.traits[id];
+    if (v == null) return { lv: 0, on: false };
+    return typeof v === "boolean" ? { lv: 1, on: v } : v; // 예전 기록(참/거짓) 호환
+  }
+  traitLevel(id) {
+    return this.traitData(id).lv;
   }
   traitOn(id) {
-    return this.record.data.traits[id] === true;
+    const d = this.traitData(id);
+    return d.lv > 0 && d.on;
+  }
+  // 지금 단계(안 샀으면 첫 단계)와 다음 단계
+  tierOf(tr) {
+    return tr.tiers[Math.max(0, this.traitLevel(tr.id) - 1)];
+  }
+  nextTier(tr) {
+    return tr.tiers[this.traitLevel(tr.id)] ?? null;
   }
   buyTrait(id) {
     const tr = this.traits.find((x) => x.id === id);
-    if (!tr || this.hasTrait(id) || !this.record.spend(tr.price)) return false;
-    this.record.data.traits[id] = true;
+    const next = tr && this.nextTier(tr);
+    if (!next || !this.record.spend(next.price)) return false;
+    this.record.data.traits[id] = { lv: this.traitLevel(id) + 1, on: true };
     this.record.save();
     return true;
   }
   toggleTrait(id) {
-    if (!this.hasTrait(id)) return;
-    this.record.data.traits[id] = !this.traitOn(id);
+    const d = this.traitData(id);
+    if (!d.lv) return;
+    this.record.data.traits[id] = { lv: d.lv, on: !d.on };
     this.record.save();
   }
-  // 켜 둔 특성이 막는 결과 표시들
-  blockedTags() {
-    return this.traits.filter((x) => this.traitOn(x.id)).map((x) => x.blocks);
+  // 이 결과를 막는 켜 둔 체질의 지금 단계 (없으면 undefined)
+  blocker(outcome) {
+    for (const tr of this.traits) {
+      if (!this.traitOn(tr.id)) continue;
+      const tier = this.tierOf(tr);
+      if (tier.blocks.some((b) => outcome[b])) return tier;
+    }
   }
 }

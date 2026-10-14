@@ -131,11 +131,19 @@ class App {
       s.scenes += 1;
       // memory=false인 장면(첫 장면 등)은 전생의 기억 보정을 받지 않는다.
       const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
-      // 켜 둔 특성이 막는 결과(예: 먹고 탈 나는 결과)는 빼고 굴린다.
-      const blocked = this.shop.blockedTags();
-      const outs = choice.outcomes.filter((o) => !blocked.some((tag) => o[tag]));
-      const rolled = outs.length && outs.length !== choice.outcomes.length ? { ...choice, outcomes: outs } : choice;
-      let outcome = this.resolver.pick(rolled, s, deaths);
+      let outcome = this.resolver.pick(choice, s, deaths);
+      // 체질: 켜 둔 체질이 막는 결과가 나오면 그 결과들을 빼고 다시 굴린다.
+      let trait = this.shop.blocker(outcome);
+      if (trait) {
+        let outs = choice.outcomes.filter((o) => !this.shop.blocker(o));
+        if (!outs.length) trait = null;
+        else {
+          // 남은 결과에 기본 결과(chance 없음)가 없으면 마지막 결과를 기본으로
+          if (!outs.some((o) => o.chance == null)) outs = outs.map((o, k) => (k === outs.length - 1 ? { ...o, chance: undefined, src: o } : o));
+          const re = this.resolver.pick({ ...choice, outcomes: outs }, s, deaths);
+          outcome = re.src ?? re;
+        }
+      }
       let textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
       let textEv = ev.id;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);
@@ -157,13 +165,13 @@ class App {
       if (s.dead) {
         this.saves.clear();
         this.record.recordDeath(ev.id, choice.id);
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv, trait?.name);
       }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       const nextId = outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
-      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv);
+      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, trait?.name);
     });
   }
 
