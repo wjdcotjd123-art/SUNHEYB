@@ -100,7 +100,7 @@ class App {
       s.scenes += 1;
     }
     this.saves.save(s, ev.id);
-    this.view.scene(ev, this.selector.availableChoices(ev, s), (choice, sec) => {
+    this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
       const outcome = this.resolver.pick(choice, s);
       const textKey = `c${choice.id}.o${choice.outcomes.indexOf(outcome)}`;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);
@@ -111,13 +111,13 @@ class App {
 
       if (s.dead) {
         this.saves.clear();
-        return this.view.outcome(sec, ev.id, textKey, changes, "game.closeEyes", () => this.finish("death"));
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"));
       }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       const nextId = outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
-      this.view.outcome(sec, ev.id, textKey, changes, "game.continue", () => this.play(next));
+      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next));
     });
   }
 

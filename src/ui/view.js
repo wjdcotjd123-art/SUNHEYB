@@ -109,9 +109,7 @@ export class GameView {
     const go = () => {
       if (!picked) return;
       this.keys(null);
-      list.querySelectorAll(".choice").forEach((b) => { b.disabled = true; if (!b.classList.contains("picked")) b.classList.add("dim"); });
-      confirm.remove();
-      onConfirm(picked, sec);
+      onConfirm(picked);
     };
 
     choices.forEach((c, n) => {
@@ -142,17 +140,19 @@ export class GameView {
     this.keys((e) => (e.key === "Enter" ? (b.click(), true) : false));
   }
 
-  // 결과는 같은 화면, 고른 항목 아래에 붙는다. textKey 예: "c2.o0"
-  outcome(sec, evId, textKey, changes, buttonKey, onNext) {
-    const out = el("div", "outcome");
-    out.innerHTML = `<div class="prose">${linesToHtml(this.i.ev(evId, textKey))}</div>`;
+  // 결과는 새 화면으로: 장면 제목, 고른 선택 한 줄, 결과 글. textKey 예: "c2.o0"
+  outcome(evId, choiceId, textKey, changes, buttonKey, onNext) {
+    const i = this.i;
+    const sec = el("section", "outcome");
+    sec.innerHTML = `<h2>${i.ev(evId, "title")}</h2>
+      <p class="chosen"><span class="tag">[${i.ev(evId, `c${choiceId}.tag`)}]</span> ${lineToHtml(i.ev(evId, `c${choiceId}.text`))}</p>
+      <div class="prose">${linesToHtml(i.ev(evId, textKey))}</div>`;
     if (changes.length) {
-      out.innerHTML += `<ul class="changes">${changes.map((c) => `<li class="${c.good ? "up" : "down"}">${this.changeText(c)}</li>`).join("")}</ul>`;
+      sec.innerHTML += `<ul class="changes">${changes.map((c) => `<li class="${c.good ? "up" : "down"}">${this.changeText(c)}</li>`).join("")}</ul>`;
     }
-    const b = button(this.i.t(buttonKey), onNext);
-    out.append(b);
-    sec.append(out);
-    out.scrollIntoView({ block: "start", behavior: "smooth" });
+    const b = button(i.t(buttonKey), onNext);
+    sec.append(b);
+    this.show(sec);
     this.keys((e) => (e.key === "Enter" ? (b.click(), true) : false));
   }
 
