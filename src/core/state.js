@@ -11,6 +11,7 @@ export class GameState {
     this.outcomesSeen = [];
     this.achievements = [];
     this.scenes = 0;
+    this.log = []; // 하단 기록창 내용 {title, tag, changes, dead}
     this.dead = false;
   }
   stat(name) {

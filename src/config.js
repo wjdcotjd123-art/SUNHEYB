@@ -8,6 +8,7 @@ export const CONFIG = {
   realmNames: ["범인", "삼류", "이류", "일류", "절정", "초절정", "화경", "현경"],
   shownStats: ["체력", "근골", "민첩", "내공", "은자"],
   karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3 },
-  storageKey: "sunheyb.meta.v1",
+  storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v1", settings: "sunheyb.settings.v1" },
   eventIndex: "data/events/index.json",
+  achievementsPath: "data/achievements.json",
 };

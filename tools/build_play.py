@@ -8,8 +8,9 @@ import pathlib
 import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ORDER = ["config", "core/rng", "core/state", "events/loader", "events/selector",
-         "events/resolver", "meta/lives", "ui/markup", "ui/view", "main"]
+ORDER = ["config", "core/store", "core/rng", "core/state", "events/loader", "events/selector",
+         "events/resolver", "meta/lives", "meta/settings", "save/saveManager",
+         "ui/keys", "ui/markup", "ui/view", "ui/screens", "main"]
 
 def module_body(name):
     src = (ROOT / "src" / f"{name}.js").read_text(encoding="utf-8")
@@ -19,8 +20,9 @@ def module_body(name):
 index = json.loads((ROOT / "data/events/index.json").read_text(encoding="utf-8"))
 batches = [json.loads((ROOT / "data/events" / f).read_text(encoding="utf-8")) for f in index["batches"]]
 data = json.dumps(batches, ensure_ascii=False).replace("</", "<\\/")
+ach = (ROOT / "data/achievements.json").read_text(encoding="utf-8").replace("</", "<\\/")
 code = "\n".join(module_body(m) for m in ORDER)
-script = f"<script>\nwindow.EVENT_DATA = {data};\n(() => {{\n{code}\n}})();\n</script>"
+script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\n(() => {{\n{code}\n}})();\n</script>"
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 html = html.replace('<script type="module" src="src/main.js"></script>', script)

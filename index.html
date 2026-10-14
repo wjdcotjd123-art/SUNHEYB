@@ -24,12 +24,15 @@
   color-scheme: dark;
 }
 html, body { background: var(--ink); color: var(--paper); }
-body { font-family: var(--f-body); font-weight: 500; font-size: 17px; line-height: 1.85; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px); line-height: 1.85; -webkit-font-smoothing: antialiased; }
 .wrap { max-width: 640px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 calc(var(--log-h) + 48px); }
 
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--ink); border-bottom: 1px solid var(--line); padding-block: 12px 10px; display: grid; gap: 10px; }
 .bar { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--f-ui); }
 #life { font-family: var(--f-display); font-size: 22px; color: var(--accent); letter-spacing: 0.06em; }
+.bar-r { display: flex; gap: 14px; align-items: baseline; }
+#toMenu { font-family: var(--f-ui); font-size: 12px; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 3px; padding: 2px 10px; }
+#toMenu:hover, #toMenu:focus-visible { color: var(--paper); border-color: var(--muted); outline: none; }
 #karma { font-size: 14px; color: var(--muted); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
 #stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; font-family: var(--f-ui); }
 .stat { display: grid; gap: 0; text-align: center; padding-block: 4px; }
@@ -92,21 +95,63 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ach { font-family: var(--f-ui); font-size: 14px; color: var(--gold); }
 #loading { color: var(--muted); font-family: var(--f-ui); }
 
+/* 메인·하위 화면 */
+#screen { padding-block: 48px 64px; }
+.mast { display: grid; gap: 6px; margin-bottom: 40px; }
+.eyebrow { margin: 0; font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.3em; color: var(--muted); }
+.mast h1 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: 72px; line-height: 1.1; letter-spacing: 0.12em; color: var(--paper); }
+.sub { margin: 0; font-family: var(--f-ui); font-size: 14px; color: var(--muted); }
+.sub b { color: var(--accent); font-weight: 500; font-variant-numeric: tabular-nums; }
+.menu-list { display: grid; gap: 2px; max-width: 360px; }
+.menu-item { display: grid; grid-template-columns: 1.6em 1fr; align-items: baseline; text-align: left; background: none; border: none; border-bottom: 1px solid var(--line); padding: 14px 4px; font-family: var(--f-ui); }
+.menu-item .num { color: var(--muted); font-size: 13px; }
+.menu-item .lbl { font-family: var(--f-display); font-size: 22px; letter-spacing: 0.08em; }
+.menu-item .mnote { grid-column: 2; font-size: 12px; color: var(--muted); }
+.menu-item:hover:not(:disabled) .lbl, .menu-item:focus-visible .lbl { color: var(--accent); }
+.menu-item:focus-visible { outline: none; }
+.menu-item:disabled { cursor: default; opacity: 0.4; }
+.menu-item.armed .lbl, .menu-item.armed .mnote { color: var(--red); }
+.back { font-family: var(--f-ui); font-size: 13px; background: none; border: none; color: var(--muted); padding: 0; margin-bottom: 24px; }
+.back:hover, .back:focus-visible { color: var(--paper); outline: none; }
+.back kbd, #toMenu kbd { font-family: var(--f-ui); font-size: 11px; margin-left: 10px; opacity: 0.7; }
+.sub-screen h2 { font-family: var(--f-display); font-weight: 400; font-size: 34px; margin: 0 0 8px; letter-spacing: 0.08em; }
+.sub-screen .big { font-family: var(--f-display); font-size: 64px; color: var(--accent); margin: 8px 0 0; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.sub-screen .empty { margin-top: 32px; padding: 18px; border: 1px dashed var(--line); border-radius: 3px; color: var(--muted); font-family: var(--f-ui); font-size: 15px; }
+.ach-list { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; }
+.ach-list li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--line); font-family: var(--f-ui); }
+.ach-list b { font-weight: 500; color: var(--muted); }
+.ach-list span { font-size: 13px; color: var(--muted); }
+.ach-list li.on b { color: var(--gold); }
+.ach-list li.on span { color: var(--paper); }
+.set-row { display: grid; gap: 10px; padding: 20px 0; border-bottom: 1px solid var(--line); font-family: var(--f-ui); }
+.set-lbl { font-size: 15px; }
+.set-note { margin: 0; font-size: 13px; color: var(--muted); }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg-btn, .wipe { font-family: var(--f-ui); font-size: 14px; background: var(--ink-2); border: 1px solid var(--line); border-radius: 3px; padding: 6px 14px; }
+.seg-btn.on { border-color: var(--accent); color: var(--accent); }
+.seg-btn:focus-visible, .wipe:focus-visible { outline: 1px solid var(--accent); }
+.wipe { justify-self: start; color: var(--red); }
+.wipe.armed { background: var(--red); color: var(--ink); border-color: var(--red); }
+.wipe:disabled { opacity: 0.5; cursor: default; }
+
 @media (max-width: 480px) {
-  body { font-size: 16px; }
+  .mast h1 { font-size: 56px; }
   #stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 </style>
 
 <div class="wrap">
+  <main id="screen" hidden></main>
+  <div id="game" hidden>
   <header class="top">
-    <div class="bar"><span id="life">제 1 생</span><span id="karma">업 0</span></div>
+    <div class="bar"><span id="life">제 1 생</span><span class="bar-r"><span id="karma">업 0</span><button type="button" id="toMenu">메인<kbd>Esc</kbd></button></span></div>
     <div id="stats"></div>
     <ul id="items"></ul>
   </header>
-  <main id="stage"><p id="loading">산길을 더듬는 중…</p></main>
+  <main id="stage"></main>
+  <aside class="logbox"><div class="in"><h3>지나온 길</h3><ul id="log"></ul></div></aside>
+  </div>
 </div>
-<aside class="logbox"><div class="in"><h3>지나온 길</h3><ul id="log"></ul></div></aside>
 
 <script type="module" src="src/main.js"></script>

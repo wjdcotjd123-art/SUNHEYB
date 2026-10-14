@@ -1,17 +1,19 @@
-// 회차(몇 번째 생)와 업(業) 기록. 브라우저에 저장하되, 저장이 막혀도 게임은 돌아간다.
+// 회차(몇 번째 생)와 업(業), 인과록 기록.
+import { Store } from "../core/store.js";
+
+const EMPTY = { life: 0, karma: 0, outcomes: [], achievements: [] };
+
 export class LifeRecord {
   constructor(config) {
     this.config = config;
-    this.data = { life: 0, karma: 0, outcomes: [], achievements: [] };
-    try {
-      const raw = localStorage.getItem(config.storageKey);
-      if (raw) this.data = { ...this.data, ...JSON.parse(raw) };
-    } catch (_) {}
+    this.data = { ...EMPTY, ...Store.get(config.storage.meta, {}) };
   }
   save() {
-    try {
-      localStorage.setItem(this.config.storageKey, JSON.stringify(this.data));
-    } catch (_) {}
+    Store.set(this.config.storage.meta, this.data);
+  }
+  wipe() {
+    this.data = { ...EMPTY, outcomes: [], achievements: [] };
+    Store.remove(this.config.storage.meta);
   }
   startLife() {
     this.data.life += 1;
