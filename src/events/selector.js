@@ -9,6 +9,8 @@ export function meetsCondition(state, cond = {}) {
   if (cond.stat_min_any && !Object.entries(cond.stat_min_any).some(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.realm_min != null && state.stat("경지") < cond.realm_min) return false;
   if (cond.realm_max != null && state.stat("경지") > cond.realm_max) return false;
+  // 체질: { 체질id: 최소 단계 } — 켜 둔 체질이 그 단계 이상일 때만
+  if (cond.traits && !Object.entries(cond.traits).every(([k, v]) => (state.traits?.[k] ?? 0) >= v)) return false;
   // 소속: "none"이면 무소속일 때만, 이름이면 그 소속일 때만. affiliation_not은 그 소속이면 안 됨.
   const aff = state.affiliation ?? "none";
   if (cond.affiliation && cond.affiliation !== aff) return false;

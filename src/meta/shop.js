@@ -60,6 +60,10 @@ export class KarmaShop {
     this.record.data.traits[id] = { lv: d.lv, on: !d.on };
     this.record.save();
   }
+  // 켜 둔 체질의 단계 { id: lv } — 매 생(이어하기 포함) 시작할 때 state.traits로 넣는다
+  activeLevels() {
+    return Object.fromEntries(this.traits.filter((x) => this.traitOn(x.id)).map((x) => [x.id, this.traitLevel(x.id)]));
+  }
   // 이 결과를 막는 켜 둔 체질의 지금 단계 (없으면 undefined)
   blocker(outcome) {
     for (const tr of this.traits) {

@@ -109,6 +109,19 @@ export class GameView {
       .join("");
   }
 
+  // 체질 전용 선택지라면 어떤 체질 덕분인지 보여 준다 (요구 단계의 이름)
+  traitBadge(c) {
+    const req = c.condition?.traits;
+    if (!req) return "";
+    return Object.entries(req)
+      .map(([id, lv]) => {
+        const tr = (this.config.traits ?? []).find((x) => x.id === id);
+        const name = tr?.tiers[lv - 1]?.name ?? id;
+        return `<span class="trait-label">${this.i.t("game.traitChoice", { name: this.i.t(`karmaScreen.traits.${name}.name`) })}</span>`;
+      })
+      .join("");
+  }
+
   scene(ev, choices, onConfirm) {
     const i = this.i;
     const sec = el("section", "scene");
@@ -131,9 +144,9 @@ export class GameView {
     };
 
     choices.forEach((c, n) => {
-      const b = el("button", "choice" + (c.warn ? " warn" : ""));
+      const b = el("button", "choice" + (c.warn ? " warn" : "") + (c.condition?.traits ? " trait" : ""));
       b.type = "button";
-      b.innerHTML = `<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
+      b.innerHTML = `${this.traitBadge(c)}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });

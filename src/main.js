@@ -91,6 +91,7 @@ class App {
   // ── 플레이 ──
   enterGame() {
     this.menu.hide();
+    this.state.traits = this.shop.activeLevels();
     this.view.termContext = { mode: () => this.settings.data.termMode, counts: this.state.termCounts };
     this.view.open(() => this.home());
     this.view.header(this.record.data.life, this.record.data.karma);
