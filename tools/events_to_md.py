@@ -64,10 +64,10 @@ def render(data):
         out += ["", "### B. 선택지", ""]
         for c in ev["choices"]:
             cond = f" *({fmt_cond(c['condition'])})*" if c.get("condition") else ""
-            out.append(f"{c['id']}. {c['text']}{cond}")
+            out.append(f"{c['id']}. [{c['tag']}] {c['text']}{cond}")
         out += ["", "### C. 결과", ""]
         for c in ev["choices"]:
-            out.append(f"**{c['id']}. {c['text']}**")
+            out.append(f"**{c['id']}. [{c['tag']}] {c['text']}**")
             out.append("")
             for o in c["outcomes"]:
                 out.append(f"- 확률 {fmt_chance(o)} → {fmt_effects(o['effects'])}")
