@@ -9,6 +9,7 @@ import { I18n } from "./i18n/i18n.js";
 import { LifeRecord } from "./meta/lives.js";
 import { Settings } from "./meta/settings.js";
 import { KarmaShop } from "./meta/shop.js";
+import { NoveltyWeigher } from "./events/novelty.js";
 import { SaveManager } from "./save/saveManager.js";
 import { GameView } from "./ui/view.js";
 import { MenuScreens } from "./ui/screens.js";
@@ -22,6 +23,8 @@ class App {
     this.resolver = new ResultResolver(this.rng, CONFIG);
     this.record = new LifeRecord(CONFIG);
     this.shop = new KarmaShop(CONFIG, this.record);
+    this.novelty = new NoveltyWeigher(this.record, CONFIG);
+    this.selector.useNovelty(this.novelty);
     this.saves = new SaveManager(CONFIG);
     this.settings = settings;
     this.i18n = i18n;
@@ -129,6 +132,8 @@ class App {
     s.lastEventId = ev.id;
     s.recent = [...(s.recent ?? []), ev.id].slice(-3);
     this.saves.save(s, ev.id);
+    // '처음' 표시: 두 번째 생부터, 한 번도 골라 본 적 없는 선택지
+    const isFresh = (c) => this.record.data.life > 1 && this.novelty.isFreshChoice(ev.id, c.id, s);
     this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
       s.scenes += 1;
       // memory=false인 장면(첫 장면 등)은 전생의 기억 보정을 받지 않는다.
@@ -176,7 +181,7 @@ class App {
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
       this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, trait?.name);
-    });
+    }, isFresh);
   }
 
   finish(kind) {

@@ -26,6 +26,10 @@ export class EventSelector {
     this.rng = rng;
     this.config = config;
   }
+  // 인과록 기반 새로움 가중치 (NoveltyWeigher)
+  useNovelty(weigher) {
+    this.novelty = weigher;
+  }
   byId(id) {
     return this.events.get(id) ?? null;
   }
@@ -51,7 +55,8 @@ export class EventSelector {
     }
     // 내 소속과 같은 group의 장면은 더 자주 나온다.
     const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1) * this.personBoost(ev, state);
-    return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev));
+    const fresh = (ev) => (this.novelty ? this.novelty.weight(ev, state) : 1);
+    return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev) * fresh(ev));
   }
   // 인연을 쌓은 인물이 나오는 장면(person)은 더 자주 나온다: 인연 n당 ×(1 + n/perBond), 최대 maxBond배
   personBoost(ev, state) {

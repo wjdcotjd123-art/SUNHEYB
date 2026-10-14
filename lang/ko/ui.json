@@ -34,7 +34,8 @@
     "trait": "체질 발동 · {name}",
     "traitChoice": "체질 · {name}",
     "statChoice": "{stat} {v}",
-    "or": " 또는 "
+    "or": " 또는 ",
+    "fresh": "처음"
   },
   "changes": {
     "gain": "{item} 획득",

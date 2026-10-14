@@ -135,7 +135,7 @@ export class GameView {
       .join("");
   }
 
-  scene(ev, choices, onConfirm) {
+  scene(ev, choices, onConfirm, isFresh = () => false) {
     const i = this.i;
     const sec = el("section", "scene");
     // 기연 장면이면 제목 위에 기연 표시 (선택지에는 힌트를 주지 않는다)
@@ -160,7 +160,7 @@ export class GameView {
       const badge = this.reqBadge(c);
       const b = el("button", "choice" + (c.warn ? " warn" : "") + (badge ? " trait" : ""));
       b.type = "button";
-      b.innerHTML = `${badge}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
+      b.innerHTML = `${badge}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });

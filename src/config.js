@@ -4,6 +4,8 @@ export const CONFIG = {
   startItems: ["라이터"],
   defaultWeight: 5,
   affiliationBoost: 4,
+  // 새로움: 모든 생을 통틀어 안 본 장면 ×unseen. 본 장면이라도 못 본 결과·못 딴 업적·안 열린 도감 항목이 남았으면 각각 곱한다
+  novelty: { unseen: 3, outcome: 1.5, achievement: 1.5, codex: 1.5, minChance: 15 },
   personBoost: { perBond: 25, max: 5 }, // 인연 있는 인물의 장면: 인연 25당 +1배, 최대 ×5 // 소속과 같은 group 장면의 등장 가중치 배수
   rareChance: 5, // 기본 확률이 이 값(%) 이하인 생존 결과는 '드문 인과'
   // 전생의 기억: 같은 선택지에서 죽은 횟수당 생존 확률 +perDeath %p (최대 cap). 대박 결과는 횟수당 ×(1+rarePerDeath)
