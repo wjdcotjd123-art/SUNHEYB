@@ -22,7 +22,7 @@ export const CONFIG = {
     { id: "민첩", stat: "민첩", amount: 1, base: 20, growth: 1.3, max: 15 },
     { id: "체력", stat: "체력", amount: 2, base: 15, growth: 1.25, max: 10 },
     { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.2, max: 10 },
-    { id: "내공", stat: "내공", amount: 1, base: 60, growth: 1.4, max: 7 },
+    { id: "내공", stat: "내공", amount: 1, base: 40, growth: 1.3, max: 7 },
   ],
   // 체질: 한 번 사면 모든 생에 유지, 켜고 끌 수 있다.
   // blocks: 이 표시가 달린 결과(예: "food": true)가 나오면 그 결과를 빼고 다시 굴리고, 결과 화면에 체질 발동을 표시한다

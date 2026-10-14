@@ -111,6 +111,17 @@ export class GameView {
       .join("");
   }
 
+  // 능력치·체질로 열린 선택지라면 무엇 덕분인지 보여 준다
+  reqBadge(c) {
+    const cond = c.condition ?? {};
+    const i = this.i;
+    const parts = [];
+    if (cond.stat_min) parts.push(Object.entries(cond.stat_min).map(([k, v]) => i.t("game.statChoice", { stat: i.stat(k), v })).join(" · "));
+    if (cond.stat_min_any) parts.push(Object.entries(cond.stat_min_any).map(([k, v]) => i.t("game.statChoice", { stat: i.stat(k), v })).join(i.t("game.or")));
+    const stats = parts.map((p) => `<span class="trait-label">${p}</span>`).join("");
+    return stats + this.traitBadge(c);
+  }
+
   // 체질 전용 선택지라면 어떤 체질 덕분인지 보여 준다 (요구 단계의 이름)
   traitBadge(c) {
     const req = c.condition?.traits;
@@ -146,9 +157,10 @@ export class GameView {
     };
 
     choices.forEach((c, n) => {
-      const b = el("button", "choice" + (c.warn ? " warn" : "") + (c.condition?.traits ? " trait" : ""));
+      const badge = this.reqBadge(c);
+      const b = el("button", "choice" + (c.warn ? " warn" : "") + (badge ? " trait" : ""));
       b.type = "button";
-      b.innerHTML = `${this.traitBadge(c)}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
+      b.innerHTML = `${badge}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });

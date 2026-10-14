@@ -32,7 +32,9 @@
     "rare": "드문 인과 · 업 +{n}",
     "fortune": "기연<span class=\"hanja\">(奇緣)</span>",
     "trait": "체질 발동 · {name}",
-    "traitChoice": "체질 · {name}"
+    "traitChoice": "체질 · {name}",
+    "statChoice": "{stat} {v}",
+    "or": " 또는 "
   },
   "changes": {
     "gain": "{item} 획득",
