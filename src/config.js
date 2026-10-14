@@ -11,6 +11,7 @@ export const CONFIG = {
   shownStats: ["체력", "근골", "민첩", "내공", "재물"],
   karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3 },
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
+  prologueId: "P001", // 매 생의 첫 장면
   eventIndex: "data/events/index.json",
   achievementsPath: "data/achievements.json",
 };

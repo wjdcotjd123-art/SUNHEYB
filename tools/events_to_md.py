@@ -20,6 +20,8 @@ def fmt_cond(cond):
         parts.append("없어야 함: " + ", ".join(cond["flags_none"]))
     if "stat_min" in cond:
         parts.append(", ".join(f"{k} {v} 이상" for k, v in cond["stat_min"].items()))
+    if "stat_min_any" in cond:
+        parts.append(" 또는 ".join(f"{k} {v} 이상" for k, v in cond["stat_min_any"].items()))
     if "realm_min" in cond:
         parts.append(f"경지 {cond['realm_min']} 이상(삼류↑)")
     return " / ".join(parts)
@@ -62,14 +64,15 @@ def fmt_chance(o):
         return "나머지"
     s = f"{o['chance']}%"
     if o.get("mods"):
-        s += " (" + ", ".join(f"{k} 1당 {v:+d}%p" for k, v in o["mods"].items()) + ")"
+        s += " (" + ", ".join(f"{k} 1당 {v:+g}%p" for k, v in o["mods"].items()) + ")"
     return s
 
 
 def render(data):
     out = [f"# {data['chapter']} · {data['part']} · {data['phase']} — {data['batch']}", "", f"> {data['note']}", ""]
     for ev in data["events"]:
-        out += [f"## {ev['id']} {ev['title']} `{TYPE_LABEL[ev['type']]}`" + (" `연결 전용`" if ev.get("pool") == "chain" else ""), ""]
+        tag = {"chain": " `연결 전용`", "fixed": " `고정`"}.get(ev.get("pool"), "")
+        out += [f"## {ev['id']} {ev['title']} `{TYPE_LABEL[ev['type']]}`{tag}", ""]
         if ev.get("conditions"):
             out += [f"*등장 조건 — {fmt_cond(ev['conditions'])}*", ""]
         out += ["### A. 이벤트", ""]

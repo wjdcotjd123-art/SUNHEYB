@@ -75,9 +75,10 @@ class App {
   newLife() {
     this.saves.clear();
     this.state = new GameState(CONFIG);
+    this.state.stats.업 = this.record.data.karma; // 쌓은 업이 확률 보정에 쓰인다 (화면에는 안 보임)
     this.record.startLife();
     this.enterGame();
-    this.play(this.selector.next(this.state));
+    this.play(this.selector.byId(CONFIG.prologueId) ?? this.selector.next(this.state));
   }
 
   continueLife() {
