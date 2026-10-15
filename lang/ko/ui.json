@@ -38,7 +38,8 @@
     "fresh": "처음",
     "conclude": "귀결",
     "itemChoice": "소지품",
-    "madness": "마기"
+    "madness": "마기",
+    "go": "결정"
   },
   "changes": {
     "gain": "{item} 획득",

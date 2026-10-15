@@ -145,14 +145,12 @@ export class GameView {
     // 기연 장면이면 제목 위에 기연 표시 (선택지에는 힌트를 주지 않는다)
     sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
     const list = el("div", "choices");
-    const confirm = button(i.t("game.next"), () => go());
-    confirm.hidden = true;
     let picked = null;
 
+    // 고른 선택지 박스 안에 '결정 Enter' 표시가 생기고, 그 박스를 한 번 더 누르면 결정
     const select = (n) => {
       picked = choices[n];
       list.querySelectorAll(".choice").forEach((b, j) => b.classList.toggle("picked", j === n));
-      confirm.hidden = false;
     };
     const go = () => {
       if (!picked) return;
@@ -164,12 +162,11 @@ export class GameView {
     choices.forEach((c, n) => {
       const b = el("button", "choice" + (c.warn ? " warn" : ""));
       b.type = "button";
-      b.innerHTML = `<span class="num">${n + 1}</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}${this.choiceTags(c)}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
-      b.addEventListener("click", () => select(n));
-      b.addEventListener("dblclick", () => { select(n); go(); }); // 두 번 누르면 바로 결정
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}${this.choiceTags(c)}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}<span class="go-label">${i.t("game.go")}<kbd>Enter</kbd></span>`;
+      b.addEventListener("click", () => (picked === c ? go() : select(n))); // 고른 걸 한 번 더 누르면 결정 (더블클릭 포함)
       list.append(b);
     });
-    sec.append(list, confirm);
+    sec.append(list);
     this.show(sec);
 
     this.keys((e) => {
