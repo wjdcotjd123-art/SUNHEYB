@@ -49,6 +49,11 @@ export class I18n {
     return this.p.items[id] ?? id.replaceAll("_", " ");
   }
 
+  // 전투 글: combat("enemy.<id>.name"), combat("art.<id>.name")
+  combat(key) {
+    return this.p.combat?.[key] ?? key.split(".")[1].replaceAll("_", " ");
+  }
+
   name(id) {
     return this.p.names?.[id] ?? id.replaceAll("_", " ");
   }

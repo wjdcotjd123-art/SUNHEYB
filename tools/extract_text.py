@@ -67,6 +67,10 @@ def main():
                 events[f"{i}.c{c['id']}.text"] = c["text"]
                 for k, o in enumerate(c["outcomes"]):
                     events[f"{i}.c{c['id']}.o{k}"] = o["text"]
+                    fight = o.get("effects", {}).get("전투")
+                    if fight:
+                        events[f"{i}.c{c['id']}.o{k}.win"] = fight["win"]["text"]
+                        events[f"{i}.c{c['id']}.o{k}.lose"] = fight["lose"]["text"]
             collect(ev, items, names)
     write(LANG / "events.json", events)
 
@@ -83,6 +87,14 @@ def main():
             for n, st in enumerate(e["stages"]):
                 codex[f"{e['id']}.s{n}"] = st["text"]
     write(LANG / "codex.json", codex)
+
+    combat = {}
+    cdata = read(ROOT / "data/combat.json")
+    for en in cdata["enemies"]:
+        combat[f"enemy.{en['id']}.name"] = en["name"]
+    for a in cdata["arts"]:
+        combat[f"art.{a['id']}.name"] = a["name"]
+    write(LANG / "combat.json", combat)
 
     config = (ROOT / "src/config.js").read_text(encoding="utf-8")
     m = re.search(r"startItems:\s*\[([^\]]*)\]", config)

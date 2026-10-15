@@ -17,6 +17,9 @@ export class EventLoader {
     const data = window.CODEX_DATA ?? (await (await fetch(this.codexPath)).json());
     return data.sections;
   }
+  async loadCombat() {
+    return window.COMBAT_DATA ?? (await (await fetch("data/combat.json")).json());
+  }
   async loadAchievements() {
     const data = window.ACHIEVEMENT_DATA ?? (await (await fetch(this.achievementsPath)).json());
     return data.achievements;

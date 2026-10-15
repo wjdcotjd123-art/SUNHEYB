@@ -12,8 +12,8 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 subprocess.run([sys.executable, str(ROOT / "tools/extract_text.py")], check=True)
 ORDER = ["config", "core/store", "core/rng", "core/state", "events/loader", "events/selector", "events/novelty",
-         "events/resolver", "i18n/i18n", "meta/lives", "meta/shop", "meta/settings", "save/saveManager",
-         "ui/keys", "ui/markup", "ui/tooltip", "ui/view", "ui/screens", "main"]
+         "events/resolver", "combat/battle", "i18n/i18n", "meta/lives", "meta/shop", "meta/settings", "save/saveManager",
+         "ui/keys", "ui/markup", "ui/tooltip", "ui/view", "ui/battle", "ui/screens", "main"]
 
 def module_body(name):
     src = (ROOT / "src" / f"{name}.js").read_text(encoding="utf-8")
@@ -25,13 +25,14 @@ batches = [json.loads((ROOT / "data/events" / f).read_text(encoding="utf-8")) fo
 data = json.dumps(batches, ensure_ascii=False).replace("</", "<\\/")
 codex = (ROOT / "data/codex.json").read_text(encoding="utf-8").replace("</", "<\\/")
 ach = (ROOT / "data/achievements.json").read_text(encoding="utf-8").replace("</", "<\\/")
+combat = (ROOT / "data/combat.json").read_text(encoding="utf-8").replace("</", "<\\/")
 langs = {}
 for d in sorted((ROOT / "lang").iterdir()):
     if d.is_dir():
         langs[d.name] = {f.stem: json.loads(f.read_text(encoding="utf-8")) for f in d.glob("*.json")}
 lang_data = json.dumps(langs, ensure_ascii=False).replace("</", "<\\/")
 code = "\n".join(module_body(m) for m in ORDER)
-script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\nwindow.CODEX_DATA = {codex};\nwindow.LANG_DATA = {lang_data};\n(() => {{\n{code}\n}})();\n</script>"
+script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\nwindow.CODEX_DATA = {codex};\nwindow.COMBAT_DATA = {combat};\nwindow.LANG_DATA = {lang_data};\n(() => {{\n{code}\n}})();\n</script>"
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 html = html.replace('<script type="module" src="src/main.js"></script>', script)

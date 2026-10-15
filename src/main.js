@@ -10,14 +10,17 @@ import { LifeRecord } from "./meta/lives.js";
 import { Settings } from "./meta/settings.js";
 import { KarmaShop } from "./meta/shop.js";
 import { NoveltyWeigher } from "./events/novelty.js";
+import { Battle } from "./combat/battle.js";
+import { BattleScreen } from "./ui/battle.js";
 import { SaveManager } from "./save/saveManager.js";
 import { GameView } from "./ui/view.js";
 import { MenuScreens } from "./ui/screens.js";
 import { Tooltip } from "./ui/tooltip.js";
 
 class App {
-  constructor(events, achievements, codex, i18n, settings) {
+  constructor(events, achievements, codex, i18n, settings, combat) {
     this.codex = codex;
+    this.combat = combat; // { enemies, arts }
     this.rng = new Rng();
     this.selector = new EventSelector(events, this.rng, CONFIG);
     this.resolver = new ResultResolver(this.rng, CONFIG);
@@ -30,6 +33,7 @@ class App {
     this.i18n = i18n;
     this.achievements = achievements;
     this.view = new GameView(document, CONFIG, i18n);
+    this.battleScreen = new BattleScreen(this.view, i18n);
     this.menu = new MenuScreens(document, i18n);
   }
 
@@ -184,12 +188,46 @@ class App {
         this.saves.clear();
         return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.finish("ending"), rare, !!outcome.fortune, textEv, trait?.name);
       }
+      // 전투: 결과를 보여 준 뒤 전투 화면으로
+      const fight = outcome.effects?.전투;
+      if (fight) {
+        this.saves.save(s, ev.id);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.fight(fight, ev, choice, oi), rare, !!outcome.fortune, textEv, trait?.name);
+      }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       const nextId = outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
       this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, trait?.name);
     }, isFresh, !!ev.dejavu && meetsCondition(s, { past_bond_min: { [ev.dejavu.person]: ev.dejavu.min } }));
+  }
+
+  // 전투 한 판. fight = { enemy, lethal, win: {text, effects}, lose: {text, effects}, next? }
+  fight(fight, ev, choice, oi) {
+    const s = this.state;
+    const enemy = this.combat.enemies.find((x) => x.id === fight.enemy);
+    const arts = this.combat.arts.filter((a) => meetsCondition(s, a.req));
+    const battle = new Battle(this.rng, CONFIG, s, enemy, arts);
+    this.battleScreen.run(battle, (result) => {
+      battle.finish();
+      // 목숨을 걸지 않은 싸움(lethal: false)은 져도 숨은 붙어 있다
+      if (result === "lose" && fight.lethal === false) s.stats.체력 = Math.max(1, s.stat("체력"));
+      const end = fight[result];
+      const changes = this.resolver.apply({ effects: end.effects ?? {} }, s);
+      s.log.push({ ev: ev.id, c: choice.id, changes, dead: s.dead });
+      this.learnFrom(s, ev.id);
+      this.view.stats(s);
+      this.view.renderLog(s.log);
+      const key = `c${choice.id}.o${oi}.${result}`;
+      if (s.dead) {
+        this.saves.clear();
+        this.record.recordDeath(ev.id, choice.id);
+        return this.view.outcome(ev.id, choice.id, key, changes, "game.closeEyes", () => this.finish("death"));
+      }
+      const next = fight.next ? this.selector.byId(fight.next) : this.selector.next(s);
+      this.saves.save(s, next?.id ?? null);
+      this.view.outcome(ev.id, choice.id, key, changes, "game.continue", () => this.play(next));
+    });
   }
 
   finish(kind) {
@@ -209,8 +247,8 @@ async function boot() {
   await i18n.use(lang);
   new Tooltip(document, i18n);
   const loader = new EventLoader(CONFIG.eventIndex, CONFIG.achievementsPath, CONFIG.codexPath);
-  const [events, ach, codex] = await Promise.all([loader.load(), loader.loadAchievements(), loader.loadCodex()]);
-  new App(events, ach, codex, i18n, settings).home();
+  const [events, ach, codex, combat] = await Promise.all([loader.load(), loader.loadAchievements(), loader.loadCodex(), loader.loadCombat()]);
+  new App(events, ach, codex, i18n, settings, combat).home();
 }
 
 boot();
