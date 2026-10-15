@@ -34,6 +34,7 @@ export const CONFIG = {
     { id: "수화불침", tiers: [{ name: "수화불침", price: 200, blocks: ["chill"] }, { name: "한서불침", price: 800, blocks: ["chill", "frost"] }] },
     { id: "선면", tiers: [{ name: "선면", price: 200, blocks: ["wary"] }] },
   ],
+  testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면
   // 경지별 마지막 장면: 그 경지에서 더 나올 장면이 없으면 생을 끝내는 대신 한 번 띄운다

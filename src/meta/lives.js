@@ -44,6 +44,11 @@ export class LifeRecord {
     this.data.deaths[k] = (this.data.deaths[k] ?? 0) + 1;
     this.save();
   }
+  // 시험용: 업을 그냥 넣어 준다
+  grant(amount) {
+    this.data.karma += amount;
+    this.save();
+  }
   spend(amount) {
     if (this.data.karma < amount) return false;
     this.data.karma -= amount;

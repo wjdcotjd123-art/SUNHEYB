@@ -248,6 +248,18 @@ export class MenuScreens {
       wipe.disabled = true;
     });
     sec.querySelector(".danger").append(wipe);
+    // 시험용 업 버튼 (config.testKarma가 0이면 숨김)
+    if (h.testKarma) {
+      const row = el("div", "set-row");
+      row.innerHTML = `<span class="set-lbl">${t("settings.test")}</span>`;
+      const tb = el("button", "wipe");
+      tb.type = "button";
+      tb.id = "test-karma";
+      tb.textContent = t("settings.testKarma");
+      tb.addEventListener("click", () => { h.testKarma(); tb.textContent = t("settings.testDone"); });
+      row.append(tb);
+      sec.append(row);
+    }
     this.show(sec, onBack);
   }
 }

@@ -74,6 +74,7 @@ class App {
         termMode: (id) => this.settings.set("termMode", id),
         language: async (id) => { this.settings.set("language", id); await this.i18n.use(id); this.openSettings(); },
         wipe: () => { this.record.wipe(); this.saves.clear(); },
+        testKarma: CONFIG.testKarma ? () => this.record.grant(CONFIG.testKarma) : null,
       },
       () => this.home()
     );
