@@ -68,9 +68,8 @@ export class EventSelector {
     const best = Math.max(0, ...people.map((p) => state.bonds?.[p] ?? 0));
     return Math.min(max, 1 + best / perBond);
   }
-  // 비추천(warn) 선택지는 항상 맨 뒤로 보낸다.
+  // 조건을 채운 선택지. 비추천 표시와 정렬은 main에서 지금 상태로 계산한다.
   availableChoices(ev, state) {
-    const ok = ev.choices.filter((c) => meetsCondition(state, c.condition));
-    return [...ok.filter((c) => !c.warn), ...ok.filter((c) => c.warn)];
+    return ev.choices.filter((c) => meetsCondition(state, c.condition));
   }
 }

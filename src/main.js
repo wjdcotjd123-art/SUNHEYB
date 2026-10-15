@@ -143,7 +143,8 @@ class App {
     this.saves.save(s, ev.id);
     // '처음' 표시: 두 번째 생부터, 한 번도 골라 본 적 없는 선택지
     const isFresh = (c) => this.record.data.life > 1 && this.novelty.isFreshChoice(ev.id, c.id, s);
-    this.view.scene(ev, this.selector.availableChoices(ev, s), (choice) => {
+    const choices = this.rankChoices(ev, s);
+    this.view.scene(ev, choices, (choice) => {
       s.scenes += 1;
       // memory=false인 장면(첫 장면 등)은 전생의 기억 보정을 받지 않는다.
       const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
@@ -207,6 +208,31 @@ class App {
   }
 
   // 전투 한 판. fight = { enemy, lethal, win: {text, effects}, lose: {text, effects}, next? }
+  // 지금 상태에서 이 선택지로 죽을 확률(%). 결과 판정(pick)·체질·검은 비늘 규칙을 그대로 따른다.
+  deathChance(ev, choice, s) {
+    const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
+    const guard = CONFIG.scaleGuard;
+    const saved = (o) => o.weak && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag);
+    const dies = (o) => this.resolver.kills(o, s) && !(o.effects?.death && saved(o));
+    let outs = choice.outcomes.filter((o) => !this.shop.blocker(o));
+    const reroll = outs.length && outs.length < choice.outcomes.length;
+    if (reroll && !outs.some((o) => o.chance == null)) outs = outs.map((o, k) => (k === outs.length - 1 ? { ...o, chance: undefined, src: o } : o));
+    const reDeath = reroll ? this.resolver.distribution({ ...choice, outcomes: outs }, s, deaths).reduce((a, [o, p]) => a + (dies(o.src ?? o) ? p : 0), 0) / 100 : 0;
+    let total = 0;
+    for (const [o0, p] of this.resolver.distribution(choice, s, deaths)) {
+      const o = o0.src ?? o0;
+      if (reroll && this.shop.blocker(o)) total += p * reDeath;
+      else if (dies(o)) total += p;
+    }
+    return total;
+  }
+
+  // 죽을 확률이 기준 이상이면 비추천으로 표시하고 맨 뒤로 보낸다.
+  rankChoices(ev, s) {
+    const list = this.selector.availableChoices(ev, s).map((c) => ({ ...c, warn: this.deathChance(ev, c, s) >= CONFIG.warnDeath }));
+    return [...list.filter((c) => !c.warn), ...list.filter((c) => c.warn)];
+  }
+
   fight(fight, ev, choice, oi) {
     const s = this.state;
     const enemy = this.combat.enemies.find((x) => x.id === fight.enemy);

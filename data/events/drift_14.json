@@ -506,7 +506,6 @@
           "id": 3,
           "tag": "처단",
           "text": "둘을 그 자리에서 베어 버린다",
-          "warn": true,
           "outcomes": [
             {
               "text": [

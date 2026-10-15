@@ -1083,7 +1083,6 @@
           "id": 2,
           "tag": "밀고",
           "text": "산적에게 포로들의 탈출 계획을 일러바친다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 60,
@@ -1251,7 +1250,6 @@
           "id": 2,
           "tag": "담장",
           "text": "담을 넘어 제자들의 수련을 엿본다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 30,
@@ -1403,7 +1401,6 @@
           "id": 2,
           "tag": "안개",
           "text": "안개 속으로 들어간다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 35,
@@ -1585,7 +1582,6 @@
           "id": 2,
           "tag": "흘리기",
           "text": "마시는 척하며 소매에 흘린다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 55,

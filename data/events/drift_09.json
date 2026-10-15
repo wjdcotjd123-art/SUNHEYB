@@ -1074,7 +1074,6 @@
           "id": 3,
           "tag": "흥정",
           "text": "목패를 {마교}에 팔아넘긴다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 40,
@@ -1311,7 +1310,6 @@
           "id": 2,
           "tag": "청부",
           "text": "청부 살인을 받는다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 70,

@@ -183,7 +183,6 @@
           "id": 2,
           "tag": "억지",
           "text": "하루 만에 끝내려고 숨을 꽉 참는다",
-          "warn": true,
           "outcomes": [
             {
               "text": [
@@ -346,7 +345,6 @@
           "id": 2,
           "tag": "채취",
           "text": "멧돼지가 노인에게 정신 팔린 틈에 꽃을 꺾는다",
-          "warn": true,
           "outcomes": [
             {
               "text": [

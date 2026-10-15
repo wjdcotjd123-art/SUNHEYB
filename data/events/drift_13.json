@@ -247,7 +247,6 @@
           "tag": "정면",
           "text": "장로에게 곧장 칼을 겨눈다",
           "stat": "근골",
-          "warn": true,
           "outcomes": [
             {
               "chance": 40,
@@ -1084,7 +1083,6 @@
           "tag": "손",
           "text": "손바닥 자국에 내 손을 겹쳐 본다",
           "stat": "행운",
-          "warn": true,
           "outcomes": [
             {
               "chance": 30,
@@ -1307,7 +1305,6 @@
               "마공_입문"
             ]
           },
-          "warn": true,
           "outcomes": [
             {
               "chance": 45,

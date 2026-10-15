@@ -245,7 +245,6 @@
           "id": 3,
           "tag": "대신",
           "text": "사범 앞을 막아서며 대신 검을 뽑는다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 35,
@@ -802,7 +801,6 @@
           "id": 2,
           "tag": "막기",
           "text": "간수를 막아선다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 70,

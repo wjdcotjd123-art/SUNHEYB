@@ -1564,7 +1564,6 @@
           "id": 3,
           "tag": "마공",
           "text": "{마공}으로 벽을 억지로 부순다",
-          "warn": true,
           "condition": {
             "flags": [
               "마공_입문"
@@ -1618,7 +1617,6 @@
           "id": 4,
           "tag": "환약",
           "text": "검은 환약을 깨문다",
-          "warn": true,
           "condition": {
             "items": [
               "검은_환약"

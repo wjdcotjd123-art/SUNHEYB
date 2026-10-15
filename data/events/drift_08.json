@@ -196,7 +196,6 @@
           "id": 3,
           "tag": "첩자",
           "text": "{마교}의 명을 받고 들어간다",
-          "warn": true,
           "condition": {
             "affiliation": "마교"
           },
@@ -1365,7 +1364,6 @@
           "id": 2,
           "tag": "생사결",
           "text": "목숨을 건 결투 속에서 깨달음을 찾는다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 25,
@@ -1472,7 +1470,6 @@
           "id": 4,
           "tag": "마공",
           "text": "{마공}으로 하늘을 찢는다",
-          "warn": true,
           "condition": {
             "flags": [
               "마공_입문"

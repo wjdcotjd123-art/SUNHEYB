@@ -450,8 +450,7 @@
               }
             }
           ],
-          "stat": "근골",
-          "warn": true
+          "stat": "근골"
         }
       ]
     },
@@ -504,7 +503,6 @@
           "tag": "거절",
           "text": "따라가지 않겠다고 한다",
           "stat": "행운",
-          "warn": true,
           "outcomes": [
             {
               "chance": 35,
@@ -754,8 +752,7 @@
                 "achievement": "국사의_연구재료"
               }
             }
-          ],
-          "warn": true
+          ]
         }
       ],
       "person": "백발_노인"
@@ -1125,7 +1122,6 @@
           "id": 3,
           "tag": "탈옥",
           "text": "창살 밑 흙벽을 밤마다 판다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 30,

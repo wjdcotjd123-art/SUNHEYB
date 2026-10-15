@@ -52,6 +52,47 @@ export class ResultResolver {
     return fallback ?? outs[outs.length - 1];
   }
 
+  // pick과 같은 규칙으로 각 결과가 나올 확률(%)을 [결과, 확률] 목록으로 돌려준다.
+  distribution(choice, state, deaths = 0) {
+    if (choice.noDeathIf && meetsCondition(state, choice.noDeathIf)) {
+      const alive = choice.outcomes.filter((o) => !o.effects?.death);
+      const last = alive[alive.length - 1];
+      choice = { ...choice, outcomes: alive.map((o) => (o === last ? { ...o, chance: undefined, src: o.src ?? o } : o)) };
+    }
+    const m = this.config.deathMemory;
+    const bonus = Math.min(m.cap, deaths * m.perDeath);
+    const outs = choice.outcomes;
+    const fallback = outs.find((o) => o.chance == null) ?? outs[outs.length - 1];
+    const fallbackDeath = !!outs.find((o) => o.chance == null)?.effects?.death;
+    let boosted = false;
+    let acc = 0;
+    const list = [];
+    for (const o of outs) {
+      if (o.chance == null) continue;
+      let c = this.chanceOf(o, state);
+      if (bonus) {
+        if (o.effects?.death) c = Math.max(0, c - bonus);
+        else if (this.isRare(o)) c *= 1 + Math.min(m.rareCap, deaths * m.rarePerDeath);
+        else if (fallbackDeath && !boosted) { c += bonus; boosted = true; }
+      }
+      list.push([o, Math.max(0, Math.min(acc + c, 100) - Math.min(acc, 100))]);
+      acc += c;
+    }
+    list.push([fallback, Math.max(0, 100 - acc)]);
+    return list;
+  }
+
+  // 이 결과가 지금 상태에서 목숨을 앗아가는지 (죽음, 또는 체력이 바닥나는 피해)
+  kills(outcome, state) {
+    const e = outcome.effects ?? {};
+    if (e.death) return true;
+    if (e.피해) {
+      const amt = Math.max(1, Math.ceil(state.stat("최대체력") * this.config.hpTiers.피해[e.피해]));
+      return state.stat("체력") - amt <= 0;
+    }
+    return false;
+  }
+
   // 효과를 적용하고, 화면에 보여줄 변화 목록(언어와 무관한 구조)을 돌려준다.
   apply(outcome, state) {
     const changes = [];

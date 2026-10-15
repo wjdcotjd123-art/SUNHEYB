@@ -15,6 +15,8 @@ export const CONFIG = {
   deathMemory: { perDeath: 2, cap: 10, rarePerDeath: 0.1, rareCap: 0.5 },
   termLimit: 2, // 용어 밑줄: 한 생에 용어당 최대 표시 횟수
   chanceMin: 2,
+  // 지금 상태에서 죽을 확률이 이 값(%) 이상인 선택지는 비추천으로 표시
+  warnDeath: 70,
   chanceMax: 95,
   languages: ["ko"],
   defaultLanguage: "ko",
