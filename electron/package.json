@@ -1,0 +1,9 @@
+{
+  "name": "sunheyb",
+  "productName": "선협",
+  "version": "0.24.2",
+  "description": "선협 텍스트 게임",
+  "main": "main.js",
+  "private": true,
+  "author": "wjdcotjd123-art"
+}
