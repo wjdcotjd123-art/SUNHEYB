@@ -186,8 +186,13 @@ export class MenuScreens {
       const next = shop.nextTier(it);
       const li = el("li", "shop-row");
       const state = lv ? `<span class="shop-lv">${t(on ? "karmaScreen.traitOn" : "karmaScreen.traitOff")}</span>` : "";
-      const up = lv && next ? `<span>${t("karmaScreen.nextTier", { name: t(`karmaScreen.traits.${next.name}.name`), desc: t(`karmaScreen.traits.${next.name}.desc`) })}</span>` : "";
-      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.traits.${tier.name}.name`)}</b><span>${t(`karmaScreen.traits.${tier.name}.desc`)}</span>${up}${state}</div>`;
+      // 단계가 여럿인 체질은 단계 점(●○)과 지금 단계·다음 경지를 보여 준다
+      const multi = it.tiers.length > 1;
+      const pips = multi ? `<span class="tier-pips">${it.tiers.map((_, k) => (k < lv ? "●" : "○")).join("")}</span>` : "";
+      const up = multi && lv
+        ? `<span class="tier-line">${next ? t("karmaScreen.tierNext", { lv, name: t(`karmaScreen.traits.${next.name}.name`), desc: t(`karmaScreen.traits.${next.name}.desc`) }) : t("karmaScreen.tierMax", { lv })}</span>`
+        : "";
+      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.traits.${tier.name}.name`)}${pips}</b><span>${t(`karmaScreen.traits.${tier.name}.desc`)}</span>${up}${state}</div>`;
       const box = el("div", "shop-btns");
       if (lv) {
         const tg = el("button", "shop-buy");

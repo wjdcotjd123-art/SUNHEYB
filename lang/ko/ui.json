@@ -144,7 +144,8 @@
       }
     },
     "upgrade": "{p}업 · 단련",
-    "nextTier": "다음 경지 · {name}: {desc}"
+    "tierNext": "{lv}단계 · 다음 경지 {name}: {desc}",
+    "tierMax": "{lv}단계 · 끝까지 단련함"
   },
   "settings": {
     "title": "설정",
