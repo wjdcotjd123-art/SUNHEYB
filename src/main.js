@@ -42,7 +42,7 @@ class App {
   home() {
     this.view.close();
     this.menu.main(
-      { lives: this.record.data.life, karma: this.record.data.karma, hasSave: this.saves.has() },
+      { lives: this.record.data.life, karma: this.record.data.karma, hasSave: this.saves.has(), where: this.saves.peek() },
       {
         continue: () => this.continueLife(),
         newLife: () => this.newLife(),

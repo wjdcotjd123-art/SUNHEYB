@@ -28,7 +28,15 @@ export class MenuScreens {
     }
   }
 
-  // info: { lives, karma, hasSave }, h: { continue, newLife, achievements, karma, settings }
+  // 이어서 하기 옆에 흐리게: "12장 · 노인의 전각"
+  whereNote(w) {
+    if (!w) return "";
+    const title = w.eventId ? this.i.ev(w.eventId, "title") : "";
+    const ch = this.i.t("game.chapter", { n: w.chapter });
+    return title && title !== `${w.eventId}.title` ? `${ch} · ${title}` : ch;
+  }
+
+  // info: { lives, karma, hasSave, where }, h: { continue, newLife, achievements, karma, settings }
   main(info, h) {
     const t = (k, v) => this.i.t(k, v);
     const sec = el("section", "menu");
@@ -39,7 +47,7 @@ export class MenuScreens {
         <p class="sub">${info.lives ? t("menu.livesLine", { n: `<b>${info.lives}</b>`, k: `<b>${info.karma}</b>` }) : t("menu.noLives")}</p>
       </div>`;
     const items = [
-      { key: "continue", run: h.continue, off: !info.hasSave, note: info.hasSave ? "" : t("menu.noSave") },
+      { key: "continue", run: h.continue, off: !info.hasSave, note: info.hasSave ? this.whereNote(info.where) : t("menu.noSave") },
       { key: "newLife", run: h.newLife, note: info.hasSave ? t("menu.loseSave") : "" },
       { key: "achievements", run: h.achievements },
       { key: "karma", run: h.karma },

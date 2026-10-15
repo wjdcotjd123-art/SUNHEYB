@@ -35,6 +35,11 @@ export class SaveManager {
       },
     });
   }
+  // 메인 화면용: 저장된 생이 몇 장의 어느 장면에 멈춰 있는지
+  peek() {
+    const raw = Store.get(this.key);
+    return raw ? { chapter: (raw.state?.scenes ?? 0) + 1, eventId: raw.eventId } : null;
+  }
   load() {
     const raw = Store.get(this.key);
     if (!raw) return null;
