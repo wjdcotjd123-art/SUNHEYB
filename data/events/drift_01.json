@@ -1302,9 +1302,7 @@
       "title": "관병의 수색",
       "type": "major",
       "weight": 4,
-      "conditions": {
-        "realm_max": 0
-      },
+      "conditions": {},
       "description": [
         "말발굽 소리.",
         "",
