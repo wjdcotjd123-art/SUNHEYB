@@ -73,7 +73,7 @@ export class BattleScreen {
     };
     const act = (a) => {
       const res = b.turn(a);
-      log = [i.t("battle.round", { n: b.round }), ...(a.type === "guard" ? [i.t("battle.guardStance")] : []), ...res.map((r) => this.line(b, r))];
+      log = [...(a.type === "guard" ? [i.t("battle.guardStance")] : []), ...res.map((r) => this.line(b, r))];
       this.view.stats(b.player);
       render();
     };

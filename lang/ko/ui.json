@@ -237,7 +237,6 @@
   "battle": {
     "title": "대치(對峙)",
     "me": "나",
-    "round": "제 {n}합.",
     "meFirst": "내가 먼저 움직였다.",
     "enemyFirst": "놈이 먼저 움직였다.",
     "attack": "공격한다",
