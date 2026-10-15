@@ -166,6 +166,7 @@ export class GameView {
       b.type = "button";
       b.innerHTML = `<span class="num">${n + 1}</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}${this.choiceTags(c)}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
+      b.addEventListener("dblclick", () => { select(n); go(); }); // 두 번 누르면 바로 결정
       list.append(b);
     });
     sec.append(list, confirm);

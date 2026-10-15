@@ -63,6 +63,7 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 .term { border-bottom: 1px dotted currentColor; text-underline-offset: 3px; cursor: help; }
 .term:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
 .gloss { position: fixed; z-index: 10; max-width: min(300px, calc(100vw - 24px)); background: var(--tip); border: 1px solid var(--accent); border-radius: 4px; padding: 10px 12px; display: grid; gap: 4px; font-family: var(--f-ui); font-size: 14px; line-height: 1.6; color: var(--paper); box-shadow: 0 6px 20px rgba(0,0,0,0.45); pointer-events: none; }
+.gloss[hidden] { display: none; } /* display:grid가 hidden을 덮어써서 빈 상자가 남던 문제 */
 .gloss b { color: var(--accent); font-weight: 500; }
 .c-red { color: var(--red); } .c-purple { color: var(--violet); } .c-green { color: var(--jade); } .c-gold { color: var(--gold); }
 
@@ -2650,6 +2651,13 @@ class Tooltip {
       } else if (!t) this.close();
     });
     window.addEventListener("scroll", () => this.close(), { passive: true });
+    // 화면이 바뀌어 단어가 사라졌거나, 마우스가 단어 밖에 있으면 닫는다 (mouseout을 놓치는 환경 대비)
+    root.addEventListener("mousemove", (e) => {
+      if (this.box.hidden) return;
+      if (!this.current?.isConnected || !this.current.contains(e.target)) this.close();
+    }, { passive: true });
+    root.addEventListener("keydown", () => this.close());
+    window.addEventListener("blur", () => this.close());
   }
 
   open(el) {
@@ -2841,6 +2849,7 @@ class GameView {
       b.type = "button";
       b.innerHTML = `<span class="num">${n + 1}</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}${this.choiceTags(c)}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
+      b.addEventListener("dblclick", () => { select(n); go(); }); // 두 번 누르면 바로 결정
       list.append(b);
     });
     sec.append(list, confirm);

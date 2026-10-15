@@ -22,6 +22,13 @@ export class Tooltip {
       } else if (!t) this.close();
     });
     window.addEventListener("scroll", () => this.close(), { passive: true });
+    // 화면이 바뀌어 단어가 사라졌거나, 마우스가 단어 밖에 있으면 닫는다 (mouseout을 놓치는 환경 대비)
+    root.addEventListener("mousemove", (e) => {
+      if (this.box.hidden) return;
+      if (!this.current?.isConnected || !this.current.contains(e.target)) this.close();
+    }, { passive: true });
+    root.addEventListener("keydown", () => this.close());
+    window.addEventListener("blur", () => this.close());
   }
 
   open(el) {
