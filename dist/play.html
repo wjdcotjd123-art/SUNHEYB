@@ -201,6 +201,7 @@ body.no-log .wrap { padding-bottom: 48px; }
 .back kbd, #toMenu kbd { font-family: var(--f-ui); font-size: 11px; margin-left: 10px; opacity: 0.7; }
 .sub-screen h2 { font-family: var(--f-display); font-weight: 400; font-size: 34px; margin: 0 0 8px; letter-spacing: 0.08em; }
 .sub-screen .big { font-family: var(--f-display); font-size: 64px; color: var(--accent); margin: 8px 0 0; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.shop-tabs { margin: 24px 0 6px; }
 .shop-title { font-family: var(--f-ui); font-size: 13px; font-weight: 500; letter-spacing: 0.14em; color: var(--muted); margin: 32px 0 6px; }
 .shop { list-style: none; margin: 0; padding: 0; display: grid; }
 .shop-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line); font-family: var(--f-ui); }
@@ -3233,11 +3234,28 @@ class MenuScreens {
       <h2>${t("karmaScreen.title")}</h2>
       <p class="big">${total}</p>
       <p class="sub">${t("karmaScreen.sub")}</p>
-      <h3 class="shop-title">${t("karmaScreen.shopTitle")}</h3>
-      <ul class="shop"></ul>
-      <h3 class="shop-title">${t("karmaScreen.traitTitle")}</h3>
+      <div class="tabs main-tabs shop-tabs" role="tablist"></div>
+      <ul class="shop base"></ul>
       <ul class="shop traits"></ul>`;
-    const ul = sec.querySelector(".shop");
+    // 탭: 타고난 바탕 / 체질 (산 뒤에 다시 그려도 보던 탭을 유지)
+    const tabs = [["base", t("karmaScreen.shopTitle")], ["traits", t("karmaScreen.traitTitle")]];
+    const bar = sec.querySelector(".shop-tabs");
+    const pick = (id) => {
+      this.shopTab = id;
+      bar.querySelectorAll(".tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.id === id)));
+      sec.querySelector(".shop.base").hidden = id !== "base";
+      sec.querySelector(".shop.traits").hidden = id !== "traits";
+    };
+    for (const [id, label] of tabs) {
+      const b = el("button", "tab");
+      b.type = "button";
+      b.dataset.id = id;
+      b.id = `shop-tab-${id}`;
+      b.textContent = label;
+      b.addEventListener("click", () => pick(id));
+      bar.append(b);
+    }
+    const ul = sec.querySelector(".shop.base");
     shop.items.forEach((it, n) => {
       const lv = shop.level(it.id);
       const price = shop.price(it.id);
@@ -3289,6 +3307,7 @@ class MenuScreens {
       li.append(box);
       tl.append(li);
     });
+    pick(this.shopTab ?? "base");
     this.show(sec, onBack);
   }
 

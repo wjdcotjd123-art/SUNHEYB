@@ -158,11 +158,28 @@ export class MenuScreens {
       <h2>${t("karmaScreen.title")}</h2>
       <p class="big">${total}</p>
       <p class="sub">${t("karmaScreen.sub")}</p>
-      <h3 class="shop-title">${t("karmaScreen.shopTitle")}</h3>
-      <ul class="shop"></ul>
-      <h3 class="shop-title">${t("karmaScreen.traitTitle")}</h3>
+      <div class="tabs main-tabs shop-tabs" role="tablist"></div>
+      <ul class="shop base"></ul>
       <ul class="shop traits"></ul>`;
-    const ul = sec.querySelector(".shop");
+    // 탭: 타고난 바탕 / 체질 (산 뒤에 다시 그려도 보던 탭을 유지)
+    const tabs = [["base", t("karmaScreen.shopTitle")], ["traits", t("karmaScreen.traitTitle")]];
+    const bar = sec.querySelector(".shop-tabs");
+    const pick = (id) => {
+      this.shopTab = id;
+      bar.querySelectorAll(".tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.id === id)));
+      sec.querySelector(".shop.base").hidden = id !== "base";
+      sec.querySelector(".shop.traits").hidden = id !== "traits";
+    };
+    for (const [id, label] of tabs) {
+      const b = el("button", "tab");
+      b.type = "button";
+      b.dataset.id = id;
+      b.id = `shop-tab-${id}`;
+      b.textContent = label;
+      b.addEventListener("click", () => pick(id));
+      bar.append(b);
+    }
+    const ul = sec.querySelector(".shop.base");
     shop.items.forEach((it, n) => {
       const lv = shop.level(it.id);
       const price = shop.price(it.id);
@@ -214,6 +231,7 @@ export class MenuScreens {
       li.append(box);
       tl.append(li);
     });
+    pick(this.shopTab ?? "base");
     this.show(sec, onBack);
   }
 
