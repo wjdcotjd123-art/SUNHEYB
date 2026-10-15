@@ -119,31 +119,25 @@ export class GameView {
       .join("");
   }
 
-  // 능력치·체질로 열린 선택지라면 무엇 덕분인지 보여 준다
-  reqBadge(c) {
+  // 선택지 뒤에 붙는 꼬리표: 열린 이유(소지품·능력치 조건·체질)와 영향을 주는 능력치
+  choiceTags(c) {
     const cond = c.condition ?? {};
     const i = this.i;
-    const parts = [];
-    if (cond.stat_min) parts.push(Object.entries(cond.stat_min).map(([k, v]) => i.t("game.statChoice", { stat: i.stat(k), v })).join(" · "));
-    if (cond.stat_min_any) parts.push(Object.entries(cond.stat_min_any).map(([k, v]) => i.t("game.statChoice", { stat: i.stat(k), v })).join(i.t("game.or")));
-    const stats = parts.map((p) => `<span class="trait-label">${p}</span>`).join("");
-    return stats + this.traitBadge(c);
+    const tags = [];
+    for (const it of cond.items ?? []) tags.push(i.item(it));
+    for (const [k, v] of Object.entries(cond.stat_min ?? {})) tags.push(i.t("game.statChoice", { stat: i.stat(k), v }));
+    const any = Object.entries(cond.stat_min_any ?? {});
+    if (any.length) tags.push(any.map(([k, v]) => i.t("game.statChoice", { stat: i.stat(k), v })).join(i.t("game.or")));
+    for (const [id, lv] of Object.entries(cond.traits ?? {})) {
+      const tr = (this.config.traits ?? []).find((x) => x.id === id);
+      const name = tr?.tiers[lv - 1]?.name ?? id;
+      tags.push(i.t(`karmaScreen.traits.${name}.name`));
+    }
+    const req = tags.map((x) => ` <span class="req">[${x}]</span>`).join("");
+    const stat = c.stat && !(cond.stat_min && c.stat in cond.stat_min) ? ` <span class="tag">[${i.stat(c.stat)}]</span>` : "";
+    return req + stat;
   }
 
-  // 체질 전용 선택지라면 어떤 체질 덕분인지 보여 준다 (요구 단계의 이름)
-  traitBadge(c) {
-    const req = c.condition?.traits;
-    if (!req) return "";
-    return Object.entries(req)
-      .map(([id, lv]) => {
-        const tr = (this.config.traits ?? []).find((x) => x.id === id);
-        const name = tr?.tiers[lv - 1]?.name ?? id;
-        return `<span class="trait-label">${this.i.t("game.traitChoice", { name: this.i.t(`karmaScreen.traits.${name}.name`) })}</span>`;
-      })
-      .join("");
-  }
-
-  // dejavu: 기시감 문장을 붙일지 (전생에 이 인물과 인연이 깊었을 때)
   scene(ev, choices, onConfirm, isFresh = () => false, dejavu = false) {
     const i = this.i;
     const sec = el("section", "scene");
@@ -167,10 +161,9 @@ export class GameView {
     };
 
     choices.forEach((c, n) => {
-      const badge = this.reqBadge(c);
-      const b = el("button", "choice" + (c.warn ? " warn" : "") + (badge ? " trait" : ""));
+      const b = el("button", "choice" + (c.warn ? " warn" : ""));
       b.type = "button";
-      b.innerHTML = `${badge}<span class="num">${n + 1}</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}${c.stat ? ` <span class="tag">[${i.stat(c.stat)}]</span>` : ""}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
+      b.innerHTML = `<span class="num">${n + 1}</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}${this.choiceTags(c)}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });
@@ -203,7 +196,7 @@ export class GameView {
     // trait: 결과를 바꾼 체질 id
     const traitHtml = trait ? `<div class="trait-banner"><b>${i.t("game.trait", { name: i.t(`karmaScreen.traits.${trait}.name`) })}</b><span>${i.t(`karmaScreen.traits.${trait}.fired`)}</span></div>` : "";
     sec.innerHTML = `${traitHtml}${rare ? `<p class="rare-banner">${i.t("game.rare", { n: this.config.karma.perRare })}</p>` : fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(evId, "title")}</h2>
-      <p class="chosen">${lineToHtml(i.ev(evId, `c${choiceId}.text`))}${this.lastChoice?.stat ? ` <span class="tag">[${i.stat(this.lastChoice.stat)}]</span>` : ""}</p>
+      <p class="chosen">${lineToHtml(i.ev(evId, `c${choiceId}.text`))}${this.lastChoice ? this.choiceTags(this.lastChoice) : ""}</p>
       <div class="prose">${linesToHtml(i.ev(textEv, textKey))}</div>`;
     if (changes.length) {
       sec.innerHTML += `<ul class="changes">${changes.map((c) => `<li class="${c.good ? "up" : "down"}">${this.changeText(c)}</li>`).join("")}</ul>`;

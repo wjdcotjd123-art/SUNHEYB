@@ -62,6 +62,7 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 button { font: inherit; color: inherit; cursor: pointer; }
 .choice { display: flex; gap: 10px; align-items: baseline; text-align: left; width: 100%; background: var(--ink-2); border: 1px solid var(--line); border-radius: 3px; padding: 11px 14px; font-family: var(--f-ui); font-size: 16px; line-height: 1.5; transition: border-color .15s, background .15s, opacity .2s; }
 .choice .num { color: var(--muted); font-size: 13px; min-width: 1em; font-variant-numeric: tabular-nums; }
+.choice .req, .chosen .req { color: var(--paper); opacity: 0.7; white-space: nowrap; }
 .choice .tag { color: var(--accent); white-space: nowrap; font-weight: 500; }
 .choice .txt { min-width: 0; }
 .fortune-banner { margin: 0 0 10px; font-family: var(--f-display); font-size: 17px; letter-spacing: 0.2em; color: var(--gold); text-shadow: 0 0 14px rgba(232,194,110,0.55); animation: fortuneIn 1.2s ease-out 1; }
