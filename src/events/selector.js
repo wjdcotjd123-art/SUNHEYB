@@ -6,6 +6,12 @@ export function meetsCondition(state, cond = {}) {
   if (cond.flags && !cond.flags.every((f) => state.flags.has(f))) return false;
   if (cond.flags_any && !cond.flags_any.some((f) => state.flags.has(f))) return false;
   if (cond.flags_none && cond.flags_none.some((f) => state.flags.has(f))) return false;
+  // flags_count: { of: [플래그…], min, max } — 목록 중 가진 개수가 min~max일 때만
+  if (cond.flags_count) {
+    const { of, min = 0, max = Infinity } = cond.flags_count;
+    const n = of.filter((f) => state.flags.has(f)).length;
+    if (n < min || n > max) return false;
+  }
   if (cond.stat_min && !Object.entries(cond.stat_min).every(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.stat_min_any && !Object.entries(cond.stat_min_any).some(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.realm_min != null && state.stat("경지") < cond.realm_min) return false;
