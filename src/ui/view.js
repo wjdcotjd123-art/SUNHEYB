@@ -124,7 +124,7 @@ export class GameView {
     const cond = c.condition ?? {};
     const i = this.i;
     const tags = [];
-    for (const it of cond.items ?? []) tags.push(i.item(it));
+    if ((cond.items ?? []).length) tags.push(i.t("game.itemChoice"));
     for (const [k, v] of Object.entries(cond.stat_min ?? {})) tags.push(i.t("game.statChoice", { stat: i.stat(k), v }));
     const any = Object.entries(cond.stat_min_any ?? {});
     if (any.length) tags.push(any.map(([k, v]) => i.t("game.statChoice", { stat: i.stat(k), v })).join(i.t("game.or")));

@@ -34,6 +34,7 @@ class App {
     this.achievements = achievements;
     this.view = new GameView(document, CONFIG, i18n);
     this.battleScreen = new BattleScreen(this.view, i18n);
+    if (!CONFIG.showLog) document.body.classList.add("no-log");
     this.menu = new MenuScreens(document, i18n);
   }
 

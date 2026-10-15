@@ -36,7 +36,8 @@
     "statChoice": "{stat} {v}",
     "or": " 또는 ",
     "fresh": "처음",
-    "conclude": "귀결"
+    "conclude": "귀결",
+    "itemChoice": "소지품"
   },
   "changes": {
     "gain": "{item} 획득",

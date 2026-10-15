@@ -77,7 +77,7 @@ export class ResultResolver {
         changes.push({ type: "hp", kind: k, tier: v, good: k === "회복" });
       }
       else if (k.endsWith("_reset")) state.stats[k.slice(0, -6)] = 0;
-      else if (k === "realm_set") { state.stats.경지 = v; changes.push({ type: "realm", value: v, good: true }); }
+      else if (k === "realm_set") { if (v > state.stat("경지")) state.stats.체력 = state.stat("최대체력"); state.stats.경지 = v; changes.push({ type: "realm", value: v, good: true }); }
       else if (k.endsWith("_set")) { const s = k.slice(0, -4); state.stats[s] = v; changes.push({ type: "set", stat: s, value: v, good: false }); }
       else if (k === "상황") {
         // 상황 "없음"은 상황에서 벗어난다 (예: 감옥에서 풀려남)

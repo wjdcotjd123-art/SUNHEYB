@@ -43,6 +43,7 @@ export const CONFIG = {
   // 피해 = (1 + 근골×perStr + 경지 우위×perRealmDmg) × (무공 배율) × 0.85~1.15, 치명타 = baseCrit + 행운×perLuckCrit (피해 2배), 방어 = 받는 피해 guard만큼 감소
   combat: { baseHit: 75, perAgi: 3, perLuckEvade: 1, perRealmHit: 8, minHit: 15, maxHit: 95, perStr: 0.5, perRealmDmg: 1, baseCrit: 5, perLuckCrit: 2, guard: 0.7 },
   combatPath: "data/combat.json",
+  showLog: false, // 하단 '지나온 길' 기록창
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "P001", // 매 생의 첫 장면
   // 경지별 마지막 장면: 그 경지에서 더 나올 장면이 없으면 생을 끝내는 대신 한 번 띄운다
