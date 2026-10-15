@@ -2,6 +2,7 @@
 // pool 종류: "pool"(기본, 무작위 등장) / "chain"(다른 장면의 next_event로만) / "fixed"(정해진 때에만, 예: 첫 장면)
 export function meetsCondition(state, cond = {}) {
   if (cond.items && !cond.items.every((i) => state.hasItem(i))) return false;
+  if (cond.items_none && cond.items_none.some((i) => state.hasItem(i))) return false;
   if (cond.flags && !cond.flags.every((f) => state.flags.has(f))) return false;
   if (cond.flags_any && !cond.flags_any.some((f) => state.flags.has(f))) return false;
   if (cond.flags_none && cond.flags_none.some((f) => state.flags.has(f))) return false;

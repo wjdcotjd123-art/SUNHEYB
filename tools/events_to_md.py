@@ -12,6 +12,8 @@ def fmt_cond(cond):
     parts = []
     if "items" in cond:
         parts.append("보유: " + ", ".join(cond["items"]))
+    if "items_none" in cond:
+        parts.append("없어야 함(소지품): " + ", ".join(cond["items_none"]))
     if "flags" in cond:
         parts.append("조건: " + ", ".join(cond["flags"]))
     if "flags_any" in cond:
