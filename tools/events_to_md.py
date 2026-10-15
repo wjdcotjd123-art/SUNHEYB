@@ -54,12 +54,16 @@ def fmt_effects(eff):
             parts.append(f"인과록: {v}")
         elif k == "flags_remove":
             parts.append("플래그 제거: " + ", ".join(v))
+        elif k == "전투":
+            parts.append(f"⚔ 전투 `{v['enemy']}` (목숨 {'걺' if v.get('lethal', True) else '안 걺'}) · 승리: {fmt_effects(v['win'].get('effects', {}))} · 패배: {fmt_effects(v['lose'].get('effects', {}))}")
         elif isinstance(v, dict):
             parts.append(", ".join(f"{k} {n} {p:+d}" for n, p in v.items()))
         elif isinstance(v, str):
             parts.append(f"{k} = {v}")
         elif k.endswith("_set"):
             parts.append(f"{k[:-4]} = {v}")
+        elif isinstance(v, bool):
+            parts.append(k)
         else:
             parts.append(f"{k} {v:+d}")
     return ", ".join(parts)
