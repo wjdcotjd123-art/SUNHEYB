@@ -19,11 +19,11 @@
   "game": {
     "life": "제 {n} 생",
     "karma": "업 {k}",
-    "toMenu": "메인",
+    "toMenu": "책 덮기",
     "next": "다음",
     "continue": "계속",
     "closeEyes": "눈을 감는다",
-    "toMain": "메인으로",
+    "toMain": "책 덮기",
     "emptyHands": "빈손",
     "logTitle": "지나온 길",
     "logEmpty": "아직 아무것도 하지 않았다.",
