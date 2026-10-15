@@ -747,8 +747,8 @@
       "pool": "pool",
       "weight": 8,
       "conditions": {
-        "realm_min": 1,
-        "realm_max": 1,
+        "realm_min": 2,
+        "realm_max": 2,
         "flags_none": [
           "도전자"
         ]
