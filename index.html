@@ -85,13 +85,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .pk .pk-bar .hpbar i { display: block; height: 100%; background: var(--jade); transition: width .5s; }
 .pk .pk-bar .hpbar.low i { background: var(--red); }
 .pk .pk-box { border: 2px solid var(--line); border-radius: 6px; background: var(--ink-2); padding: 14px 16px; }
-.pk .pk-text { position: relative; min-height: 3.6em; cursor: default; }
-.pk.reading .pk-text { cursor: pointer; }
-.pk .pk-text p { margin: 0; }
-.pk .pk-more { position: absolute; right: 0; bottom: 0; color: var(--accent); font-size: 12px; animation: pkBlink 1s steps(2) infinite; }
-@keyframes pkBlink { 50% { opacity: 0; } }
-.pk .pk-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.pk.reading .pk-menu { display: none; }
+.pk .pk-log { min-height: 6.6em; margin: 0 0 14px; }
+.pk .pk-log p { margin: 0 0 4px; animation: pkLine .35s ease-out 1; }
+@keyframes pkLine { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.pk .pk-prompt { margin: 0 0 10px; font-family: var(--f-ui); font-size: 15px; }
+.pk .pk-box { transition: opacity .25s, filter .25s; }
+.pk.busy .pk-box { opacity: 0.35; filter: grayscale(0.6); pointer-events: none; }
+.pk .pk-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .pk .pk-cell { min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 2px; padding: 8px 14px; background: var(--ink); border: 1px solid var(--line); border-radius: 4px; font-family: var(--f-ui); font-size: 16px; text-align: left; }
 .pk .pk-cell small { color: var(--accent); font-size: 12px; }
 .pk .pk-cell.on:not(:disabled), .pk .pk-cell:hover:not(:disabled) { border-color: var(--accent); background: #20252f; }

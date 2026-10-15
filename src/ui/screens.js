@@ -272,20 +272,22 @@ export class MenuScreens {
   }
 
   // 시험용 전투 설정: 능력치 입력과 무공 선택. onFight(stats, artIds)
-  battleTest(base, arts, onFight, onBack) {
+  battleTest(base, arts, items, onFight, onBack) {
     const t = (k, v) => this.i.t(k, v);
     const sec = el("section", "sub-screen");
     const keys = ["경지", "최대체력", "근골", "민첩", "행운", "내공"];
     sec.innerHTML = `<h2>${t("settings.testBattle")}</h2><p class="sub">${t("settings.testBattleNote")}</p>
       <div class="bt-grid">${keys.map((k) => `<label>${this.i.stat(k)}<input type="number" min="0" id="bt-${k}" value="${base.stat(k)}"></label>`).join("")}</div>
-      <div class="bt-arts">${arts.map((a) => `<label><input type="checkbox" value="${a.id}"> ${this.i.combat(`art.${a.id}.name`)}</label>`).join("")}</div>`;
+      <div class="bt-arts">${arts.map((a) => `<label><input type="checkbox" value="${a.id}"> ${this.i.combat(`art.${a.id}.name`)}</label>`).join("")}</div>
+      <div class="bt-arts bt-items">${items.map((x) => `<label><input type="checkbox" value="${x.id}" ${base.hasItem(x.id) ? "checked" : ""}> ${this.i.item(x.id)}</label>`).join("")}</div>`;
     const go = el("button", "next");
     go.type = "button";
     go.textContent = t("settings.testFight");
     go.addEventListener("click", () => {
       const stats = Object.fromEntries(keys.map((k) => [k, Number(sec.querySelector(`#bt-${k}`).value) || 0]));
-      const ids = [...sec.querySelectorAll(".bt-arts input:checked")].map((x) => x.value);
-      onFight(stats, ids);
+      const ids = [...sec.querySelectorAll(".bt-arts:not(.bt-items) input:checked")].map((x) => x.value);
+      const itemIds = [...sec.querySelectorAll(".bt-items input:checked")].map((x) => x.value);
+      onFight(stats, ids, itemIds);
     });
     sec.append(go);
     this.show(sec, onBack);

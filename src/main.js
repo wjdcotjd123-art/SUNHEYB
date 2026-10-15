@@ -209,7 +209,7 @@ class App {
     const s = this.state;
     const enemy = this.combat.enemies.find((x) => x.id === fight.enemy);
     const arts = this.combat.arts.filter((a) => meetsCondition(s, a.req));
-    const battle = new Battle(this.rng, CONFIG, s, enemy, arts);
+    const battle = new Battle(this.rng, CONFIG, s, enemy, arts, this.combat.items ?? []);
     this.battleScreen.run(battle, (result) => {
       battle.finish();
       // 목숨을 걸지 않은 싸움(lethal: false)은 져도 숨은 붙어 있다
@@ -237,8 +237,9 @@ class App {
     const saved = this.saves.load()?.state;
     const base = saved ?? new GameState(CONFIG);
     const enemy = this.combat.enemies.find((x) => x.id === CONFIG.testBattleEnemy);
-    this.menu.battleTest(base, this.combat.arts, (stats, artIds) => {
+    this.menu.battleTest(base, this.combat.arts, this.combat.items ?? [], (stats, artIds, itemIds) => {
       const s = new GameState(CONFIG);
+      s.items = [...itemIds];
       Object.assign(s.stats, stats);
       s.stats.체력 = s.stat("최대체력");
       const arts = this.combat.arts.filter((a) => artIds.includes(a.id));
@@ -246,7 +247,7 @@ class App {
       this.view.open(() => this.openBattleTest());
       this.view.header(this.record.data.life, this.record.data.karma);
       this.view.stats(s);
-      const battle = new Battle(this.rng, CONFIG, s, enemy, arts);
+      const battle = new Battle(this.rng, CONFIG, s, enemy, arts, this.combat.items ?? []);
       this.battleScreen.run(battle, () => { battle.finish(); this.openBattleTest(); });
     }, () => this.openSettings());
   }
