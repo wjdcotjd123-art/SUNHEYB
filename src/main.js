@@ -210,7 +210,10 @@ class App {
     const enemy = this.combat.enemies.find((x) => x.id === fight.enemy);
     const arts = this.combat.arts.filter((a) => meetsCondition(s, a.req));
     const battle = new Battle(this.rng, CONFIG, s, enemy, arts, this.combat.items ?? []);
-    this.battleScreen.run(battle, (result) => {
+    // 경지가 한 단계라도 높으면 싸울 것도 없이 이긴다
+    const outclass = s.stat("경지") > enemy.realm;
+    const run = outclass ? (done) => done("win") : (done) => this.battleScreen.run(battle, done);
+    run((result) => {
       battle.finish();
       // 목숨을 걸지 않은 싸움(lethal: false)은 져도 숨은 붙어 있다
       if (result === "lose" && fight.lethal === false) s.stats.체력 = Math.max(1, s.stat("체력"));
