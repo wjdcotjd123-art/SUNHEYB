@@ -315,7 +315,6 @@
           "id": 2,
           "tag": "돌입",
           "text": "젖은 천을 뒤집어쓰고 불길로 뛰어든다",
-          "warn": true,
           "outcomes": [
             {
               "chance": 30,
