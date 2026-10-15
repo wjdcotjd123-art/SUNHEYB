@@ -90,9 +90,31 @@ export class MenuScreens {
     const bar = sec.querySelector(".main-tabs");
     const body = sec.querySelector(".codex-body");
 
+    // 탭 안에서 카테고리별로 나눠 보기 (전체 + 카테고리 하위 탭)
     const renderEntries = (id) => {
-      const es = sections.find((s) => s.id === id).entries;
-      body.innerHTML = `<ul class="ach-list codex-list">${es
+      const secData = sections.find((s) => s.id === id);
+      const cats = (secData.categories ?? []).filter((c) => secData.entries.some((e) => e.category === c));
+      body.innerHTML = `<div class="tabs sub-tabs" role="tablist"></div><div class="codex-cat"></div>`;
+      const sbar = body.querySelector(".sub-tabs");
+      const stabs = [{ id: "*", label: i.t("achievementsScreen.all"), items: secData.entries }].concat(
+        cats.map((c) => ({ id: c, label: i.t(`codex.categories.${id}.${c}`), items: secData.entries.filter((e) => e.category === c) }))
+      );
+      stabs.forEach((tab) => {
+        const b = el("button", "tab");
+        b.type = "button";
+        b.dataset.id = tab.id;
+        b.innerHTML = `${tab.label}<small>${tab.items.filter((e) => opened(e.stages[0])).length}/${tab.items.length}</small>`;
+        b.addEventListener("click", () => drawCat(tab));
+        sbar.append(b);
+      });
+      const drawCat = (tab) => {
+        sbar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === tab.id));
+        listEntries(tab.items, body.querySelector(".codex-cat"));
+      };
+      drawCat(stabs[0]);
+    };
+    const listEntries = (es, target) => {
+      target.innerHTML = `<ul class="ach-list codex-list">${es
         .map((e) => {
           const open = e.stages.filter(opened);
           if (!open.length || !opened(e.stages[0])) return `<li><b>${i.t("codex.unknown")}</b></li>`;
