@@ -133,7 +133,7 @@ export class ResultResolver {
       else if (k === "인연") { addAll(state.bonds, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "bond", name: who, delta: d, good: d > 0 }); }
       else if (k === "평판") { addAll(state.reputation, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "fame", name: who, delta: d, good: d > 0 }); }
       else if (typeof v === "number") {
-        state.stats[k] = state.stat(k) + v;
+        state.stats[k] = state.base(k) + v;
         changes.push({ type: "stat", stat: k, delta: v, good: v > 0 });
       }
     }

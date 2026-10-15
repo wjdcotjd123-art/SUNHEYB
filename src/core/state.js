@@ -1,6 +1,8 @@
 // 한 번의 생(生) 동안의 주인공 상태.
 export class GameState {
+  static weapons = {};
   constructor(config) {
+    if (config.weapons) GameState.weapons = config.weapons;
     this.stats = { ...config.startStats };
     this.items = [...config.startItems];
     this.flags = new Set();
@@ -21,8 +23,26 @@ export class GameState {
     this.ending = null; // 귀결(이야기가 매듭지어진 결말) id
     this.pastBonds = {}; // 지난 생들의 최고 인연 (기시감)
   }
+  // 능력치(가진 무기의 보너스 포함). base()는 무기를 뺀 원래 값.
   stat(name) {
+    return this.base(name) + (this.gear()[name] ?? 0);
+  }
+  base(name) {
     return this.stats[name] ?? 0;
+  }
+  // 가진 무기 중 보너스 합이 가장 큰 한 자루만 쓴다.
+  weapon() {
+    let best = null, top = 0;
+    for (const it of this.items) {
+      const b = GameState.weapons[it];
+      const sum = b ? Object.values(b).reduce((a, v) => a + v, 0) : 0;
+      if (sum > top) { best = it; top = sum; }
+    }
+    return best;
+  }
+  gear() {
+    const w = this.weapon();
+    return w ? GameState.weapons[w] : {};
   }
   hasItem(name) {
     return this.items.includes(name);

@@ -24,7 +24,7 @@ export class KarmaShop {
   }
   // 새 생의 상태에 산 만큼 더해준다.
   apply(state) {
-    for (const it of this.items) state.stats[it.stat] = state.stat(it.stat) + it.amount * this.level(it.id);
+    for (const it of this.items) state.stats[it.stat] = state.base(it.stat) + it.amount * this.level(it.id);
   }
   // 체질: record.data.traits[id] = { lv: 산 단계(1부터), on: 켜짐 }
   traitData(id) {

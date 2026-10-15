@@ -49,6 +49,7 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 .stat b.hpbar { display: block; height: 10px; margin: 8px 6px 0; border: 1px solid var(--line); border-radius: 2px; background: var(--ink-2); overflow: hidden; }
 .stat b.hpbar i { display: block; height: 100%; background: var(--jade); transition: width .4s; }
 .stat b.hpbar.low i { background: var(--red); }
+.stat b small.gear { font-size: 11px; font-weight: 500; color: var(--jade); margin-left: 2px; }
 .stat b { font-weight: 400; font-size: 16px; font-variant-numeric: tabular-nums; }
 .stat.realm b { color: var(--accent); }
 #items li.situation { color: var(--red); border-color: color-mix(in srgb, var(--red) 60%, transparent); }
@@ -2538,6 +2539,13 @@ const CONFIG = {
   deathMemory: { perDeath: 2, cap: 10, rarePerDeath: 0.1, rareCap: 0.5 },
   termLimit: 2, // 용어 밑줄: 한 생에 용어당 최대 표시 횟수
   chanceMin: 2,
+  // 무기: 가지고 있으면 능력치 보너스 (여러 자루면 보너스 합이 가장 큰 하나만)
+  weapons: {
+    녹슨_손칼: { 근골: 1 }, 석두의_목검: { 근골: 1 },
+    맞춤_장검: { 근골: 3 }, 노도의_칼: { 근골: 3 }, 석두가_벼린_칼: { 근골: 3 }, 유진의_은장도: { 민첩: 3 },
+    청강검: { 근골: 6 }, 매화_문양의_고검: { 근골: 6 },
+    노검객의_칼: { 근골: 4, 민첩: 4 },
+  },
   // 지금 상태에서 죽을 확률이 이 값(%) 이상인 선택지는 비추천으로 표시
   warnDeath: 70,
   chanceMax: 95,
@@ -2633,7 +2641,9 @@ class Rng {
 
 // 한 번의 생(生) 동안의 주인공 상태.
 class GameState {
+  static weapons = {};
   constructor(config) {
+    if (config.weapons) GameState.weapons = config.weapons;
     this.stats = { ...config.startStats };
     this.items = [...config.startItems];
     this.flags = new Set();
@@ -2654,8 +2664,26 @@ class GameState {
     this.ending = null; // 귀결(이야기가 매듭지어진 결말) id
     this.pastBonds = {}; // 지난 생들의 최고 인연 (기시감)
   }
+  // 능력치(가진 무기의 보너스 포함). base()는 무기를 뺀 원래 값.
   stat(name) {
+    return this.base(name) + (this.gear()[name] ?? 0);
+  }
+  base(name) {
     return this.stats[name] ?? 0;
+  }
+  // 가진 무기 중 보너스 합이 가장 큰 한 자루만 쓴다.
+  weapon() {
+    let best = null, top = 0;
+    for (const it of this.items) {
+      const b = GameState.weapons[it];
+      const sum = b ? Object.values(b).reduce((a, v) => a + v, 0) : 0;
+      if (sum > top) { best = it; top = sum; }
+    }
+    return best;
+  }
+  gear() {
+    const w = this.weapon();
+    return w ? GameState.weapons[w] : {};
   }
   hasItem(name) {
     return this.items.includes(name);
@@ -2957,7 +2985,7 @@ class ResultResolver {
       else if (k === "인연") { addAll(state.bonds, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "bond", name: who, delta: d, good: d > 0 }); }
       else if (k === "평판") { addAll(state.reputation, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "fame", name: who, delta: d, good: d > 0 }); }
       else if (typeof v === "number") {
-        state.stats[k] = state.stat(k) + v;
+        state.stats[k] = state.base(k) + v;
         changes.push({ type: "stat", stat: k, delta: v, good: v > 0 });
       }
     }
@@ -3267,7 +3295,7 @@ class KarmaShop {
   }
   // 새 생의 상태에 산 만큼 더해준다.
   apply(state) {
-    for (const it of this.items) state.stats[it.stat] = state.stat(it.stat) + it.amount * this.level(it.id);
+    for (const it of this.items) state.stats[it.stat] = state.base(it.stat) + it.amount * this.level(it.id);
   }
   // 체질: record.data.traits[id] = { lv: 산 단계(1부터), on: 켜짐 }
   traitData(id) {
@@ -3546,7 +3574,10 @@ class GameView {
         const max = Math.max(1, state.stat("최대체력"));
         const n = Math.max(0, Math.min(10, Math.ceil((state.stat("체력") / max) * 10)));
         rows.push(`<div class="stat hp"><span>${i.stat(s)}</span><b class="hpbar${n <= 3 ? " low" : ""}"><i style="width:${n * 10}%"></i></b></div>`);
-      } else rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}</b></div>`);
+      } else {
+        const bonus = state.gear()[s] ?? 0; // 무기 보너스는 따로 표시
+        rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}${bonus ? `<small class="gear">(+${bonus})</small>` : ""}</b></div>`);
+      }
     }
     this.$("#stats").innerHTML = rows.join("");
     const sit = state.situation ? `<li class="situation">${i.t(`situations.${state.situation}`)}</li>` : "";

@@ -51,7 +51,10 @@ export class GameView {
         const max = Math.max(1, state.stat("최대체력"));
         const n = Math.max(0, Math.min(10, Math.ceil((state.stat("체력") / max) * 10)));
         rows.push(`<div class="stat hp"><span>${i.stat(s)}</span><b class="hpbar${n <= 3 ? " low" : ""}"><i style="width:${n * 10}%"></i></b></div>`);
-      } else rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}</b></div>`);
+      } else {
+        const bonus = state.gear()[s] ?? 0; // 무기 보너스는 따로 표시
+        rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}${bonus ? `<small class="gear">(+${bonus})</small>` : ""}</b></div>`);
+      }
     }
     this.$("#stats").innerHTML = rows.join("");
     const sit = state.situation ? `<li class="situation">${i.t(`situations.${state.situation}`)}</li>` : "";
