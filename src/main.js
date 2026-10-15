@@ -212,7 +212,9 @@ class App {
     const battle = new Battle(this.rng, CONFIG, s, enemy, arts, this.combat.items ?? []);
     // 경지가 한 단계라도 높으면 싸울 것도 없이 이긴다
     const outclass = s.stat("경지") > enemy.realm;
-    const run = outclass ? (done) => done("win") : (done) => this.battleScreen.run(battle, done);
+    // 전투를 꺼 두면 화면 없이 공격만 주고받는 걸로 속으로 계산해 결과만 낸다
+    const quiet = (done) => { while (!battle.over) battle.turn({ type: "attack" }); done(battle.over); };
+    const run = outclass ? (done) => done("win") : CONFIG.combatEnabled ? (done) => this.battleScreen.run(battle, done) : quiet;
     run((result) => {
       battle.finish();
       // 목숨을 걸지 않은 싸움(lethal: false)은 져도 숨은 붙어 있다

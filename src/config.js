@@ -42,6 +42,7 @@ export const CONFIG = {
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)
   // 피해 = (1 + 근골×perStr + 경지 우위×perRealmDmg) × (무공 배율) × 0.85~1.15, 치명타 = baseCrit + 행운×perLuckCrit (피해 2배), 방어 = 받는 피해 guard만큼 감소
   combat: { baseHit: 75, perAgi: 3, perLuckEvade: 1, perRealmHit: 8, minHit: 15, maxHit: 95, perStr: 0.5, perRealmDmg: 1, baseCrit: 5, perLuckCrit: 2, guard: 0.7, lineDelay: 1000 },
+  combatEnabled: false, // false면 전투 화면 없이 속으로 싸움을 계산해 결과만 보여 준다
   combatPath: "data/combat.json",
   testBattleEnemy: "고갯길_산적", // 시험용 전투의 적
   showLog: false, // 하단 '지나온 길' 기록창
