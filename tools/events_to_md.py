@@ -28,6 +28,12 @@ def fmt_cond(cond):
         parts.append(f"경지 {cond['realm_max']} 이하")
     if "affiliation" in cond:
         parts.append(f"소속: {cond['affiliation']}")
+    if "bond_min" in cond:
+        parts.append(", ".join(f"인연 {k} {v} 이상" for k, v in cond["bond_min"].items()))
+    if "past_bond_min" in cond:
+        parts.append(", ".join(f"전생 인연 {k} {v} 이상" for k, v in cond["past_bond_min"].items()))
+    if "traits" in cond:
+        parts.append("체질: " + ", ".join(cond["traits"]))
     if "affiliation_not" in cond:
         parts.append("소속 아님: " + ", ".join(cond["affiliation_not"]))
     return " / ".join(parts)
