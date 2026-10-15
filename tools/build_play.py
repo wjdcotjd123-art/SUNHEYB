@@ -35,6 +35,12 @@ code = "\n".join(module_body(m) for m in ORDER)
 script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\nwindow.CODEX_DATA = {codex};\nwindow.COMBAT_DATA = {combat};\nwindow.LANG_DATA = {lang_data};\n(() => {{\n{code}\n}})();\n</script>"
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
+# 그림 파일(assets/)은 한 파일 빌드에 data URI로 넣는다
+import base64
+for img in (ROOT / "assets").glob("*"):
+    mime = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}.get(img.suffix.lower())
+    if mime:
+        html = html.replace(f"assets/{img.name}", f"data:{mime};base64," + base64.b64encode(img.read_bytes()).decode())
 html = html.replace('<script type="module" src="src/main.js"></script>', script)
 out = ROOT / "dist" / "play.html"
 out.parent.mkdir(exist_ok=True)
