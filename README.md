@@ -19,8 +19,9 @@
 2. `python tools/build_play.py` 실행
    - `lang/ko/`의 글이 원본에서 다시 뽑히고
    - `dist/play.html`(한 파일짜리 시험판)이 만들어짐
-3. 윈도우 실행 프로그램: `sh tools/build_exe.sh` → `release/선협-win32-x64.zip` (압축을 풀고 `선협.exe` 실행, F11 전체 화면)
-4. 검토 문서가 필요하면 `python tools/events_to_md.py data/events/drift_01.json docs/events/drift_01.md`
+3. 친구에게 돌릴 배포판: `python tools/build_play.py --release` → `dist/선협.html` (시험용 업 버튼·전투 시험 없음, 더블클릭으로 브라우저에서 실행)
+4. 윈도우 실행 프로그램: `sh tools/build_exe.sh` → `release/선협-win32-x64.zip` (압축을 풀고 `선협.exe` 실행, F11 전체 화면)
+5. 검토 문서가 필요하면 `python tools/events_to_md.py data/events/drift_01.json docs/events/drift_01.md`
 
 ## 본문 표기
 

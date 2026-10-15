@@ -1,7 +1,8 @@
 """index.html + src/ 모듈 + data/ + lang/ 을 한 파일(dist/play.html)로 묶는다.
 외부 파일을 못 읽는 환경(아티팩트 등)에서 바로 플레이하기 위한 빌드.
 
-사용법: python tools/build_play.py
+사용법: python tools/build_play.py            (시험판: dist/play.html)
+        python tools/build_play.py --release  (배포판: dist/선협.html — 시험용 업 버튼·전투 시험 없음)
 """
 import json
 import pathlib
@@ -32,6 +33,10 @@ for d in sorted((ROOT / "lang").iterdir()):
         langs[d.name] = {f.stem: json.loads(f.read_text(encoding="utf-8")) for f in d.glob("*.json")}
 lang_data = json.dumps(langs, ensure_ascii=False).replace("</", "<\\/")
 code = "\n".join(module_body(m) for m in ORDER)
+RELEASE = "--release" in sys.argv
+if RELEASE:
+    # 배포판: 시험용 기능(업 버튼, 전투 시험)을 끈다
+    code = re.sub(r"testKarma: \d+", "testKarma: 0", code)
 script = f"<script>\nwindow.EVENT_DATA = {data};\nwindow.ACHIEVEMENT_DATA = {ach};\nwindow.CODEX_DATA = {codex};\nwindow.COMBAT_DATA = {combat};\nwindow.LANG_DATA = {lang_data};\n(() => {{\n{code}\n}})();\n</script>"
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -42,7 +47,7 @@ for img in (ROOT / "assets").glob("*"):
     if mime:
         html = html.replace(f"assets/{img.name}", f"data:{mime};base64," + base64.b64encode(img.read_bytes()).decode())
 html = html.replace('<script type="module" src="src/main.js"></script>', script)
-out = ROOT / "dist" / "play.html"
+out = ROOT / "dist" / ("선협.html" if RELEASE else "play.html")
 out.parent.mkdir(exist_ok=True)
 out.write_text(html, encoding="utf-8")
 print(f"built {out.relative_to(ROOT)} ({out.stat().st_size // 1024} KB)")
