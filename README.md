@@ -72,7 +72,7 @@
 - 기시감: 장면에 `"dejavu": {"person": "인물id", "min": 50, "text": [...]}`를 달면 지난 생들에서 그 인물과 인연이 min 이상이었을 때 장면 설명 아래에 붙는다. 기시감 선택지는 조건에 `"past_bond_min": {"인물id": 50}`
 - (예전 방식) 합 단위 전투: 전투를 chain 장면 여러 개(합)로 나누고 `기세`로 흐름을 잇는다. 시작 결과에 `"기세_reset": true, "기세": 1`, 합마다 결과에 `기세` 증감과 `mods`의 `기세`, 결판 결과에 `"기세_reset": true`. 기세가 높을 때 열리는 초식은 `"stat_min": {"기세": n}`. 장면 설명에 적의 약점 단서를 넣고 그 약점을 노리는 선택지를 유리하게
 - 전투: 결과 효과에 `"전투": {"enemy": "적id", "lethal": false, "win": {"text": [...], "effects": {...}}, "lose": {...}, "next": "장면id"(선택)}`. 결과 글 뒤에 전투 화면이 열리고, 끝나면 win/lose 글과 효과가 나온다. `lethal: false`면 져도 체력 1로 살아남는다. 적·무공·전투 소지품은 `data/combat.json`(무공은 `req` 조건을 채우면 전투에 나온다. 소지품은 heal/blind/buff/after/consume/once로 효과를 정하고, 글은 `ui.json`의 `battle.itemDesc`·`battle.itemUse`), 계산 값은 `src/config.js`의 `combat`
-- 마기 선택지: 선택지에 `"madness": true`와 조건 `{"flags": ["마공_입문"]}`를 달면 [마기] 꼬리표가 붙는다. 결과에 `"마기": n`을 쌓고, `config.madness.threshold` 이상이면 다음 장면이 '마두' 발작(SYS_MADNESS). 아이나 무고한 약자를 해치는 선택지는 만들지 않는다
+- 마기 선택지: 선택지에 `"madness": true`와 조건 `{"flags": ["마공_입문"]}`를 달면 [마기] 꼬리표가 붙는다. 결과에 `"마기": n`을 쌓고, `config.madness.threshold` 이상이면 다음 장면이 '마두' 발작(SYS_MADNESS). 아이나 무고한 약자를 해치는 선택지는 만들지 않는다. '…왜 그랬는지 기억나지 않는다' 같은 기억이 끊기는 끝맺음은 악행(무고한 자·동료·의뢰인을 해침)일 때만 쓰고, 덤벼든 적을 잔혹하게 처리한 경우에는 웃음이 멈추지 않는 등 다른 끝맺음을 쓴다
 - 인물: 인물이 나오는 장면에 `"person": "인물id"`(여럿이면 배열). 그 인물과 인연이 높을수록 자주 나온다(`src/config.js`의 `personBoost`). 다시 만나는 장면은 조건에 `"bond_min": {"인물id": 30}`
 - 인과록은 `data/achievements.json`에 `category`(지역·모임), `cond`(달성 조건), `hint`(달성 전 힌트)와 함께 등록
 
