@@ -7,15 +7,15 @@
 <style>
 /* 한밤 산중의 먹빛 한 장. 좁은 세로 두루마리 한 줄, 위에는 생(生)과 업, 그 아래 몸 상태, 본문은 장면이 쌓이며 흘러내린다. */
 :root {
-  /* 어두운 한지: 등잔 아래 누렇게 바랜 종이, 먹 글씨, 인주 주홍 */
-  --ink: #b3a27e;      /* 바탕 */
-  --ink-2: #c2b18c;    /* 칸·버튼 바탕 */
-  --hover: #cdbd98;
-  --tip: #d3c4a0;      /* 용어 풀이 창 */
-  --line: #8f7d5b;
-  --paper: #2a2016;    /* 본문 글자 (먹) */
+  /* 바랜 한지: 누런 종이결과 가장자리에 번진 먹, 먹 글씨, 인주 주홍 */
+  --ink: #cdc1a2;      /* 바탕 */
+  --ink-2: #d8cdb1;    /* 칸·버튼 바탕 */
+  --hover: #e0d6bd;
+  --tip: #e2d9c2;      /* 용어 풀이 창 */
+  --line: #a39579;
+  --paper: #221c15;    /* 본문 글자 (먹) */
   --strong: #140e08;   /* 굵은 글씨 */
-  --muted: #5a4b37;
+  --muted: #5f5442;
   --accent: #9b2f1c;   /* 인주 주홍 */
   --red: #a3241a;
   --violet: #5a3474;
@@ -27,11 +27,20 @@
   --log-h: 132px;
   color-scheme: light;
 }
-html, body { background: var(--ink); color: var(--paper); }
+html { color: var(--paper); min-height: 100%;
+  /* 종이결 + 가장자리에 번진 먹 */
+  background:
+    radial-gradient(ellipse 55% 45% at 0% 100%, rgba(25, 22, 18, 0.55), transparent 70%),
+    radial-gradient(ellipse 45% 35% at 100% 0%, rgba(25, 22, 18, 0.32), transparent 70%),
+    radial-gradient(ellipse 30% 25% at 90% 95%, rgba(25, 22, 18, 0.18), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25  0 0 0 0 0.2  0 0 0 0 0.12  0 0 0 0.16 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    var(--ink);
+  background-attachment: fixed; }
+body { margin: 0; background: transparent; }
 body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px); line-height: 1.85; -webkit-font-smoothing: antialiased; }
 .wrap { max-width: 640px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 calc(var(--log-h) + 48px); }
 
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--ink); border-bottom: 1px solid var(--line); padding-block: 12px 10px; display: grid; gap: 10px; }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: color-mix(in srgb, var(--ink) 70%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding-block: 12px 10px; display: grid; gap: 10px; }
 .bar { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--f-ui); }
 #life { font-family: var(--f-display); font-size: 22px; color: var(--accent); letter-spacing: 0.06em; }
 .bar-r { display: flex; gap: 14px; align-items: baseline; }
