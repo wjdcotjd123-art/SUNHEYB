@@ -109,6 +109,7 @@ class App {
     this.state = new GameState(CONFIG);
     this.state.stats.업 = this.record.data.karmaEarned; // 지금까지 쌓은 업 총량이 확률 보정에 쓰인다 (화면에는 안 보임)
     this.shop.apply(this.state);
+    this.state.stats.체력 = this.state.stat("최대체력"); // 최대 체력으로 시작
     this.record.learn(this.state.items.map((x) => `item:${x}`));
     const life = this.record.startLife();
     this.enterGame();

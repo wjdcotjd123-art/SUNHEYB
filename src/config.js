@@ -1,7 +1,9 @@
 // 게임 전체 설정값. 숫자는 여기서만 바꾼다.
 export const CONFIG = {
-  startStats: { 근골: 3, 민첩: 3, 행운: 3, 재물: 0, 내공: 0, 경지: 0 },
-  disabledStats: ["체력"], // 없앤 능력치: 장면 데이터에 남아 있어도 적용하지 않는다
+  startStats: { 체력: 10, 최대체력: 10, 근골: 3, 민첩: 3, 행운: 3, 재물: 0, 내공: 0, 경지: 0 },
+  disabledStats: [], // 없앤 능력치: 장면 데이터에 남아 있어도 적용하지 않는다
+  // 체력 회복·피해 단계: 최대 체력에 대한 비율 (화면에는 문장만)
+  hpTiers: { 회복: { 조금: 0.2, 제법: 0.5, 완전: 1 }, 피해: { 가볍게: 0.1, 크게: 0.3, 치명: 0.6 } },
   startItems: ["라이터"],
   defaultWeight: 5,
   affiliationBoost: 4,
@@ -17,12 +19,13 @@ export const CONFIG = {
   languages: ["ko"],
   defaultLanguage: "ko",
   langDir: "lang",
-  shownStats: ["근골", "민첩", "행운", "내공", "재물"],
+  shownStats: ["체력", "근골", "민첩", "행운", "내공", "재물"],
   karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5, perEnding: 40, perSceneMult: 0.03, maxMult: 2.5 }, // 배율 = 1 + 턴×0.03 (최대 ×2.5)
   // 업 상점: 산 만큼 매 생 시작할 때 적용. 값 = round(base × growth^현재단계)
   shop: [
     { id: "근골", stat: "근골", amount: 1, base: 20, growth: 1.3, max: 15 },
     { id: "민첩", stat: "민첩", amount: 1, base: 20, growth: 1.3, max: 15 },
+    { id: "체력", stat: "최대체력", amount: 2, base: 15, growth: 1.25, max: 10 },
     { id: "행운", stat: "행운", amount: 1, base: 20, growth: 1.3, max: 15 },
     { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.2, max: 10 },
     { id: "내공", stat: "내공", amount: 1, base: 40, growth: 1.3, max: 7 },

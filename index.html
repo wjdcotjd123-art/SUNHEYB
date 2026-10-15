@@ -34,9 +34,13 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 #toMenu { font-family: var(--f-ui); font-size: 12px; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 3px; padding: 2px 10px; }
 #toMenu:hover, #toMenu:focus-visible { color: var(--paper); border-color: var(--muted); outline: none; }
 #karma { font-size: 14px; color: var(--muted); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
-#stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; font-family: var(--f-ui); }
+#stats { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; font-family: var(--f-ui); }
 .stat { display: grid; gap: 0; text-align: center; padding-block: 4px; }
 .stat span { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; }
+.stat.hp { grid-column: span 2; }
+.stat b.hpbar { display: block; height: 10px; margin: 8px 6px 0; border: 1px solid var(--line); border-radius: 2px; background: var(--ink-2); overflow: hidden; }
+.stat b.hpbar i { display: block; height: 100%; background: var(--jade); transition: width .4s; }
+.stat b.hpbar.low i { background: var(--red); }
 .stat b { font-weight: 400; font-size: 16px; font-variant-numeric: tabular-nums; }
 .stat.realm b { color: var(--accent); }
 #items li.situation { color: var(--red); border-color: rgba(224,103,92,0.6); }

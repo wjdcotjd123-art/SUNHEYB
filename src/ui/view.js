@@ -45,7 +45,14 @@ export class GameView {
   stats(state) {
     const i = this.i;
     const rows = [`<div class="stat realm"><span>${i.stat("경지")}</span><b>${i.realm(state.stat("경지"))}</b></div>`];
-    for (const s of this.config.shownStats) rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}</b></div>`);
+    for (const s of this.config.shownStats) {
+      // 체력은 숫자 대신 막대(최대 체력 대비 10칸)
+      if (s === "체력") {
+        const max = Math.max(1, state.stat("최대체력"));
+        const n = Math.max(0, Math.min(10, Math.ceil((state.stat("체력") / max) * 10)));
+        rows.push(`<div class="stat hp"><span>${i.stat(s)}</span><b class="hpbar${n <= 3 ? " low" : ""}"><i style="width:${n * 10}%"></i></b></div>`);
+      } else rows.push(`<div class="stat"><span>${i.stat(s)}</span><b>${state.stat(s)}</b></div>`);
+    }
     this.$("#stats").innerHTML = rows.join("");
     const sit = state.situation ? `<li class="situation">${i.t(`situations.${state.situation}`)}</li>` : "";
     this.$("#items").innerHTML = sit + (state.items.length
@@ -63,6 +70,7 @@ export class GameView {
     if (c.type === "set") return `${i.stat(c.stat)} ${c.value}`;
     if (c.type === "join") return i.t("changes.join", { name: i.name(c.name) });
     if (c.type === "leave") return i.t("changes.leave");
+    if (c.type === "hp") return i.t(`changes.hp.${c.tier}`);
     if (c.type === "situation") return c.name === "없음" ? i.t("changes.situationEnd") : i.t("changes.situation", { name: i.t(`situations.${c.name}`) });
     if (c.type === "bond") return i.t(c.delta > 0 ? "changes.bondUp" : "changes.bondDown", { name: i.name(c.name) });
     if (c.type === "fame") return i.t(c.delta > 0 ? "changes.fameUp" : "changes.fameDown", { name: i.name(c.name) });

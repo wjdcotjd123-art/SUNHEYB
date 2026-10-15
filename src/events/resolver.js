@@ -69,6 +69,13 @@ export class ResultResolver {
       else if (k === "next_event") continue;
       else if (k === "ending") state.ending = v;
       // 전투 기세 같은 임시 수치를 조용히 0으로 (예: "기세_reset": true)
+      // 체력 회복·피해: 단계(조금/제법/완전, 가볍게/크게/치명)를 최대 체력 비율로
+      else if (k === "회복" || k === "피해") {
+        const max = state.stat("최대체력");
+        const amt = Math.max(1, Math.ceil(max * this.config.hpTiers[k][v]));
+        state.stats.체력 = k === "회복" ? Math.min(max, state.stat("체력") + amt) : state.stat("체력") - amt;
+        changes.push({ type: "hp", kind: k, tier: v, good: k === "회복" });
+      }
       else if (k.endsWith("_reset")) state.stats[k.slice(0, -6)] = 0;
       else if (k === "realm_set") { state.stats.경지 = v; changes.push({ type: "realm", value: v, good: true }); }
       else if (k.endsWith("_set")) { const s = k.slice(0, -4); state.stats[s] = v; changes.push({ type: "set", stat: s, value: v, good: false }); }
@@ -89,6 +96,7 @@ export class ResultResolver {
         changes.push({ type: "stat", stat: k, delta: v, good: v > 0 });
       }
     }
+    if (state.stat("체력") <= 0) state.dead = true;
     return changes;
   }
 }
