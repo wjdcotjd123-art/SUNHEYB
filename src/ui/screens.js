@@ -258,8 +258,36 @@ export class MenuScreens {
       tb.textContent = t("settings.testKarma");
       tb.addEventListener("click", () => { h.testKarma(); tb.textContent = t("settings.testDone"); });
       row.append(tb);
+      if (h.testBattle) {
+        const fb = el("button", "wipe");
+        fb.type = "button";
+        fb.id = "test-battle";
+        fb.textContent = t("settings.testBattle");
+        fb.addEventListener("click", () => h.testBattle());
+        row.append(fb);
+      }
       sec.append(row);
     }
+    this.show(sec, onBack);
+  }
+
+  // 시험용 전투 설정: 능력치 입력과 무공 선택. onFight(stats, artIds)
+  battleTest(base, arts, onFight, onBack) {
+    const t = (k, v) => this.i.t(k, v);
+    const sec = el("section", "sub-screen");
+    const keys = ["경지", "최대체력", "근골", "민첩", "행운", "내공"];
+    sec.innerHTML = `<h2>${t("settings.testBattle")}</h2><p class="sub">${t("settings.testBattleNote")}</p>
+      <div class="bt-grid">${keys.map((k) => `<label>${this.i.stat(k)}<input type="number" min="0" id="bt-${k}" value="${base.stat(k)}"></label>`).join("")}</div>
+      <div class="bt-arts">${arts.map((a) => `<label><input type="checkbox" value="${a.id}"> ${this.i.combat(`art.${a.id}.name`)}</label>`).join("")}</div>`;
+    const go = el("button", "next");
+    go.type = "button";
+    go.textContent = t("settings.testFight");
+    go.addEventListener("click", () => {
+      const stats = Object.fromEntries(keys.map((k) => [k, Number(sec.querySelector(`#bt-${k}`).value) || 0]));
+      const ids = [...sec.querySelectorAll(".bt-arts input:checked")].map((x) => x.value);
+      onFight(stats, ids);
+    });
+    sec.append(go);
     this.show(sec, onBack);
   }
 }

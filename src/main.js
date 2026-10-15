@@ -80,6 +80,7 @@ class App {
         language: async (id) => { this.settings.set("language", id); await this.i18n.use(id); this.openSettings(); },
         wipe: () => { this.record.wipe(); this.saves.clear(); },
         testKarma: CONFIG.testKarma ? () => this.record.grant(CONFIG.testKarma) : null,
+        testBattle: CONFIG.testKarma ? () => this.openBattleTest() : null,
       },
       () => this.home()
     );
@@ -229,6 +230,25 @@ class App {
       this.saves.save(s, next?.id ?? null);
       this.view.outcome(ev.id, choice.id, key, changes, "game.continue", () => this.play(next));
     });
+  }
+
+  // 시험용: 산적의 길목 전투만 따로 해 보기. 진행 중인 생과 기록에는 영향 없음
+  openBattleTest() {
+    const saved = this.saves.load()?.state;
+    const base = saved ?? new GameState(CONFIG);
+    const enemy = this.combat.enemies.find((x) => x.id === CONFIG.testBattleEnemy);
+    this.menu.battleTest(base, this.combat.arts, (stats, artIds) => {
+      const s = new GameState(CONFIG);
+      Object.assign(s.stats, stats);
+      s.stats.체력 = s.stat("최대체력");
+      const arts = this.combat.arts.filter((a) => artIds.includes(a.id));
+      this.menu.hide();
+      this.view.open(() => this.openBattleTest());
+      this.view.header(this.record.data.life, this.record.data.karma);
+      this.view.stats(s);
+      const battle = new Battle(this.rng, CONFIG, s, enemy, arts);
+      this.battleScreen.run(battle, () => { battle.finish(); this.openBattleTest(); });
+    }, () => this.openSettings());
   }
 
   finish(kind) {
