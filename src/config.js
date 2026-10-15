@@ -44,6 +44,8 @@ export const CONFIG = {
   combat: { baseHit: 75, perAgi: 3, perLuckEvade: 1, perRealmHit: 8, minHit: 15, maxHit: 95, perStr: 0.5, perRealmDmg: 1, baseCrit: 5, perLuckCrit: 2, guard: 0.7, lineDelay: 1000 },
   combatEnabled: false, // false면 전투 화면 없이 속으로 싸움을 계산해 결과만 보여 준다
   combatPath: "data/combat.json",
+  // 마기: 마공 선택지를 고를 때마다 쌓이는 숨은 수치. threshold 이상이 되면 다음 장면으로 마두 발작(event)이 터진다
+  madness: { stat: "마기", threshold: 10, event: "SYS_MADNESS" },
   testBattleEnemy: "고갯길_산적", // 시험용 전투의 적
   showLog: false, // 하단 '지나온 길' 기록창
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },

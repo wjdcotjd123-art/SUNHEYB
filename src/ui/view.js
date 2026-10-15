@@ -71,6 +71,7 @@ export class GameView {
     if (c.type === "join") return i.t("changes.join", { name: i.name(c.name) });
     if (c.type === "leave") return i.t("changes.leave");
     if (c.type === "hp") return i.t(`changes.hp.${c.tier}`);
+    if (c.type === "stat" && c.stat === this.config.madness?.stat) return i.t(c.delta > 0 ? "changes.madUp" : "changes.madDown");
     if (c.type === "situation") return c.name === "없음" ? i.t("changes.situationEnd") : i.t("changes.situation", { name: i.t(`situations.${c.name}`) });
     if (c.type === "bond") return i.t(c.delta > 0 ? "changes.bondUp" : "changes.bondDown", { name: i.name(c.name) });
     if (c.type === "fame") return i.t(c.delta > 0 ? "changes.fameUp" : "changes.fameDown", { name: i.name(c.name) });
@@ -133,7 +134,7 @@ export class GameView {
       const name = tr?.tiers[lv - 1]?.name ?? id;
       tags.push(i.t(`karmaScreen.traits.${name}.name`));
     }
-    const req = tags.map((x) => ` <span class="req">[${x}]</span>`).join("");
+    const req = (c.madness ? ` <span class="mad">[${i.t("game.madness")}]</span>` : "") + tags.map((x) => ` <span class="req">[${x}]</span>`).join("");
     const stat = c.stat && !(cond.stat_min && c.stat in cond.stat_min) ? ` <span class="tag">[${i.stat(c.stat)}]</span>` : "";
     return req + stat;
   }

@@ -197,7 +197,9 @@ class App {
         return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.fight(fight, ev, choice, oi), rare, !!outcome.fortune, textEv, trait?.name);
       }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
-      const nextId = outcome.effects?.next_event;
+      // 마기가 차오르면 다음 장면은 마두 발작
+      const mad = CONFIG.madness;
+      const nextId = s.stat(mad.stat) >= mad.threshold && ev.id !== mad.event ? mad.event : outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
       this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, trait?.name);
