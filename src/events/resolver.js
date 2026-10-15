@@ -57,6 +57,8 @@ export class ResultResolver {
     const changes = [];
     const e = outcome.effects ?? {};
     for (const [k, v] of Object.entries(e)) {
+      // 없앤 능력치(체력 등)는 적용하지 않는다
+      if (this.config.disabledStats?.includes(k.replace(/_set$/, ""))) continue;
       if (k === "death") state.dead = !!v;
       else if (k === "items") v.forEach((i) => { state.addItem(i); changes.push({ type: "gain", item: i, good: true }); });
       else if (k === "items_remove") v.forEach((i) => { state.removeItem(i); changes.push({ type: "lose", item: i, good: false }); });
@@ -87,7 +89,6 @@ export class ResultResolver {
         changes.push({ type: "stat", stat: k, delta: v, good: v > 0 });
       }
     }
-    if (state.stat("체력") <= 0) state.dead = true;
     return changes;
   }
 }

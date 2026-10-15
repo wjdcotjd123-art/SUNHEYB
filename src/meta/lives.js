@@ -8,6 +8,8 @@ export class LifeRecord {
     this.config = config;
     const saved = Store.get(config.storage.meta, {});
     this.data = { ...empty(), ...saved };
+    // 업 상점 '타고난 체력'은 '타고난 행운'으로 바뀌었다
+    if (this.data.shop.체력 != null && this.data.shop.행운 == null) { this.data.shop.행운 = this.data.shop.체력; delete this.data.shop.체력; }
     // 예전 기록에는 누적 업이 없으므로 남은 업으로 채운다.
     if (saved.karmaEarned == null) this.data.karmaEarned = this.data.karma;
     // 예전 기록의 인과록(업적)도 도감 지식으로 옮겨 둔다.

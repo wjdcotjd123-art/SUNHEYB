@@ -153,6 +153,7 @@ export class GameView {
     };
     const go = () => {
       if (!picked) return;
+      this.lastChoice = picked; // 결과 화면에서 선택지의 능력치 표시용
       this.keys(null);
       onConfirm(picked);
     };
@@ -161,7 +162,7 @@ export class GameView {
       const badge = this.reqBadge(c);
       const b = el("button", "choice" + (c.warn ? " warn" : "") + (badge ? " trait" : ""));
       b.type = "button";
-      b.innerHTML = `${badge}<span class="num">${n + 1}</span><span class="tag">[${i.ev(ev.id, `c${c.id}.tag`)}]</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
+      b.innerHTML = `${badge}<span class="num">${n + 1}</span>${c.stat ? `<span class="tag">[${i.stat(c.stat)}]</span>` : ""}<span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}`;
       b.addEventListener("click", () => select(n));
       list.append(b);
     });
@@ -194,7 +195,7 @@ export class GameView {
     // trait: 결과를 바꾼 체질 id
     const traitHtml = trait ? `<div class="trait-banner"><b>${i.t("game.trait", { name: i.t(`karmaScreen.traits.${trait}.name`) })}</b><span>${i.t(`karmaScreen.traits.${trait}.fired`)}</span></div>` : "";
     sec.innerHTML = `${traitHtml}${rare ? `<p class="rare-banner">${i.t("game.rare", { n: this.config.karma.perRare })}</p>` : fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(evId, "title")}</h2>
-      <p class="chosen"><span class="tag">[${i.ev(evId, `c${choiceId}.tag`)}]</span> ${lineToHtml(i.ev(evId, `c${choiceId}.text`))}</p>
+      <p class="chosen">${this.lastChoice?.stat ? `<span class="tag">[${i.stat(this.lastChoice.stat)}]</span> ` : ""}${lineToHtml(i.ev(evId, `c${choiceId}.text`))}</p>
       <div class="prose">${linesToHtml(i.ev(textEv, textKey))}</div>`;
     if (changes.length) {
       sec.innerHTML += `<ul class="changes">${changes.map((c) => `<li class="${c.good ? "up" : "down"}">${this.changeText(c)}</li>`).join("")}</ul>`;
