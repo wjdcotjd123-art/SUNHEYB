@@ -75,6 +75,31 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bt-grid label { display: grid; gap: 4px; color: var(--muted); }
 .bt-grid input { width: 100%; box-sizing: border-box; min-width: 0; background: var(--ink-2); border: 1px solid var(--line); color: var(--paper); border-radius: 3px; padding: 6px 8px; font: inherit; font-size: 15px; }
 .bt-arts { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 18px; font-family: var(--f-ui); font-size: 14px; }
+.pk .pk-field { position: relative; height: 150px; margin: 6px 0 12px; }
+.pk .pk-tag { position: absolute; width: 58%; padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px 6px 6px 0; background: var(--ink-2); display: grid; gap: 8px; font-family: var(--f-ui); }
+.pk .pk-tag b { font-weight: 500; font-size: 15px; }
+.pk .pk-tag small { color: var(--accent); font-size: 13px; }
+.pk .pk-enemy { top: 0; right: 0; }
+.pk .pk-me { bottom: 0; left: 0; border-radius: 6px 6px 0 6px; }
+.pk .pk-bar .hpbar { display: block; height: 10px; border: 1px solid var(--line); border-radius: 2px; background: var(--ink); overflow: hidden; }
+.pk .pk-bar .hpbar i { display: block; height: 100%; background: var(--jade); transition: width .5s; }
+.pk .pk-bar .hpbar.low i { background: var(--red); }
+.pk .pk-box { border: 2px solid var(--line); border-radius: 6px; background: var(--ink-2); padding: 14px 16px; }
+.pk .pk-text { position: relative; min-height: 3.6em; cursor: default; }
+.pk.reading .pk-text { cursor: pointer; }
+.pk .pk-text p { margin: 0; }
+.pk .pk-more { position: absolute; right: 0; bottom: 0; color: var(--accent); font-size: 12px; animation: pkBlink 1s steps(2) infinite; }
+@keyframes pkBlink { 50% { opacity: 0; } }
+.pk .pk-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.pk.reading .pk-menu { display: none; }
+.pk .pk-cell { min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 2px; padding: 8px 14px; background: var(--ink); border: 1px solid var(--line); border-radius: 4px; font-family: var(--f-ui); font-size: 16px; text-align: left; }
+.pk .pk-cell small { color: var(--accent); font-size: 12px; }
+.pk .pk-cell.on:not(:disabled), .pk .pk-cell:hover:not(:disabled) { border-color: var(--accent); background: #20252f; }
+.pk .pk-cell.on:not(:disabled) span::before { content: "▶ "; color: var(--accent); }
+.pk .pk-cell:disabled { opacity: 0.35; cursor: default; }
+.pk .pk-foot { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+.pk .pk-foot:empty { display: none; }
+.pk .pk-small { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 3px; padding: 2px 10px; font-family: var(--f-ui); font-size: 12px; }
 .battle-head { font-family: var(--f-display); font-size: 22px; letter-spacing: 0.2em; color: var(--accent); margin: 0 0 14px; }
 .fighters { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; font-family: var(--f-ui); font-size: 14px; }
 .fighters > div { display: grid; gap: 6px; }
