@@ -25,16 +25,17 @@
   --f-body: "Noto Serif KR", "Nanum Myeongjo", serif;
   --f-ui: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --log-h: 132px;
+  --bg-img: url("assets/bg.jpg"); /* 바탕 그림 (한 번만 적어 두고 여러 곳에서 씀) */
   color-scheme: light;
 }
 html { color: var(--paper); min-height: 100%;
   /* 한지 배경 그림 — 화면에 꽉 차게, 스크롤해도 고정 */
-  background: var(--ink) url("assets/bg.jpg") center / cover no-repeat fixed; }
+  background: var(--ink) var(--bg-img) center / cover no-repeat fixed; }
 body { margin: 0; background: transparent; }
 body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px); line-height: 1.85; -webkit-font-smoothing: antialiased; }
 .wrap { max-width: 640px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 calc(var(--log-h) + 48px); }
 
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: color-mix(in srgb, var(--ink) 70%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding-block: 12px 10px; display: grid; gap: 10px; }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--ink) var(--bg-img) center / cover no-repeat fixed; /* 같은 그림을 같은 자리에 깔아 이음새 없이 */ text-shadow: 0 0 6px #f4f1ea, 0 0 2px #f4f1ea; /* 먹 위에서도 글자가 읽히게 */ border-bottom: 1px solid var(--line); padding-block: 12px 10px; display: grid; gap: 10px; }
 .bar { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--f-ui); }
 #life { font-family: var(--f-display); font-size: 22px; color: var(--accent); letter-spacing: 0.06em; }
 .bar-r { display: flex; gap: 14px; align-items: baseline; }
@@ -163,7 +164,7 @@ body.no-log .wrap { padding-bottom: 48px; }
 #log li.empty { color: var(--muted); opacity: 1; }
 .changes { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-family: var(--f-ui); font-size: 14px; }
 .changes .up { color: var(--jade); } .changes .down { color: var(--red); }
-.next { font-family: var(--f-ui); font-size: 15px; background: none; border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 8px 22px; letter-spacing: 0.1em; }
+.next { font-family: var(--f-ui); font-size: 15px; background: var(--hover); border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 8px 22px; letter-spacing: 0.1em; }
 .next:hover:not(:disabled), .next:focus-visible { background: var(--accent); color: var(--ink); outline: none; }
 .next:disabled { opacity: 0.35; cursor: default; }
 
