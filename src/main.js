@@ -143,6 +143,7 @@ class App {
     this.saves.save(s, ev.id);
     // '처음' 표시: 두 번째 생부터, 한 번도 골라 본 적 없는 선택지
     const isFresh = (c) => this.record.data.life > 1 && this.novelty.isFreshChoice(ev.id, c.id, s);
+    this.view.chapter(s.scenes + 1);
     const choices = this.rankChoices(ev, s);
     this.view.scene(ev, choices, (choice) => {
       s.scenes += 1;

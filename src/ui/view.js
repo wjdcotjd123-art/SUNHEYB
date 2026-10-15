@@ -38,8 +38,12 @@ export class GameView {
   }
 
   header(life, karma) {
-    this.$("#life").textContent = this.i.t("game.life", { n: life });
     this.$("#karma").textContent = this.i.t("game.karma", { k: karma });
+  }
+
+  // 이번 생에서 몇 번째 장면인지 (예: 12장)
+  chapter(n) {
+    this.$("#life").textContent = this.i.t("game.chapter", { n });
   }
 
   stats(state) {

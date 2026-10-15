@@ -39,7 +39,8 @@
     "conclude": "귀결",
     "itemChoice": "소지품",
     "madness": "마기",
-    "go": "결정"
+    "go": "결정",
+    "chapter": "{n}장"
   },
   "changes": {
     "gain": "{item} 획득",
