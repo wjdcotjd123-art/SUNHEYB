@@ -40,7 +40,10 @@
     "itemChoice": "소지품",
     "madness": "마기",
     "go": "결정",
-    "chapter": "{n}장"
+    "chapter": "{n}장",
+    "endConfirm": "이 선택을 하면 이번 생은 여기서 끝난다.\n정말 고르겠는가?",
+    "endYes": "이번 생을 끝낸다",
+    "endNo": "돌아간다"
   },
   "changes": {
     "gain": "{item} 획득",

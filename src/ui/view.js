@@ -161,11 +161,16 @@ export class GameView {
       picked = choices[n];
       list.querySelectorAll(".choice").forEach((b, j) => b.classList.toggle("picked", j === n));
     };
-    const go = () => {
-      if (!picked) return;
+    const commit = () => {
       this.lastChoice = picked; // 결과 화면에서 선택지의 능력치 표시용
       this.keys(null);
       onConfirm(picked);
+    };
+    // 귀결(이번 생이 끝나는 결말)로 이어지는 선택지는 한 번 더 묻는다
+    const go = () => {
+      if (!picked) return;
+      if (picked.outcomes.some((o) => o.effects?.ending)) this.confirmEnd(sec, commit, () => this.keys(sceneKeys));
+      else commit();
     };
 
     choices.forEach((c, n) => {
@@ -178,11 +183,33 @@ export class GameView {
     sec.append(list);
     this.show(sec);
 
-    this.keys((e) => {
+    const sceneKeys = (e) => {
       const n = Number(e.key);
       if (n >= 1 && n <= choices.length) { select(n - 1); return true; }
       if (e.key === "Enter" && picked) { go(); return true; }
       return false;
+    };
+    this.keys(sceneKeys);
+  }
+
+  // 결말 확인창: "이번 생은 여기서 끝난다. 정말 고르겠는가?"
+  confirmEnd(host, onYes, onNo) {
+    const i = this.i;
+    const box = el("div", "end-confirm");
+    box.setAttribute("role", "dialog");
+    box.innerHTML = `<div class="end-card"><p>${i.t("game.endConfirm")}</p><div class="end-btns"><button type="button" class="yes">${i.t("game.endYes")}<kbd>Enter</kbd></button><button type="button" class="no">${i.t("game.endNo")}<kbd>Esc</kbd></button></div></div>`;
+    const close = () => box.remove();
+    const yes = () => { close(); onYes(); };
+    const no = () => { close(); onNo(); };
+    box.querySelector(".yes").addEventListener("click", yes);
+    box.querySelector(".no").addEventListener("click", no);
+    host.append(box);
+    box.querySelector(".no").focus();
+    // Esc가 메뉴로 가지 않도록 메뉴 처리보다 먼저 받는다
+    Keys.set((e) => {
+      if (e.key === "Enter") { yes(); return true; }
+      if (e.key === "Escape") { no(); return true; }
+      return true; // 창이 떠 있는 동안 다른 키는 막는다
     });
   }
 

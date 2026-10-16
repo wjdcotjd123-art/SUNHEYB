@@ -216,6 +216,13 @@ body.no-log .wrap { padding-bottom: 48px; }
 .shop-info b { font-weight: 500; }
 .shop-info span { font-size: 13px; color: var(--muted); }
 .shop-info .shop-lv { color: var(--accent); }
+.end-confirm { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(20, 14, 8, 0.45); z-index: 50; }
+.end-card { background: var(--tip); border: 1px solid var(--line); padding: 24px 28px; max-width: 360px; text-align: center; font-family: var(--f-body); }
+.end-card p { margin: 0 0 18px; line-height: 1.7; white-space: pre-line; }
+.end-btns { display: flex; gap: 10px; justify-content: center; }
+.end-btns button { font-family: var(--f-ui); padding: 8px 14px; border: 1px solid var(--line); background: var(--ink-2); cursor: pointer; }
+.end-btns .yes { color: var(--accent); border-color: var(--accent); }
+.end-btns kbd { margin-left: 6px; font-size: 10px; opacity: 0.6; }
 .shop-info .lore { font-size: 12px; font-style: italic; opacity: 0.75; }
 .trait-bonus { font-size: 11px; color: var(--jade); }
 .shop-buy { flex: none; font-family: var(--f-ui); font-size: 14px; background: none; border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 6px 14px; font-variant-numeric: tabular-nums; }
