@@ -12,6 +12,9 @@ export function meetsCondition(state, cond = {}) {
     const n = of.filter((f) => state.flags.has(f)).length;
     if (n < min || n > max) return false;
   }
+  // any: [조건…] 중 하나라도 맞으면 / none_of: [조건…] 중 하나도 안 맞으면
+  if (cond.any && !cond.any.some((c) => meetsCondition(state, c))) return false;
+  if (cond.none_of && cond.none_of.some((c) => meetsCondition(state, c))) return false;
   if (cond.stat_min && !Object.entries(cond.stat_min).every(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.stat_min_any && !Object.entries(cond.stat_min_any).some(([k, v]) => state.stat(k) >= v)) return false;
   if (cond.realm_min != null && state.stat("경지") < cond.realm_min) return false;

@@ -24,6 +24,10 @@ def fmt_cond(cond):
         fc = cond["flags_count"]
         rng = f"{fc.get('min', 0)}~{fc['max']}" if "max" in fc and fc["max"] != fc.get("min") else f"{fc.get('min', 0)}"
         parts.append(f"{', '.join(fc['of'])} 중 {rng}개")
+    if "any" in cond:
+        parts.append("다음 중 하나: (" + ") 또는 (".join(fmt_cond(c) for c in cond["any"]) + ")")
+    if "none_of" in cond:
+        parts.append("다음 모두 아님: (" + "), (".join(fmt_cond(c) for c in cond["none_of"]) + ")")
     if "stat_min" in cond:
         parts.append(", ".join(f"{k} {v} 이상" for k, v in cond["stat_min"].items()))
     if "stat_min_any" in cond:
