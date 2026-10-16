@@ -3,6 +3,7 @@
 import { Keys } from "./keys.js";
 import { el } from "./view.js";
 import { FONT_SIZES, TERM_MODES } from "../meta/settings.js";
+import { SOUND_LEVELS } from "../audio/sound.js";
 
 export class MenuScreens {
   constructor(root, i18n) {
@@ -272,10 +273,12 @@ export class MenuScreens {
     sec.innerHTML = `<h2>${t("settings.title")}</h2>
       <div class="set-row"><span class="set-lbl">${t("settings.fontSize")}</span><div class="seg" id="seg-fs" role="group"></div></div>
       <div class="set-row"><span class="set-lbl">${t("settings.termMode")}</span><p class="set-note">${t("settings.termNote")}</p><div class="seg" id="seg-term" role="group"></div></div>
+      <div class="set-row"><span class="set-lbl">${t("settings.sound")}</span><div class="seg" id="seg-sound" role="group"></div></div>
       ${languages.length > 1 ? `<div class="set-row"><span class="set-lbl">${t("settings.language")}</span><div class="seg" id="seg-lang" role="group"></div></div>` : ""}
       <div class="set-row danger"><span class="set-lbl">${t("settings.wipe")}</span><p class="set-note">${t("settings.wipeNote")}</p></div>`;
     segment(sec.querySelector("#seg-fs"), FONT_SIZES.map((f) => ({ id: f.id, label: t(`settings.sizes.${f.id}`) })), current.fontSize, "fs", h.fontSize);
     segment(sec.querySelector("#seg-term"), TERM_MODES.map((m) => ({ id: m, label: t(`settings.termModes.${m}`) })), current.termMode ?? "twice", "term", h.termMode);
+    segment(sec.querySelector("#seg-sound"), SOUND_LEVELS.map((x) => ({ id: x.id, label: t(`settings.sounds.${x.id}`) })), current.sound ?? "mid", "sound", h.sound);
     const langSeg = sec.querySelector("#seg-lang");
     if (langSeg) segment(langSeg, languages.map((l) => ({ id: l.id, label: l.name })), current.language, "lang", h.language);
 

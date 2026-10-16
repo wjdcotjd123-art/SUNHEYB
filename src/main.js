@@ -16,6 +16,7 @@ import { SaveManager } from "./save/saveManager.js";
 import { GameView } from "./ui/view.js";
 import { MenuScreens } from "./ui/screens.js";
 import { Tooltip } from "./ui/tooltip.js";
+import { SoundBank } from "./audio/sound.js";
 
 class App {
   constructor(events, achievements, codex, i18n, settings, combat) {
@@ -28,6 +29,8 @@ class App {
     this.shop = new KarmaShop(CONFIG, this.record);
     this.novelty = new NoveltyWeigher(this.record, CONFIG);
     this.selector.useNovelty(this.novelty);
+    this.sound = new SoundBank();
+    this.sound.setLevel(settings.data.sound);
     this.saves = new SaveManager(CONFIG);
     this.settings = settings;
     this.i18n = i18n;
@@ -77,6 +80,7 @@ class App {
       {
         fontSize: (id) => this.settings.set("fontSize", id),
         termMode: (id) => this.settings.set("termMode", id),
+        sound: (id) => { this.settings.set("sound", id); this.sound.setLevel(id); this.sound.play("realm"); },
         language: async (id) => { this.settings.set("language", id); await this.i18n.use(id); this.openSettings(); },
         wipe: () => { this.record.wipe(); this.saves.clear(); },
         testKarma: CONFIG.testKarma ? () => this.record.grant(CONFIG.testKarma) : null,
@@ -183,6 +187,7 @@ class App {
       this.learnFrom(s, ev.id);
       this.view.stats(s);
       this.view.renderLog(s.log);
+      this.sound.play(this.cueFor(s, changes, rare || !!outcome.fortune));
 
       if (s.dead) {
         this.saves.clear();
@@ -212,6 +217,14 @@ class App {
 
   // 전투 한 판. fight = { enemy, lethal, win: {text, effects}, lose: {text, effects}, next? }
   // 지금 상태에서 이 선택지로 죽을 확률(%). 결과 판정(pick)·체질·검은 비늘 규칙을 그대로 따른다.
+  // 결과에 맞는 효과음 하나 (죽음 > 귀결 > 경지 상승 > 기연·드문 인과)
+  cueFor(s, changes, lucky) {
+    if (s.dead) return "death";
+    if (s.ending) return "ending";
+    if (changes.some((c) => c.type === "realm")) return "realm";
+    return lucky ? "fortune" : null;
+  }
+
   deathChance(ev, choice, s) {
     const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
     const guard = CONFIG.scaleGuard;
@@ -256,6 +269,7 @@ class App {
       this.learnFrom(s, ev.id);
       this.view.stats(s);
       this.view.renderLog(s.log);
+      this.sound.play(this.cueFor(s, changes, false));
       const key = `c${choice.id}.o${oi}.${result}`;
       if (s.dead) {
         this.saves.clear();

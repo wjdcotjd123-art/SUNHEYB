@@ -14,7 +14,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 subprocess.run([sys.executable, str(ROOT / "tools/extract_text.py")], check=True)
 ORDER = ["config", "core/store", "core/rng", "core/state", "events/loader", "events/selector", "events/novelty",
          "events/resolver", "combat/battle", "i18n/i18n", "meta/lives", "meta/shop", "meta/settings", "save/saveManager",
-         "ui/keys", "ui/markup", "ui/tooltip", "ui/view", "ui/battle", "ui/screens", "main"]
+         "audio/sound", "ui/keys", "ui/markup", "ui/tooltip", "ui/view", "ui/battle", "ui/screens", "main"]
 
 def module_body(name):
     src = (ROOT / "src" / f"{name}.js").read_text(encoding="utf-8")

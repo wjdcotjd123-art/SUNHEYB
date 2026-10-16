@@ -12,7 +12,7 @@ export const FONT_SIZES = [
 export class Settings {
   constructor(config) {
     this.key = config.storage.settings;
-    this.data = { fontSize: "m", language: config.defaultLanguage, termMode: "twice", ...Store.get(this.key, {}) };
+    this.data = { fontSize: "m", language: config.defaultLanguage, termMode: "twice", sound: "mid", ...Store.get(this.key, {}) };
   }
   set(k, v) {
     this.data[k] = v;
