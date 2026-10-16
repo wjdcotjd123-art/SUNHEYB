@@ -43,6 +43,8 @@ def chance_text(o, alone):
     s = f"{o['chance']}%"
     if o.get("mods"):
         s += " (" + ", ".join(f"{k} 1당 {v:+g}%p" for k, v in o["mods"].items()) + ")"
+    if o.get("flagMods"):
+        s += " (" + ", ".join(f"{k} 있으면 {v:+g}%p" for k, v in o["flagMods"].items()) + ")"
     return s
 
 

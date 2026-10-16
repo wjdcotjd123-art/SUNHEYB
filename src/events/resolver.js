@@ -10,6 +10,8 @@ export class ResultResolver {
     let c = outcome.chance;
     for (const [stat, per] of Object.entries(outcome.mods ?? {})) c += per * state.stat(stat);
     if (outcome.effects?.realm_set) c += this.breakBonus(state);
+    // flagMods: { 플래그: %p } — 그 플래그가 있으면 확률을 더한다 (예: 결전에서 모인 조력)
+    for (const [f, per] of Object.entries(outcome.flagMods ?? {})) if (state.flags.has(f)) c += per;
     // 하한은 chanceMin이지만, 원래부터 그보다 낮게 잡은 극악 확률은 그대로 둔다.
     return Math.min(this.config.chanceMax, Math.max(Math.min(this.config.chanceMin, outcome.chance), c));
   }
@@ -31,7 +33,7 @@ export class ResultResolver {
       const last = alive[alive.length - 1];
       choice = { ...choice, outcomes: alive.map((o) => (o === last ? { ...o, chance: undefined } : o)) };
     }
-    const m = this.config.deathMemory;
+    const m = { ...this.config.deathMemory, ...(choice.memory ?? {}) }; // 선택지마다 전생의 기억 보정을 키울 수 있다
     const bonus = Math.min(m.cap, deaths * m.perDeath);
     const outs = choice.outcomes;
     const fallback = outs.find((o) => o.chance == null) ?? null;
@@ -60,7 +62,7 @@ export class ResultResolver {
       const last = alive[alive.length - 1];
       choice = { ...choice, outcomes: alive.map((o) => (o === last ? { ...o, chance: undefined, src: o.src ?? o } : o)) };
     }
-    const m = this.config.deathMemory;
+    const m = { ...this.config.deathMemory, ...(choice.memory ?? {}) }; // 선택지마다 전생의 기억 보정을 키울 수 있다
     const bonus = Math.min(m.cap, deaths * m.perDeath);
     const outs = choice.outcomes;
     const fallback = outs.find((o) => o.chance == null) ?? outs[outs.length - 1];
