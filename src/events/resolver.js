@@ -167,6 +167,7 @@ export class ResultResolver {
       else if (typeof v === "number") {
         const extra = v > 0 ? this.gainBonus(k, state) : null; // 예: 삼재지체는 내공을 얻을 때마다 1 더
         state.stats[k] = state.base(k) + v + (extra?.n ?? 0);
+        if (k === "재물" && state.stats[k] < 0) state.stats[k] = 0; // 재물은 있는 만큼만 잃는다
         changes.push({ type: "stat", stat: k, delta: v, extra, good: v > 0 });
       }
     }

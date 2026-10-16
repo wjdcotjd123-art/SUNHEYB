@@ -58,6 +58,11 @@ export class I18n {
     return this.p.names?.[id] ?? id.replaceAll("_", " ");
   }
 
+  // 소지품 설명: 용어 풀이가 있으면 그것, 없으면 인과록 도감의 첫 단계 글
+  itemDesc(id) {
+    return this.gloss(this.item(id)) ?? this.p.codex?.[`${id}.s0`] ?? null;
+  }
+
   // 용어 풀이. 없으면 null
   gloss(term) {
     return this.p.glossary?.[term] ?? null;

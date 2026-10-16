@@ -63,7 +63,7 @@ export class GameView {
     this.$("#stats").innerHTML = rows.join("");
     const sit = state.situation ? `<li class="situation">${i.t(`situations.${state.situation}`)}</li>` : "";
     this.$("#items").innerHTML = sit + (state.items.length
-      ? state.items.map((x) => `<li>${i.gloss(i.item(x)) ? `<span class="term" tabindex="0" data-term="${i.item(x)}">${i.item(x)}</span>` : i.item(x)}</li>`).join("")
+      ? state.items.map((x) => { const d = i.itemDesc(x); return `<li>${d ? `<span class="term" tabindex="0" data-term="${i.item(x)}" data-tip="${d.replaceAll('"', "&quot;")}">${i.item(x)}</span>` : i.item(x)}</li>`; }).join("")
       : `<li class="none">${i.t("game.emptyHands")}</li>`);
   }
 
@@ -177,7 +177,11 @@ export class GameView {
       const b = el("button", "choice" + (c.warn ? " warn" : ""));
       b.type = "button";
       b.innerHTML = `<span class="num">${n + 1}</span><span class="txt">${lineToHtml(i.ev(ev.id, `c${c.id}.text`))}${this.choiceTags(c)}</span>${c.outcomes.some((o) => o.effects?.ending) ? `<span class="end-label">${i.t("game.conclude")}</span>` : ""}${isFresh(c) ? `<span class="fresh-label">${i.t("game.fresh")}</span>` : ""}${c.warn ? `<span class="warn-label">${i.t("game.warn")}</span>` : ""}<span class="go-label">${i.t("game.go")}<kbd>Enter</kbd></span>`;
-      b.addEventListener("click", () => (picked === c ? go() : select(n))); // 고른 걸 한 번 더 누르면 결정 (더블클릭 포함)
+      b.addEventListener("click", () => {
+        if (b.dataset.held) { delete b.dataset.held; return; } // 꾹 눌러 이미 결정했다
+        picked === c ? go() : select(n); // 고른 걸 한 번 더 누르면 결정 (더블클릭 포함)
+      });
+      holdToFire(b, b, () => { b.dataset.held = "1"; select(n); go(); }); // 꾹 누르면 게이지가 차고 바로 결정
       list.append(b);
     });
     sec.append(list);
@@ -240,6 +244,8 @@ export class GameView {
     sec.append(b);
     this.show(sec);
     this.keys((e) => (e.key === "Enter" ? (b.click(), true) : false));
+    // 빈 곳을 꾹 누르고 있으면 '계속' 버튼의 게이지가 차고 넘어간다 (버튼·용어는 제외)
+    holdToFire(sec, b, () => b.click(), undefined, (e) => !e.target.closest("button, .term, a"));
   }
 
   ending(kind, summary, onDone) {
@@ -267,6 +273,31 @@ export function button(text, onClick, cls = "next") {
   b.innerHTML = `${text}<kbd>Enter</kbd>`;
   b.addEventListener("click", () => { if (b.disabled) return; b.disabled = true; onClick(); });
   return b;
+}
+
+// 꾹 누르기: ms 동안 누르고 있으면 onFire. gauge 요소에 holding 클래스를 붙여 CSS로 게이지를 채운다.
+// 손을 떼거나, 밖으로 나가거나, 스크롤하면 취소된다.
+export function holdToFire(area, gauge, onFire, ms = 650, accept = () => true) {
+  let timer = null;
+  const cancel = () => {
+    if (!timer) return;
+    clearTimeout(timer);
+    timer = null;
+    gauge.classList.remove("holding");
+  };
+  area.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0 || !accept(e)) return;
+    cancel();
+    gauge.style.setProperty("--hold", `${ms}ms`);
+    gauge.classList.add("holding");
+    timer = setTimeout(() => {
+      timer = null;
+      gauge.classList.remove("holding");
+      onFire();
+    }, ms);
+  });
+  for (const t of ["pointerup", "pointerleave", "pointercancel"]) area.addEventListener(t, cancel);
+  area.addEventListener("contextmenu", (e) => { if (timer) e.preventDefault(); }); // 휴대폰 길게 누르기 메뉴 막기
 }
 
 export function el(tag, cls) {

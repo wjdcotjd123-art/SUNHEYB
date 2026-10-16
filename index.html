@@ -71,6 +71,9 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 .choices { display: grid; gap: 8px; margin-top: 6px; }
 button { font: inherit; color: inherit; cursor: pointer; }
 .choice { display: flex; gap: 10px; align-items: baseline; text-align: left; width: 100%; background: var(--ink-2); border: 1px solid var(--line); border-radius: 3px; padding: 11px 14px; font-family: var(--f-ui); font-size: 16px; line-height: 1.5; transition: border-color .15s, background .15s, opacity .2s; }
+.choice, .next { position: relative; overflow: hidden; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.choice::after, .next::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--accent); pointer-events: none; }
+.choice.holding::after, .next.holding::after { width: 100%; transition: width var(--hold, 650ms) linear; }
 .choice .num { color: var(--muted); font-size: 13px; min-width: 1em; font-variant-numeric: tabular-nums; }
 .choice .mad, .chosen .mad { color: var(--violet); font-weight: 500; white-space: nowrap; }
 .choice .req, .chosen .req { color: var(--accent); white-space: nowrap; font-weight: 500; }

@@ -32,7 +32,7 @@ export class Tooltip {
   }
 
   open(el) {
-    const text = this.i.gloss(el.dataset.term);
+    const text = el.dataset.tip ?? this.i.gloss(el.dataset.term);
     if (!text) return;
     this.current = el;
     this.box.innerHTML = `<b>${el.dataset.term}</b><span>${text}</span>`;
