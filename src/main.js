@@ -168,30 +168,22 @@ class App {
           outcome = re.src ?? re;
         }
       }
-      // 검은 비늘: 죽을 결과가 나오면 한 생에 한 번, 살아남는 결과로 다시 굴린다.
-      const guard = CONFIG.scaleGuard;
-      let scaled = false;
-      if (this.resolver.kills(outcome, s) && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) {
-        let alive = choice.outcomes.filter((o) => !this.resolver.kills(o, s) && !this.shop.blocker(o));
-        if (alive.length) {
-          if (!alive.some((o) => o.chance == null)) alive = alive.map((o, k) => (k === alive.length - 1 ? { ...o, chance: undefined, src: o } : o));
-          const re = this.resolver.pick({ ...choice, outcomes: alive }, s, deaths);
-          outcome = re.src ?? re;
-          scaled = true;
-        }
-      }
       // 확률 보정 때문에 결과가 복사본일 수 있어서, 원본 위치는 src나 글로 찾는다
       const oi = choice.outcomes.findIndex((o) => o === outcome || o === outcome.src || o.text === outcome.text);
       let textKey = `c${choice.id}.o${oi}`;
       let textEv = ev.id;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);
-      // 살아남는 결과가 하나도 없는 선택지면 비늘 장면의 글로 대신한다
-      if (!scaled && this.resolver.kills(outcome, s) && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) {
-        outcome = this.selector.byId(guard.event).choices[0].outcomes[0];
-        textEv = guard.event;
+      // 검은 비늘: 죽을 결과가 나오면 한 생에 한 번 막는다. 장면마다 막는 글(ev.scale)이 따로 있을 수 있고,
+      // 그 글에 다음 장면이 없으면 같은 장면을 다시 띄운다(목숨만 건지고 성공은 다시 굴린다).
+      const guard = CONFIG.scaleGuard;
+      let replay = false;
+      if (this.resolver.kills(outcome, s) && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) {
+        const gev = this.selector.byId(ev.scale ?? guard.event);
+        outcome = gev.choices[0].outcomes[0];
+        textEv = gev.id;
         textKey = "c1.o0";
+        replay = !outcome.effects?.next_event && !ev.scaleEnds;
       }
-      if (scaled) { s.flags.add(guard.usedFlag); s.achievements.push("비늘의_가호"); }
       const rare = this.resolver.isRare(outcome);
       if (rare) s.rare += 1;
       const changes = this.resolver.apply(outcome, s);
@@ -204,26 +196,26 @@ class App {
       if (s.dead) {
         this.saves.clear();
         this.record.recordDeath(ev.id, choice.id);
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv, trait?.name);
       }
       // 귀결: 이야기가 매듭지어지면 결과를 보여 준 뒤 생을 마친다
       if (s.ending) {
         this.saves.clear();
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.finish("ending"), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.finish("ending"), rare, !!outcome.fortune, textEv, trait?.name);
       }
       // 전투: 결과를 보여 준 뒤 전투 화면으로
       const fight = outcome.effects?.전투;
       if (fight) {
         this.saves.save(s, ev.id);
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.fight(fight, ev, choice, oi), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.fight(fight, ev, choice, oi), rare, !!outcome.fortune, textEv, trait?.name);
       }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       // 마기가 차오르면 다음 장면은 마두 발작
       const mad = CONFIG.madness;
-      const nextId = s.stat(mad.stat) >= mad.threshold && ev.id !== mad.event ? mad.event : outcome.effects?.next_event;
+      const nextId = s.stat(mad.stat) >= mad.threshold && ev.id !== mad.event ? mad.event : outcome.effects?.next_event ?? (replay ? ev.id : null);
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
-      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
+      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, trait?.name);
     }, isFresh, !!ev.dejavu && meetsCondition(s, { past_bond_min: { [ev.dejavu.person]: ev.dejavu.min } }));
   }
 

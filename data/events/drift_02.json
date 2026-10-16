@@ -542,7 +542,8 @@
           ]
         }
       ],
-      "person": "백발_노인"
+      "person": "백발_노인",
+      "scale": "SYS_SCALE_소년"
     },
     {
       "id": "D_노인의_전각",
@@ -755,7 +756,9 @@
           ]
         }
       ],
-      "person": "백발_노인"
+      "person": "백발_노인",
+      "scale": "SYS_SCALE_노인",
+      "scaleEnds": true
     },
     {
       "id": "D010_감옥",
