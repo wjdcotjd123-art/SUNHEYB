@@ -13,6 +13,7 @@
       "repeat": true,
       "weight": 4,
       "conditions": {
+        "realm_min": 1,
         "realm_max": 1
       },
       "description": [
