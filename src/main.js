@@ -157,9 +157,9 @@ class App {
       const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
       let outcome = this.resolver.pick(choice, s, deaths);
       // 체질: 켜 둔 체질이 막는 결과가 나오면 그 결과들을 빼고 다시 굴린다.
-      let trait = this.shop.blocker(outcome);
+      let trait = this.shop.blocker(outcome, choice);
       if (trait) {
-        let outs = choice.outcomes.filter((o) => !this.shop.blocker(o));
+        let outs = choice.outcomes.filter((o) => !this.shop.blocker(o, choice));
         if (!outs.length) trait = null;
         else {
           // 남은 결과에 기본 결과(chance 없음)가 없으면 마지막 결과를 기본으로
@@ -235,14 +235,14 @@ class App {
     // 검은 비늘이 남아 있으면 이 선택지에서는 죽지 않는다
     if (s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) return 0;
     const dies = (o) => this.resolver.kills(o, s);
-    let outs = choice.outcomes.filter((o) => !this.shop.blocker(o));
+    let outs = choice.outcomes.filter((o) => !this.shop.blocker(o, choice));
     const reroll = outs.length && outs.length < choice.outcomes.length;
     if (reroll && !outs.some((o) => o.chance == null)) outs = outs.map((o, k) => (k === outs.length - 1 ? { ...o, chance: undefined, src: o } : o));
     const reDeath = reroll ? this.resolver.distribution({ ...choice, outcomes: outs }, s, deaths).reduce((a, [o, p]) => a + (dies(o.src ?? o) ? p : 0), 0) / 100 : 0;
     let total = 0;
     for (const [o0, p] of this.resolver.distribution(choice, s, deaths)) {
       const o = o0.src ?? o0;
-      if (reroll && this.shop.blocker(o)) total += p * reDeath;
+      if (reroll && this.shop.blocker(o, choice)) total += p * reDeath;
       else if (dies(o)) total += p;
     }
     return total;

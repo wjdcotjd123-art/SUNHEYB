@@ -65,11 +65,13 @@ export class KarmaShop {
     return Object.fromEntries(this.traits.filter((x) => this.traitOn(x.id)).map((x) => [x.id, this.traitLevel(x.id)]));
   }
   // 이 결과를 막는 켜 둔 체질의 지금 단계 (없으면 undefined)
-  blocker(outcome) {
+  // choice를 넘기면 선택지에 따라 정해지는 막기(madDeath: 마공 선택지의 죽음)도 본다
+  blocker(outcome, choice = null) {
+    const hit = (b) => (b === "madDeath" ? !!choice?.madness && !!outcome.effects?.death : outcome[b]);
     for (const tr of this.traits) {
       if (!this.traitOn(tr.id)) continue;
       const tier = this.tierOf(tr);
-      if (tier.blocks.some((b) => outcome[b])) return tier;
+      if (tier.blocks.some(hit)) return tier;
     }
   }
 }

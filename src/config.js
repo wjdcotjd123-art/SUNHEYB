@@ -53,6 +53,8 @@ export const CONFIG = {
     { id: "선면", tiers: [{ name: "선면", price: 200, blocks: ["wary"] }] },
     // bonus: 결과로 그 능력치를 얻을 때마다 더 얻는 양
     // breakBonus: 경지 돌파 결과의 확률 +%p
+    // madDeath: [마기] 선택지에서 죽는 결과를 막는다
+    { id: "혈왕마골", tiers: [{ name: "혈왕마골", price: 1500, blocks: ["madDeath"] }] },
     { id: "삼재지체", tiers: [
       { name: "삼재지체", price: 1000, blocks: [], bonus: { 내공: 1 } },
       { name: "오행지체", price: 3000, blocks: [], bonus: { 내공: 1, 근골: 1, 민첩: 1 }, breakBonus: 10 },
