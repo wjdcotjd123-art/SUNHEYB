@@ -956,7 +956,7 @@
           "text": "쇠의 길부터, 한 길씩 연다",
           "outcomes": [
             {
-              "chance": 50,
+              "chance": 65,
               "mods": {
                 "내공": 0.3
               },
@@ -1002,7 +1002,7 @@
           "text": "다섯 길을 한꺼번에 벤다",
           "outcomes": [
             {
-              "chance": 15,
+              "chance": 30,
               "mods": {
                 "내공": 0.2
               },
@@ -1085,7 +1085,7 @@
           "text": "서로 낳는 순서로 하나씩 잇는다",
           "outcomes": [
             {
-              "chance": 55,
+              "chance": 70,
               "mods": {
                 "내공": 0.2
               },
@@ -1133,7 +1133,7 @@
           "text": "마음의 검으로 다섯 길의 끝을 한 점에 꿰맨다",
           "outcomes": [
             {
-              "chance": 40,
+              "chance": 55,
               "mods": {
                 "내공": 0.2,
                 "행운": 0.5
@@ -1188,7 +1188,7 @@
           "madness": true,
           "outcomes": [
             {
-              "chance": 50,
+              "chance": 65,
               "text": [
                 "**<purple>피로 길과 길 사이를 메웠다.</purple>**",
                 "",
