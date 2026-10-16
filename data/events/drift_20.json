@@ -213,7 +213,6 @@
       "title": "하늘을 아는 자",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "conditions": {
         "realm_min": 6,
         "realm_max": 6,
@@ -237,10 +236,6 @@
           "text": "산골 마을의 소문을 쫓는다",
           "outcomes": [
             {
-              "chance": 30,
-              "mods": {
-                "행운": 2
-              },
               "text": [
                 "나무꾼 하나가 말했다.",
                 "",
@@ -253,19 +248,8 @@
                   "산수의_자취"
                 ]
               }
-            },
-            {
-              "text": [
-                "허풍이었다.",
-                "",
-                "하늘을 난다던 노인은 지붕 위를 뛰어다니는 **원숭이**였다."
-              ],
-              "effects": {
-                "행운": 1
-              }
             }
-          ],
-          "stat": "행운"
+          ]
         },
         {
           "id": 2,
@@ -273,10 +257,6 @@
           "text": "기감을 넓혀 하늘을 살핀다",
           "outcomes": [
             {
-              "chance": 25,
-              "mods": {
-                "내공": 0.3
-              },
               "text": [
                 "밤마다 기감을 하늘 끝까지 펼쳤다.",
                 "",
@@ -289,17 +269,8 @@
                   "산수의_자취"
                 ]
               }
-            },
-            {
-              "text": [
-                "하늘은 넓었다. 걸리는 것이 없었다."
-              ],
-              "effects": {
-                "내공": 1
-              }
             }
-          ],
-          "stat": "내공"
+          ]
         },
         {
           "id": 3,
@@ -307,7 +278,6 @@
           "text": "옛 문헌을 사 모아 뒤진다",
           "outcomes": [
             {
-              "chance": 35,
               "text": [
                 "낡은 지방지 한 권에 짧은 기록이 있었다.",
                 "",
@@ -319,17 +289,8 @@
                   "산수의_자취"
                 ]
               }
-            },
-            {
-              "text": [
-                "은자만 날렸다. 신선이 나오는 책은 모두 **아이들 옛이야기**였다."
-              ],
-              "effects": {
-                "재물": -30
-              }
             }
-          ],
-          "stat": "재물"
+          ]
         }
       ]
     },
@@ -1164,7 +1125,6 @@
       "title": "전설이 된 이름",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "conditions": {
         "realm_min": 6,
         "realm_max": 6,
@@ -1226,7 +1186,6 @@
       "title": "전설이 된 이름",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "conditions": {
         "realm_min": 6,
         "realm_max": 6,
@@ -1288,7 +1247,6 @@
       "title": "도전자",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "conditions": {
         "realm_min": 6,
         "realm_max": 6,
@@ -1371,7 +1329,6 @@
       "title": "도전자",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "conditions": {
         "realm_min": 6,
         "realm_max": 6,
