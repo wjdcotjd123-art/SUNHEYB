@@ -47,6 +47,8 @@ export const CONFIG = {
     { id: "철위", tiers: [{ name: "철위", price: 200, blocks: ["food"] }, { name: "만독불침", price: 800, blocks: ["food", "poison"] }] },
     { id: "수화불침", tiers: [{ name: "수화불침", price: 200, blocks: ["chill"] }, { name: "한서불침", price: 800, blocks: ["chill", "frost"] }] },
     { id: "선면", tiers: [{ name: "선면", price: 200, blocks: ["wary"] }] },
+    // bonus: 결과로 그 능력치를 얻을 때마다 더 얻는 양
+    { id: "삼재지체", tiers: [{ name: "삼재지체", price: 1000, blocks: [], bonus: { 내공: 1 } }] },
   ],
   testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)

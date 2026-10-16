@@ -239,7 +239,7 @@ export class MenuScreens {
       const up = multi && lv
         ? `<span class="tier-line">${next ? t("karmaScreen.tierNext", { lv, name: t(`karmaScreen.traits.${next.name}.name`), desc: t(`karmaScreen.traits.${next.name}.desc`) }) : t("karmaScreen.tierMax", { lv })}</span>`
         : "";
-      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.traits.${tier.name}.name`)}${pips}</b><span>${t(`karmaScreen.traits.${tier.name}.desc`)}</span>${up}${state}</div>`;
+      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.traits.${tier.name}.name`)}${pips}</b><span class="lore">${t(`karmaScreen.traits.${tier.name}.lore`)}</span><span>${t(`karmaScreen.traits.${tier.name}.desc`)}</span>${up}${state}</div>`;
       const box = el("div", "shop-btns");
       if (lv) {
         const tg = el("button", "shop-buy");

@@ -82,6 +82,16 @@ export class ResultResolver {
     return list;
   }
 
+  // 켜 둔 체질이 이 능력치를 얻을 때 더 주는 양 { n, name } (없으면 null)
+  gainBonus(stat, state) {
+    for (const tr of this.config.traits ?? []) {
+      const lv = state.traits?.[tr.id];
+      const n = lv ? tr.tiers[lv - 1]?.bonus?.[stat] : 0;
+      if (n) return { n, name: tr.tiers[lv - 1].name };
+    }
+    return null;
+  }
+
   // 이 결과가 지금 상태에서 목숨을 앗아가는지 (죽음, 또는 체력이 바닥나는 피해)
   kills(outcome, state) {
     const e = outcome.effects ?? {};
@@ -133,8 +143,9 @@ export class ResultResolver {
       else if (k === "인연") { addAll(state.bonds, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "bond", name: who, delta: d, good: d > 0 }); }
       else if (k === "평판") { addAll(state.reputation, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "fame", name: who, delta: d, good: d > 0 }); }
       else if (typeof v === "number") {
-        state.stats[k] = state.base(k) + v;
-        changes.push({ type: "stat", stat: k, delta: v, good: v > 0 });
+        const extra = v > 0 ? this.gainBonus(k, state) : null; // 예: 삼재지체는 내공을 얻을 때마다 1 더
+        state.stats[k] = state.base(k) + v + (extra?.n ?? 0);
+        changes.push({ type: "stat", stat: k, delta: v, extra, good: v > 0 });
       }
     }
     if (state.stat("체력") <= 0) state.dead = true;

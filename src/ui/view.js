@@ -82,7 +82,8 @@ export class GameView {
     if (c.type === "situation") return c.name === "없음" ? i.t("changes.situationEnd") : i.t("changes.situation", { name: i.t(`situations.${c.name}`) });
     if (c.type === "bond") return i.t(c.delta > 0 ? "changes.bondUp" : "changes.bondDown", { name: i.name(c.name) });
     if (c.type === "fame") return i.t(c.delta > 0 ? "changes.fameUp" : "changes.fameDown", { name: i.name(c.name) });
-    return `${i.stat(c.stat)} ${c.delta > 0 ? "+" : ""}${c.delta}`;
+    const extra = c.extra ? ` <small class="trait-bonus">${i.t("changes.traitBonus", { n: c.extra.n, name: i.t(`karmaScreen.traits.${c.extra.name}.short`) })}</small>` : "";
+    return `${i.stat(c.stat)} ${c.delta > 0 ? "+" : ""}${c.delta}${extra}`;
   }
 
   changesHtml(changes) {
