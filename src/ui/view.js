@@ -229,7 +229,10 @@ export class GameView {
     const i = this.i;
     const sec = el("section", "outcome" + (rare ? " rare" : ""));
     // trait: 결과를 바꾼 체질 id
-    const traitHtml = trait ? `<div class="trait-banner"><b>${i.t("game.trait", { name: i.t(`karmaScreen.traits.${trait}.name`) })}</b><span>${i.t(`karmaScreen.traits.${trait}.fired`)}</span></div>` : "";
+    // trait: 체질 id, 또는 { banner: "scale" } (검은 비늘이 죽음을 막음)
+    const traitHtml = trait?.banner === "scale"
+      ? `<div class="trait-banner"><b>${i.t("game.scaleHead")}</b><span>${i.t("game.scaleBody")}</span></div>`
+      : trait ? `<div class="trait-banner"><b>${i.t("game.trait", { name: i.t(`karmaScreen.traits.${trait}.name`) })}</b><span>${i.t(`karmaScreen.traits.${trait}.fired`)}</span></div>` : "";
     sec.innerHTML = `${traitHtml}${rare ? `<p class="rare-banner">${i.t("game.rare", { n: this.config.karma.perRare })}</p>` : fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(evId, "title")}</h2>
       <p class="chosen">${lineToHtml(i.ev(evId, `c${choiceId}.text`))}${this.lastChoice ? this.choiceTags(this.lastChoice) : ""}</p>
       <div class="prose">${linesToHtml(i.ev(textEv, textKey))}</div>`;

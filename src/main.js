@@ -168,18 +168,30 @@ class App {
           outcome = re.src ?? re;
         }
       }
+      // 검은 비늘: 죽을 결과가 나오면 한 생에 한 번, 살아남는 결과로 다시 굴린다.
+      const guard = CONFIG.scaleGuard;
+      let scaled = false;
+      if (this.resolver.kills(outcome, s) && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) {
+        let alive = choice.outcomes.filter((o) => !this.resolver.kills(o, s) && !this.shop.blocker(o));
+        if (alive.length) {
+          if (!alive.some((o) => o.chance == null)) alive = alive.map((o, k) => (k === alive.length - 1 ? { ...o, chance: undefined, src: o } : o));
+          const re = this.resolver.pick({ ...choice, outcomes: alive }, s, deaths);
+          outcome = re.src ?? re;
+          scaled = true;
+        }
+      }
       // 확률 보정 때문에 결과가 복사본일 수 있어서, 원본 위치는 src나 글로 찾는다
       const oi = choice.outcomes.findIndex((o) => o === outcome || o === outcome.src || o.text === outcome.text);
       let textKey = `c${choice.id}.o${oi}`;
       let textEv = ev.id;
       s.outcomesSeen.push(`${ev.id}:${textKey}`);
-      // 검은 비늘: 수준 낮은 적에게 죽을 뻔하면 한 번 막아준다.
-      const guard = CONFIG.scaleGuard;
-      if (outcome.effects?.death && outcome.weak && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) {
+      // 살아남는 결과가 하나도 없는 선택지면 비늘 장면의 글로 대신한다
+      if (!scaled && this.resolver.kills(outcome, s) && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) {
         outcome = this.selector.byId(guard.event).choices[0].outcomes[0];
         textEv = guard.event;
         textKey = "c1.o0";
       }
+      if (scaled) { s.flags.add(guard.usedFlag); s.achievements.push("비늘의_가호"); }
       const rare = this.resolver.isRare(outcome);
       if (rare) s.rare += 1;
       const changes = this.resolver.apply(outcome, s);
@@ -192,18 +204,18 @@ class App {
       if (s.dead) {
         this.saves.clear();
         this.record.recordDeath(ev.id, choice.id);
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv, trait?.name);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.closeEyes", () => this.finish("death"), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
       }
       // 귀결: 이야기가 매듭지어지면 결과를 보여 준 뒤 생을 마친다
       if (s.ending) {
         this.saves.clear();
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.finish("ending"), rare, !!outcome.fortune, textEv, trait?.name);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.finish("ending"), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
       }
       // 전투: 결과를 보여 준 뒤 전투 화면으로
       const fight = outcome.effects?.전투;
       if (fight) {
         this.saves.save(s, ev.id);
-        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.fight(fight, ev, choice, oi), rare, !!outcome.fortune, textEv, trait?.name);
+        return this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.fight(fight, ev, choice, oi), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
       }
       // 다음 장면을 지금 정해 저장해 둔다 (껐다 켜서 다시 고르기 방지).
       // 마기가 차오르면 다음 장면은 마두 발작
@@ -211,7 +223,7 @@ class App {
       const nextId = s.stat(mad.stat) >= mad.threshold && ev.id !== mad.event ? mad.event : outcome.effects?.next_event;
       const next = nextId ? this.selector.byId(nextId) : this.selector.next(s);
       this.saves.save(s, next?.id ?? null);
-      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, trait?.name);
+      this.view.outcome(ev.id, choice.id, textKey, changes, "game.continue", () => this.play(next), rare, !!outcome.fortune, textEv, scaled ? { banner: "scale" } : trait?.name);
     }, isFresh, !!ev.dejavu && meetsCondition(s, { past_bond_min: { [ev.dejavu.person]: ev.dejavu.min } }));
   }
 
@@ -228,8 +240,9 @@ class App {
   deathChance(ev, choice, s) {
     const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
     const guard = CONFIG.scaleGuard;
-    const saved = (o) => o.weak && s.hasItem(guard.item) && !s.flags.has(guard.usedFlag);
-    const dies = (o) => this.resolver.kills(o, s) && !(o.effects?.death && saved(o));
+    // 검은 비늘이 남아 있으면 이 선택지에서는 죽지 않는다
+    if (s.hasItem(guard.item) && !s.flags.has(guard.usedFlag)) return 0;
+    const dies = (o) => this.resolver.kills(o, s);
     let outs = choice.outcomes.filter((o) => !this.shop.blocker(o));
     const reroll = outs.length && outs.length < choice.outcomes.length;
     if (reroll && !outs.some((o) => o.chance == null)) outs = outs.map((o, k) => (k === outs.length - 1 ? { ...o, chance: undefined, src: o } : o));
