@@ -147,6 +147,8 @@ class App {
     const choices = this.rankChoices(ev, s);
     this.view.scene(ev, choices, (choice) => {
       s.scenes += 1;
+      const wall = CONFIG.stagnation.walls[s.stat("경지")];
+      s.stagnant = wall != null && s.stat("내공") >= wall ? (s.stagnant ?? 0) + 1 : 0;
       // memory=false인 장면(첫 장면 등)은 전생의 기억 보정을 받지 않는다.
       const deaths = ev.memory === false ? 0 : this.record.deathsAt(ev.id, choice.id);
       let outcome = this.resolver.pick(choice, s, deaths);

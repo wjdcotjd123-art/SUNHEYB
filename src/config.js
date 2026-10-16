@@ -23,6 +23,8 @@ export const CONFIG = {
     노검객의_칼: { 근골: 4, 민첩: 4 },
     백련강_장검: { 근골: 5 }, 추운검: { 근골: 8 },
   },
+  // 정체: 벽을 넘을 내공(walls[경지])을 갖추고도 limit장 넘게 머물면 그 경지에서는 능력치가 더 오르지 않는다
+  stagnation: { walls: { 1: 8, 2: 18, 3: 30, 4: 45, 5: 50 }, limit: 12, stats: ["근골", "민첩", "행운", "내공"] },
   // 지금 상태에서 죽을 확률이 이 값(%) 이상인 선택지는 비추천으로 표시
   warnDeath: 70,
   chanceMax: 95,
@@ -48,7 +50,11 @@ export const CONFIG = {
     { id: "수화불침", tiers: [{ name: "수화불침", price: 200, blocks: ["chill"] }, { name: "한서불침", price: 800, blocks: ["chill", "frost"] }] },
     { id: "선면", tiers: [{ name: "선면", price: 200, blocks: ["wary"] }] },
     // bonus: 결과로 그 능력치를 얻을 때마다 더 얻는 양
-    { id: "삼재지체", tiers: [{ name: "삼재지체", price: 1000, blocks: [], bonus: { 내공: 1 } }] },
+    // breakBonus: 경지 돌파 결과의 확률 +%p
+    { id: "삼재지체", tiers: [
+      { name: "삼재지체", price: 1000, blocks: [], bonus: { 내공: 1 } },
+      { name: "오행지체", price: 3000, blocks: [], bonus: { 내공: 1, 근골: 1, 민첩: 1 }, breakBonus: 10 },
+    ] },
   ],
   testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)

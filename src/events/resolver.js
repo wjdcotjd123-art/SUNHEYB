@@ -9,6 +9,7 @@ export class ResultResolver {
   chanceOf(outcome, state) {
     let c = outcome.chance;
     for (const [stat, per] of Object.entries(outcome.mods ?? {})) c += per * state.stat(stat);
+    if (outcome.effects?.realm_set) c += this.breakBonus(state);
     // 하한은 chanceMin이지만, 원래부터 그보다 낮게 잡은 극악 확률은 그대로 둔다.
     return Math.min(this.config.chanceMax, Math.max(Math.min(this.config.chanceMin, outcome.chance), c));
   }
@@ -82,6 +83,21 @@ export class ResultResolver {
     return list;
   }
 
+  stalled(stat, state) {
+    const st = this.config.stagnation;
+    return !!st && (state.stagnant ?? 0) >= st.limit && st.stats.includes(stat) && state.stat("경지") in st.walls;
+  }
+
+  // 켜 둔 체질이 경지 돌파 결과에 더해 주는 확률(%p)
+  breakBonus(state) {
+    let b = 0;
+    for (const tr of this.config.traits ?? []) {
+      const lv = state.traits?.[tr.id];
+      if (lv) b += tr.tiers[lv - 1]?.breakBonus ?? 0;
+    }
+    return b;
+  }
+
   // 켜 둔 체질이 이 능력치를 얻을 때 더 주는 양 { n, name } (없으면 null)
   gainBonus(stat, state) {
     for (const tr of this.config.traits ?? []) {
@@ -128,7 +144,7 @@ export class ResultResolver {
         changes.push({ type: "hp", kind: k, tier: v, good: k === "회복" });
       }
       else if (k.endsWith("_reset")) state.stats[k.slice(0, -6)] = 0;
-      else if (k === "realm_set") { if (v > state.stat("경지")) state.stats.체력 = state.stat("최대체력"); state.stats.경지 = v; changes.push({ type: "realm", value: v, good: true }); }
+      else if (k === "realm_set") { if (v > state.stat("경지")) state.stats.체력 = state.stat("최대체력"); state.stats.경지 = v; state.stagnant = 0; changes.push({ type: "realm", value: v, good: true }); }
       else if (k.endsWith("_set")) { const s = k.slice(0, -4); state.stats[s] = v; changes.push({ type: "set", stat: s, value: v, good: false }); }
       else if (k === "상황") {
         // 상황 "없음"은 상황에서 벗어난다 (예: 감옥에서 풀려남)
@@ -142,6 +158,10 @@ export class ResultResolver {
       }
       else if (k === "인연") { addAll(state.bonds, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "bond", name: who, delta: d, good: d > 0 }); }
       else if (k === "평판") { addAll(state.reputation, v); for (const [who, d] of Object.entries(v)) changes.push({ type: "fame", name: who, delta: d, good: d > 0 }); }
+      else if (typeof v === "number" && v > 0 && this.stalled(k, state)) {
+        // 벽 앞에서 너무 오래 머물렀다: 이 경지에서는 더 오르지 않는다
+        if (!changes.some((c) => c.type === "stall")) changes.push({ type: "stall", good: false });
+      }
       else if (typeof v === "number") {
         const extra = v > 0 ? this.gainBonus(k, state) : null; // 예: 삼재지체는 내공을 얻을 때마다 1 더
         state.stats[k] = state.base(k) + v + (extra?.n ?? 0);

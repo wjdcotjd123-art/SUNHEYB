@@ -27,6 +27,7 @@ export class SaveManager {
         outcomesSeen: state.outcomesSeen,
         achievements: state.achievements,
         scenes: state.scenes,
+        stagnant: state.stagnant ?? 0,
         lastEventId: state.lastEventId,
         recent: state.recent,
         termCounts: state.termCounts,

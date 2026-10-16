@@ -17,6 +17,7 @@ export class GameState {
     this.lastEventId = null;
     this.recent = []; // 최근 본 장면 3개
     this.termCounts = {}; // 이번 생에 용어 밑줄이 나온 횟수
+    this.stagnant = 0; // 벽을 넘을 준비가 된 뒤 머문 장면 수
     this.rare = 0; // 이번 생에 터진 드문 인과 수
     this.log = []; // 하단 기록창 내용 {title, tag, changes, dead}
     this.dead = false;
