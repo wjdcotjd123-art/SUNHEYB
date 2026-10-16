@@ -65,7 +65,13 @@ export class EventSelector {
     // 내 소속과 같은 group의 장면은 더 자주 나온다.
     const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1) * this.personBoost(ev, state);
     const fresh = (ev) => (this.novelty ? this.novelty.weight(ev, state) : 1);
-    return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev) * fresh(ev));
+    return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev) * fresh(ev) * this.chainBoost(ev));
+  }
+  // 연계의 다음 장면(앞 장면의 플래그나 인연을 조건으로 하는 장면)은 더 자주 나온다. 경지가 오르기 전에 매듭짓도록.
+  chainBoost(ev) {
+    const c = ev.conditions ?? {};
+    const isChain = !ev.repeat && (c.flags?.length || c.flags_any?.length || c.bond_min);
+    return isChain ? this.config.chainBoost ?? 1 : 1;
   }
   // 인연을 쌓은 인물이 나오는 장면(person)은 더 자주 나온다: 인연 n당 ×(1 + n/perBond), 최대 maxBond배
   personBoost(ev, state) {

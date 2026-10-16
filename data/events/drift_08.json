@@ -595,7 +595,12 @@
                 "achievement": "연화"
               }
             }
-          ]
+          ],
+          "condition": {
+            "flags_none": [
+              "정인_있음"
+            ]
+          }
         },
         {
           "id": 2,
