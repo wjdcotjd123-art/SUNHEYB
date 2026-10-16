@@ -1173,7 +1173,10 @@
               }
             }
           ],
-          "stat": "근골"
+          "stat": "근골",
+          "noDeathIf": {
+            "realm_min": 3
+          }
         }
       ]
     },
@@ -1643,7 +1646,8 @@
       "conditions": {
         "items": [
           "낡은_무공서"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "{무인}의 품에서 가져온 책을 펼친다.",
@@ -1832,7 +1836,8 @@
         "flags_none": [
           "무관_잡일꾼"
         ],
-        "affiliation": "none"
+        "affiliation": "none",
+        "realm_max": 2
       },
       "description": [
         "{무관} 마당.",
@@ -2054,7 +2059,8 @@
       "conditions": {
         "flags": [
           "무인의_물건을_훔침"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "밤.",

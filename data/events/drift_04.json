@@ -16,7 +16,8 @@
         "affiliation": "흑풍채",
         "flags_none": [
           "첫_약탈"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "고갯길 아래.",
@@ -335,7 +336,8 @@
         "affiliation": "흑풍채",
         "flags_none": [
           "사냥꾼의_습격"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "한밤중. 목책 밖에서 **불화살**이 날아든다.",
@@ -514,7 +516,8 @@
         "flags_none": [
           "흑풍채_두목",
           "곽철의_제안"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "곽철이 술병을 들고 다가온다.",
@@ -989,7 +992,8 @@
         ],
         "flags_none": [
           "석두의_부탁"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "석두가 우물가에 쭈그려 앉아 있다.",
@@ -1170,7 +1174,8 @@
         "affiliation": "청하무관",
         "flags_none": [
           "무관의_빚"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "{무관} 대문이 **발길에 차여 열린다.**",
@@ -1541,7 +1546,8 @@
         ],
         "flags_none": [
           "왕두의_사정"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "밤. {무관} 뒤편.",

@@ -21,7 +21,8 @@
         "realm_min": 1,
         "flags_none": [
           "사범의_원수"
-        ]
+        ],
+        "realm_max": 3
       },
       "description": [
         "비 오는 저녁.",
@@ -156,7 +157,8 @@
         ],
         "flags_none": [
           "결투가_끝남"
-        ]
+        ],
+        "realm_max": 3
       },
       "description": [
         "보름째 새벽.",
@@ -447,7 +449,8 @@
         "realm_min": 1,
         "flags_none": [
           "석두_어머니_떠남"
-        ]
+        ],
+        "realm_max": 3
       },
       "description": [
         "첫눈이 내린 날.",

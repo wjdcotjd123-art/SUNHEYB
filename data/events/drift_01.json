@@ -837,7 +837,9 @@
       "title": "쓰러진 무인",
       "type": "major",
       "weight": 4,
-      "conditions": {},
+      "conditions": {
+        "realm_max": 2
+      },
       "description": [
         "비린내가 난다.",
         "",

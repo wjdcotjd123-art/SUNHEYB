@@ -216,7 +216,8 @@
         "flags_none": [
           "왕두와_결판"
         ],
-        "affiliation": "청하무관"
+        "affiliation": "청하무관",
+        "realm_max": 2
       },
       "description": [
         "우물가.",
@@ -441,7 +442,8 @@
           "흑풍채_두목",
           "흑풍채를_떠남"
         ],
-        "affiliation": "흑풍채"
+        "affiliation": "흑풍채",
+        "realm_max": 2
       },
       "description": [
         "{산채}의 모닥불.",
@@ -1016,7 +1018,8 @@
         "flags_none": [
           "토납법_수련",
           "삼류_입문"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "감옥의 노인이 가르쳐 준 구절.",
@@ -1451,7 +1454,8 @@
         ],
         "flags_none": [
           "그림자와_결판"
-        ]
+        ],
+        "realm_max": 2
       },
       "description": [
         "달이 없는 밤.",
