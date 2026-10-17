@@ -150,7 +150,6 @@
       "title": "험지 탐색",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 2,
@@ -273,7 +272,6 @@
       "title": "문파의 객",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 2,
@@ -1362,7 +1360,6 @@
       "title": "고수를 찾는 사람들",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 3,

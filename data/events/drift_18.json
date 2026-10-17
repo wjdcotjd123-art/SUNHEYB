@@ -10,7 +10,6 @@
       "title": "마교 잔당",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 4,
@@ -128,7 +127,6 @@
       "title": "지붕 위의 발소리",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 4,

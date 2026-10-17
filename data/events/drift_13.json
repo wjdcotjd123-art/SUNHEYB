@@ -607,7 +607,6 @@
       "title": "문 앞의 도전자",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 4,
@@ -726,7 +725,7 @@
       "type": "major",
       "pool": "pool",
       "repeat": true,
-      "weight": 4,
+      "weight": 1,
       "conditions": {
         "realm_min": 4,
         "realm_max": 4
@@ -812,7 +811,6 @@
       "title": "큰 청부",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 4,

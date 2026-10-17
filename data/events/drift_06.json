@@ -1230,7 +1230,6 @@
       "title": "강호 유랑",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 6,
       "conditions": {
         "realm_min": 2,
@@ -1347,7 +1346,7 @@
       "type": "minor",
       "pool": "pool",
       "repeat": true,
-      "weight": 5,
+      "weight": 1,
       "conditions": {
         "realm_min": 2,
         "realm_max": 2
@@ -1473,7 +1472,6 @@
       "title": "떠돌이 고수",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 5,
       "conditions": {
         "realm_min": 2,

@@ -877,7 +877,6 @@
       "title": "고수의 하루",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 5,
       "conditions": {
         "realm_min": 3,
@@ -991,7 +990,7 @@
       "type": "minor",
       "pool": "pool",
       "repeat": true,
-      "weight": 4,
+      "weight": 1,
       "conditions": {
         "realm_min": 3,
         "realm_max": 3
@@ -1114,7 +1113,6 @@
       "title": "이름값",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 3,

@@ -10,7 +10,6 @@
       "title": "장날",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 1,
@@ -98,7 +97,6 @@
       "title": "큰 장터",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 2,
@@ -209,7 +207,6 @@
       "title": "보물 경매",
       "type": "major",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 4,

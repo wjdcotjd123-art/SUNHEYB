@@ -11,7 +11,7 @@
       "type": "minor",
       "pool": "pool",
       "repeat": true,
-      "weight": 4,
+      "weight": 1,
       "conditions": {
         "realm_min": 1,
         "realm_max": 1
@@ -122,7 +122,6 @@
       "title": "장터의 하루",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 1,
@@ -233,7 +232,6 @@
       "title": "떠돌이 무인",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 1,
