@@ -10,6 +10,7 @@ export class GameState {
     this.reputation = {};
     this.affiliation = null;
     this.situation = null; // 지금 처한 상황(예: "수감"). 있으면 그 상황의 장면만 나온다
+    this.path = null; // 이야기 갈래(예: "이어진_길"). 화면에는 보이지 않고, 그 갈래의 장면만 나온다
     this.seen = new Set();
     this.outcomesSeen = [];
     this.achievements = [];

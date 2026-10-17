@@ -55,6 +55,7 @@ export class EventSelector {
       (ev) =>
         (ev.pool ?? "pool") === "pool" &&
         (ev.situation ?? null) === (state.situation ?? null) && // 상황(감옥 등)에 맞는 장면만
+        (ev.path ?? null) === (state.path ?? null) && // 이야기 갈래(이어진 길 등)에 맞는 장면만
         (ev.repeat || !state.seen.has(ev.id)) &&
         meetsCondition(state, ev.conditions)
     );
