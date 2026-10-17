@@ -10,7 +10,6 @@
       "title": "약방의 깊은 서랍",
       "type": "minor",
       "pool": "pool",
-      "repeat": true,
       "weight": 4,
       "conditions": {
         "realm_min": 2,
