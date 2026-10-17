@@ -259,7 +259,8 @@ export class GameView {
       <dl class="karma">${summary.parts.filter((p) => p.value > 0 || ["scenes", "fresh"].includes(p.id)).map((p) => `<div class="part-${p.id}"><dt>${i.t(`ending.${p.id}`, { w: p.note ?? 0 })}</dt><dd>+${p.value}</dd></div>`).join("")}
       ${summary.mult > 1 ? `<div class="part-mult"><dt>${i.t("ending.mult")}</dt><dd>×${summary.mult.toFixed(2)}</dd></div>` : ""}
       <div class="total"><dt>${i.t("ending.total")}</dt><dd>+${summary.total}</dd></div></dl>
-      ${summary.newAch.length ? `<p class="ach">${i.t("ending.newAch", { list: summary.newAch.map((a) => i.ach(a, "name")).join(", ") })}</p>` : ""}`;
+      ${summary.newAch.length ? `<p class="ach">${i.t("ending.newAch", { list: summary.newAch.map((a) => i.ach(a, "name")).join(", ") })}</p>` : ""}
+      ${(summary.newMemories ?? []).map((m) => `<p class="memory">${i.t("ending.newMemory", { name: i.t(`karmaScreen.memories.${m}.name`) })}</p>`).join("")}`;
     const b = button(i.t("game.toMain"), onDone);
     sec.append(b);
     this.show(sec);

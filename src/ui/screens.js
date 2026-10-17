@@ -182,7 +182,7 @@ export class MenuScreens {
   }
 
   // 업 상점. shop: KarmaShop, onBuy(id)
-  karma(total, shop, onBuy, onBack, tr) {
+  karma(total, shop, onBuy, onBack, tr, mem) {
     const t = (k, v) => this.i.t(k, v);
     const sec = el("section", "sub-screen");
     sec.innerHTML = `
@@ -191,22 +191,28 @@ export class MenuScreens {
       <p class="sub">${t("karmaScreen.sub")}</p>
       <div class="tabs main-tabs shop-tabs" role="tablist"></div>
       <ul class="shop base"></ul>
-      <ul class="shop traits"></ul>`;
+      <ul class="shop traits"></ul>
+      <ul class="shop memories"></ul>`;
     // 탭: 타고난 바탕 / 체질 (산 뒤에 다시 그려도 보던 탭을 유지)
+    const mems = shop.visibleMemories();
+    const unseen = shop.unseenMemories();
     const tabs = [["base", t("karmaScreen.shopTitle")], ["traits", t("karmaScreen.traitTitle")]];
+    if (mems.length) tabs.push(["memories", t("karmaScreen.memoryTitle")]); // 장의 끝을 본 뒤에만 보인다
     const bar = sec.querySelector(".shop-tabs");
     const pick = (id) => {
       this.shopTab = id;
       bar.querySelectorAll(".tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.id === id)));
       sec.querySelector(".shop.base").hidden = id !== "base";
       sec.querySelector(".shop.traits").hidden = id !== "traits";
+      sec.querySelector(".shop.memories").hidden = id !== "memories";
+      if (id === "memories" && unseen.length) mem.seen();
     };
     for (const [id, label] of tabs) {
       const b = el("button", "tab");
       b.type = "button";
       b.dataset.id = id;
       b.id = `shop-tab-${id}`;
-      b.textContent = label;
+      b.innerHTML = label + (id === "memories" && unseen.length ? ` <span class="new-mark">${t("game.fresh")}</span>` : "");
       b.addEventListener("click", () => pick(id));
       bar.append(b);
     }
@@ -262,7 +268,31 @@ export class MenuScreens {
       li.append(box);
       tl.append(li);
     });
-    pick(this.shopTab ?? "base");
+    const ml = sec.querySelector(".shop.memories");
+    mems.forEach((m, n) => {
+      const owned = shop.memoryOwned(m.id);
+      const on = shop.memoryOn(m.id);
+      const li = el("li", "shop-row");
+      const state = owned ? `<span class="shop-lv">${t(on ? "karmaScreen.traitOn" : "karmaScreen.traitOff")}</span>` : "";
+      const fresh = unseen.includes(m.id) ? ` <span class="new-mark">${t("game.fresh")}</span>` : "";
+      li.innerHTML = `<div class="shop-info"><b>${t(`karmaScreen.memories.${m.id}.name`)}${fresh}</b><span class="lore">${t(`karmaScreen.memories.${m.id}.lore`)}</span><span>${t(`karmaScreen.memories.${m.id}.desc`)}</span>${state}</div>`;
+      const box = el("div", "shop-btns");
+      const b = el("button", "shop-buy");
+      b.type = "button";
+      b.id = `memory-${n}`;
+      if (owned) {
+        b.textContent = t(on ? "karmaScreen.turnOff" : "karmaScreen.turnOn");
+        b.addEventListener("click", () => mem.toggle(m.id));
+      } else {
+        b.textContent = t("karmaScreen.buy", { p: m.price });
+        b.disabled = total < m.price;
+        b.addEventListener("click", () => mem.buy(m.id));
+      }
+      box.append(b);
+      li.append(box);
+      ml.append(li);
+    });
+    pick(this.shopTab && (this.shopTab !== "memories" || mems.length) ? this.shopTab : "base");
     this.show(sec, onBack);
   }
 

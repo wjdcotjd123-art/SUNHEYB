@@ -3,6 +3,7 @@ export class KarmaShop {
   constructor(config, record) {
     this.items = config.shop;
     this.traits = config.traits ?? [];
+    this.memories = config.memories ?? [];
     this.record = record;
   }
   level(id) {
@@ -64,6 +65,49 @@ export class KarmaShop {
   activeLevels() {
     return Object.fromEntries(this.traits.filter((x) => this.traitOn(x.id)).map((x) => [x.id, this.traitLevel(x.id)]));
   }
+  // 기억: record.data.memories[id] = { on } (산 것만 들어 있다). 귀결 unlock을 본 적이 있어야 보인다
+  get mem() {
+    return (this.record.data.memories ??= {});
+  }
+  memoryVisible(m) {
+    return (this.record.data.endings ?? []).includes(m.unlock);
+  }
+  visibleMemories() {
+    return this.memories.filter((m) => this.memoryVisible(m));
+  }
+  memoryOwned(id) {
+    return !!this.mem[id];
+  }
+  memoryOn(id) {
+    return !!this.mem[id]?.on;
+  }
+  buyMemory(id) {
+    const m = this.memories.find((x) => x.id === id);
+    if (!m || this.memoryOwned(id) || !this.memoryVisible(m) || !this.record.spend(m.price)) return false;
+    this.mem[id] = { on: true };
+    this.record.save();
+    return true;
+  }
+  toggleMemory(id) {
+    if (!this.memoryOwned(id)) return;
+    this.mem[id].on = !this.mem[id].on;
+    this.record.save();
+  }
+  // 아직 업 화면에서 보지 못한 기억 (처음 보면 '새로' 표시)
+  unseenMemories() {
+    const seen = this.record.data.memoriesSeen ?? [];
+    return this.visibleMemories().filter((m) => !seen.includes(m.id)).map((m) => m.id);
+  }
+  markMemoriesSeen() {
+    const seen = (this.record.data.memoriesSeen ??= []);
+    for (const id of this.unseenMemories()) seen.push(id);
+    this.record.save();
+  }
+  // 켜 둔 기억의 플래그 — 새 생을 시작할 때 붙인다
+  memoryFlags() {
+    return this.memories.filter((m) => this.memoryOn(m.id)).map((m) => m.flag);
+  }
+
   // 이 결과를 막는 켜 둔 체질의 지금 단계 (없으면 undefined)
   // choice를 넘기면 선택지에 따라 정해지는 막기(madDeath: 마공 선택지의 죽음)도 본다
   blocker(outcome, choice = null) {
