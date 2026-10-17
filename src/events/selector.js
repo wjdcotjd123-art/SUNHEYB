@@ -23,6 +23,8 @@ export function meetsCondition(state, cond = {}) {
   if (cond.bond_min && !Object.entries(cond.bond_min).every(([k, v]) => (state.bonds?.[k] ?? 0) >= v)) return false;
   // 전생의 인연: { 인물: 지난 생들에서 쌓았던 최고 인연 } — 기시감 선택지
   if (cond.past_bond_min && !Object.entries(cond.past_bond_min).every(([k, v]) => (state.pastBonds?.[k] ?? 0) >= v)) return false;
+  // 지난 생의 업적: [업적id…] 중 하나라도 지난 생들에서 얻었으면
+  if (cond.past_achievements_any && !cond.past_achievements_any.some((a) => (state.pastAchievements ?? []).includes(a))) return false;
   // 체질: { 체질id: 최소 단계 } — 켜 둔 체질이 그 단계 이상일 때만
   if (cond.traits && !Object.entries(cond.traits).every(([k, v]) => (state.traits?.[k] ?? 0) >= v)) return false;
   // 소속: "none"이면 무소속일 때만, 이름이면 그 소속일 때만. affiliation_not은 그 소속이면 안 됨.
@@ -86,7 +88,9 @@ export class EventSelector {
     if (!ev.person) return 1;
     const { perBond, max } = this.config.personBoost;
     const people = Array.isArray(ev.person) ? ev.person : [ev.person];
-    const best = Math.max(0, ...people.map((p) => state.bonds?.[p] ?? 0));
+    // 이야기 갈래(이어진 길 등)의 장면은 지난 생의 인연도 본다
+    const bondOf = (p) => Math.max(state.bonds?.[p] ?? 0, ev.path ? state.pastBonds?.[p] ?? 0 : 0);
+    const best = Math.max(0, ...people.map(bondOf));
     return Math.min(max, 1 + best / perBond);
   }
   // 조건을 채운 선택지. 비추천 표시와 정렬은 main에서 지금 상태로 계산한다.
