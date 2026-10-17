@@ -4876,10 +4876,12 @@ class MenuScreens {
     });
     sec.append(nav);
     this.show(sec);
+    // 숫자 키로 고른 항목을 기억해 두고, 엔터는 그 항목을 누른다(처음엔 1번)
+    let sel = items.findIndex((it) => !it.off);
     Keys.set((e) => {
       const n = Number(e.key);
-      if (n >= 1 && n <= items.length && !items[n - 1].off) { nav.children[n - 1].click(); return true; }
-      if (e.key === "Enter" && !items[0].off) { nav.children[0].click(); return true; }
+      if (n >= 1 && n <= items.length && !items[n - 1].off) { sel = n - 1; nav.children[sel].focus(); nav.children[sel].click(); return true; }
+      if (e.key === "Enter" && sel >= 0) { nav.children[sel].click(); return true; }
       return false;
     });
   }
