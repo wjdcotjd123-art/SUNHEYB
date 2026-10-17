@@ -143,6 +143,8 @@ export class GameView {
       const name = tr?.tiers[lv - 1]?.name ?? id;
       tags.push(i.t(`karmaScreen.traits.${name}.name`));
     }
+    // 기억으로 열린 선택지는 [기억] 표시
+    for (const m of this.config.memories ?? []) if ((cond.flags ?? []).includes(m.flag)) tags.push(i.t("game.memoryChoice"));
     const req = (c.madness ? ` <span class="mad">[${i.t("game.madness")}]</span>` : "") + tags.map((x) => ` <span class="req">[${x}]</span>`).join("");
     const stat = c.stat && !(cond.stat_min && c.stat in cond.stat_min) ? ` <span class="tag">[${i.stat(c.stat)}]</span>` : "";
     return req + stat;
