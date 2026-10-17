@@ -68,7 +68,7 @@ export class LifeRecord {
       { id: "achievements", value: newAch.length * k.perAchievement },
       { id: "wealth", value: Math.max(0, Math.floor(state.stat("재물") / k.wealthPer)), note: state.stat("재물") },
       { id: "rare", value: (state.rare ?? 0) * k.perRare },
-      { id: "ending", value: state.ending && !(k.noEndingBonus ?? []).includes(state.ending) ? k.perEnding : 0 },
+      { id: "ending", value: state.ending ? k.perEnding : 0 },
     ];
     // 오래 버틸수록 배율이 붙는다: 1 + 턴 수 × perSceneMult (최대 maxMult)
     const base = parts.reduce((s, p) => s + p.value, 0);

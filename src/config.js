@@ -34,7 +34,7 @@ export const CONFIG = {
   defaultLanguage: "ko",
   langDir: "lang",
   shownStats: ["체력", "근골", "민첩", "행운", "내공", "재물"],
-  karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5, perEnding: 40, noEndingBonus: ["이어지는_장"], perSceneMult: 0.03, maxMult: 2.5 }, // 배율 = 1 + 턴×0.03 (최대 ×2.5)
+  karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5, perEnding: 40, perSceneMult: 0.03, maxMult: 2.5 }, // 배율 = 1 + 턴×0.03 (최대 ×2.5)
   // 업 상점: 산 만큼 매 생 시작할 때 적용. 값 = round(base × growth^현재단계)
   shop: [
     { id: "근골", stat: "근골", amount: 1, base: 20, growth: 1.18, max: 30 },
