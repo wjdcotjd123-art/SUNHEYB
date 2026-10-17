@@ -11,6 +11,7 @@ import { Settings } from "./meta/settings.js";
 import { KarmaShop } from "./meta/shop.js";
 import { NoveltyWeigher } from "./events/novelty.js";
 import { SideLean } from "./events/sides.js";
+import { TextVariants } from "./events/variants.js";
 import { Battle } from "./combat/battle.js";
 import { BattleScreen } from "./ui/battle.js";
 import { SaveManager } from "./save/saveManager.js";
@@ -36,6 +37,9 @@ class App {
     this.saves = new SaveManager(CONFIG);
     this.settings = settings;
     this.i18n = i18n;
+    // 장면 글 갈래(사도련 편이면 맹주 → 사도련주 등)
+    this.variants = new TextVariants(events);
+    i18n.evFilter = (id, v) => this.variants.apply(id, v, this.state);
     this.achievements = achievements;
     this.view = new GameView(document, CONFIG, i18n);
     this.battleScreen = new BattleScreen(this.view, i18n);

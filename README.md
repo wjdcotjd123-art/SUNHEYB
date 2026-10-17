@@ -144,3 +144,4 @@
 2. `src/config.js`의 `languages`에 언어 코드 추가 (예: `["ko", "en"]`)
 3. 설정 화면에 언어 선택이 자동으로 나타남
 - 정사 치우침: `config.sides`에 정파·사파 인물을 적는다. 한쪽으로 기울면(평판 차이·인연·고른 편) 반대쪽 인물(`person`) 장면의 가중치가 `factor`배가 된다(`src/events/sides.js`)
+- 글 갈래: 장면에 `"variants": [{ "when": {조건}, "terms": {"맹주": "사도련주"}, "lines": {"원래 줄": ["바뀐 줄", …]} }]`을 달면 조건에 맞을 때 그 장면의 글이 바뀌어 보인다(`src/events/variants.js`). 받침이 같은 낱말끼리 바꾼다

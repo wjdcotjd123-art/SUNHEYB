@@ -33,7 +33,8 @@ export class I18n {
 
   // 이벤트 글. 예: ev(id, "title"), ev(id, "c2.o0")
   ev(id, part) {
-    return this.p.events[`${id}.${part}`] ?? `${id}.${part}`;
+    const v = this.p.events[`${id}.${part}`] ?? `${id}.${part}`;
+    return this.evFilter ? this.evFilter(id, v) : v;
   }
 
   ach(id, field) {
