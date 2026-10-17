@@ -10,6 +10,7 @@ import { LifeRecord } from "./meta/lives.js";
 import { Settings } from "./meta/settings.js";
 import { KarmaShop } from "./meta/shop.js";
 import { NoveltyWeigher } from "./events/novelty.js";
+import { SideLean } from "./events/sides.js";
 import { Battle } from "./combat/battle.js";
 import { BattleScreen } from "./ui/battle.js";
 import { SaveManager } from "./save/saveManager.js";
@@ -29,6 +30,7 @@ class App {
     this.shop = new KarmaShop(CONFIG, this.record);
     this.novelty = new NoveltyWeigher(this.record, CONFIG);
     this.selector.useNovelty(this.novelty);
+    this.selector.useSides(new SideLean(CONFIG));
     this.sound = new SoundBank();
     this.sound.setLevel(settings.data.sound);
     this.saves = new SaveManager(CONFIG);

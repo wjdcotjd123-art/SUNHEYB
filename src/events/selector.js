@@ -42,6 +42,10 @@ export class EventSelector {
   useNovelty(weigher) {
     this.novelty = weigher;
   }
+  // 정사 치우침 (SideLean)
+  useSides(lean) {
+    this.sides = lean;
+  }
   byId(id) {
     return this.events.get(id) ?? null;
   }
@@ -66,7 +70,7 @@ export class EventSelector {
       return fb && !state.seen.has(fb.id) ? fb : null;
     }
     // 내 소속과 같은 group의 장면은 더 자주 나온다.
-    const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1) * this.personBoost(ev, state);
+    const boost = (ev) => (ev.group && ev.group === state.affiliation ? this.config.affiliationBoost : 1) * this.personBoost(ev, state) * (this.sides ? this.sides.weight(ev, state) : 1);
     const fresh = (ev) => (this.novelty ? this.novelty.weight(ev, state) : 1);
     return this.rng.pickWeighted(pool, (ev) => (ev.weight ?? this.config.defaultWeight) * boost(ev) * fresh(ev) * this.chainBoost(ev));
   }
