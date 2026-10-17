@@ -115,6 +115,7 @@ class App {
     this.state.traits = this.shop.activeLevels();
     this.state.pastBonds = { ...this.record.data.bondsMax };
     this.state.pastAchievements = [...this.record.data.achievements]; // 지난 생들에서 얻은 업적
+    this.state.pastKnown = [...this.record.data.known]; // 지난 생들에서 겪은 것(ev:/flag:/item:/aff:/ach:/bond:)
     this.view.termContext = { mode: () => this.settings.data.termMode, counts: this.state.termCounts };
     this.view.open(() => this.home());
     this.view.header(this.record.data.life, this.record.data.karma);

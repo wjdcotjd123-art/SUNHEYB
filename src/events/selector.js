@@ -25,6 +25,8 @@ export function meetsCondition(state, cond = {}) {
   if (cond.past_bond_min && !Object.entries(cond.past_bond_min).every(([k, v]) => (state.pastBonds?.[k] ?? 0) >= v)) return false;
   // 지난 생의 업적: [업적id…] 중 하나라도 지난 생들에서 얻었으면
   if (cond.past_achievements_any && !cond.past_achievements_any.some((a) => (state.pastAchievements ?? []).includes(a))) return false;
+  // 지난 생에 겪은 것: ["flag:…", "item:…", "aff:…", "ev:…"] 중 하나라도 겪었으면
+  if (cond.past_known_any && !cond.past_known_any.some((k) => (state.pastKnown ?? []).includes(k))) return false;
   // 체질: { 체질id: 최소 단계 } — 켜 둔 체질이 그 단계 이상일 때만
   if (cond.traits && !Object.entries(cond.traits).every(([k, v]) => (state.traits?.[k] ?? 0) >= v)) return false;
   // 소속: "none"이면 무소속일 때만, 이름이면 그 소속일 때만. affiliation_not은 그 소속이면 안 됨.
