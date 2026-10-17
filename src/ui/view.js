@@ -191,7 +191,12 @@ export class GameView {
 
     const sceneKeys = (e) => {
       const n = Number(e.key);
-      if (n >= 1 && n <= choices.length) { select(n - 1); return true; }
+      if (n >= 1 && n <= choices.length) {
+        // 고른 번호를 한 번 더 꾹 누르고 있으면 결정
+        if (picked === choices[n - 1]) Keys.hold(e.key, list.children[n - 1], go);
+        else select(n - 1);
+        return true;
+      }
       if (e.key === "Enter" && picked) { go(); return true; }
       return false;
     };
@@ -245,7 +250,12 @@ export class GameView {
     const b = button(i.t(buttonKey), onNext);
     sec.append(b);
     this.show(sec);
-    this.keys((e) => (e.key === "Enter" ? (b.click(), true) : false));
+    // Enter는 바로, 1~5는 꾹 누르고 있으면 넘어간다
+    this.keys((e) => {
+      if (e.key === "Enter") { b.click(); return true; }
+      if (/^[1-5]$/.test(e.key)) { Keys.hold(e.key, b, () => b.click()); return true; }
+      return false;
+    });
     // 빈 곳을 꾹 누르고 있으면 '계속' 버튼의 게이지가 차고 넘어간다 (버튼·용어는 제외)
     holdToFire(sec, b, () => b.click(), undefined, (e) => !e.target.closest("button, .term, a"));
   }

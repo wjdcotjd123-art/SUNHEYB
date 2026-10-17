@@ -4229,12 +4229,49 @@ document.addEventListener("keydown", (e) => {
   if (handler?.(e)) e.preventDefault();
 });
 
+// 키 꾹 누르기: 누르고 있는 동안 gauge 게이지가 차고, 다 차면 onFire. 떼면 취소.
+class KeyHold {
+  constructor(ms = 650) {
+    this.ms = ms;
+    this.key = null;
+    this.timer = null;
+    this.gauge = null;
+    document.addEventListener("keyup", (e) => { if (e.key === this.key) this.cancel(); });
+    window.addEventListener("blur", () => this.cancel());
+  }
+
+  start(key, gauge, onFire) {
+    this.cancel();
+    this.key = key;
+    this.gauge = gauge;
+    gauge.style.setProperty("--hold", `${this.ms}ms`);
+    gauge.classList.add("holding");
+    this.timer = setTimeout(() => { this.cancel(); onFire(); }, this.ms);
+  }
+
+  cancel() {
+    clearTimeout(this.timer);
+    this.timer = null;
+    this.gauge?.classList.remove("holding");
+    this.gauge = null;
+    this.key = null;
+  }
+}
+
+const hold = new KeyHold();
+
 const Keys = {
   set(fn) {
+    hold.cancel();
     handler = fn;
   },
   clear() {
+    hold.cancel();
     handler = null;
+  },
+  // 지금 눌린 key를 꾹 누르고 있으면 onFire
+  hold(key, gauge, onFire) {
+    hold.start(key, gauge, onFire);
   },
 };
 
@@ -4516,7 +4553,12 @@ class GameView {
 
     const sceneKeys = (e) => {
       const n = Number(e.key);
-      if (n >= 1 && n <= choices.length) { select(n - 1); return true; }
+      if (n >= 1 && n <= choices.length) {
+        // 고른 번호를 한 번 더 꾹 누르고 있으면 결정
+        if (picked === choices[n - 1]) Keys.hold(e.key, list.children[n - 1], go);
+        else select(n - 1);
+        return true;
+      }
       if (e.key === "Enter" && picked) { go(); return true; }
       return false;
     };
@@ -4570,7 +4612,12 @@ class GameView {
     const b = button(i.t(buttonKey), onNext);
     sec.append(b);
     this.show(sec);
-    this.keys((e) => (e.key === "Enter" ? (b.click(), true) : false));
+    // Enter는 바로, 1~5는 꾹 누르고 있으면 넘어간다
+    this.keys((e) => {
+      if (e.key === "Enter") { b.click(); return true; }
+      if (/^[1-5]$/.test(e.key)) { Keys.hold(e.key, b, () => b.click()); return true; }
+      return false;
+    });
     // 빈 곳을 꾹 누르고 있으면 '계속' 버튼의 게이지가 차고 넘어간다 (버튼·용어는 제외)
     holdToFire(sec, b, () => b.click(), undefined, (e) => !e.target.closest("button, .term, a"));
   }
