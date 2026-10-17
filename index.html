@@ -181,6 +181,11 @@ body.no-log .wrap { padding-bottom: 48px; }
 .ending { border-top: 1px solid var(--line); padding-top: 22px; }
 .ending.death h2 { color: var(--red); }
 .ending .note { color: var(--muted); font-size: 15px; }
+/* 귀결은 천천히 떠오른다: 제목 → 문구 → 정산 */
+.ending.ending h2 { animation: endfade 2.2s ease both; }
+.ending.ending .note { animation: endfade 2.6s ease .9s both; }
+.ending.ending > :not(h2):not(.note) { animation: endfade 1.2s ease 2.4s both; }
+@keyframes endfade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .karma { font-family: var(--f-ui); margin: 0 0 16px; display: grid; gap: 4px; max-width: 320px; }
 .karma div { display: flex; justify-content: space-between; }
 .karma dt { color: var(--muted); } .karma dd { margin: 0; font-variant-numeric: tabular-nums; }
