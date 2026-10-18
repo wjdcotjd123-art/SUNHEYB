@@ -70,6 +70,8 @@ def fmt_effects(eff):
             parts.append(f"인과록: {v}")
         elif k == "flags_remove":
             parts.append("플래그 제거: " + ", ".join(v))
+        elif k == "if":
+            parts.append("; ".join(f"[조건 {json.dumps(c.get('when', {}), ensure_ascii=False)} → {fmt_effects(c.get('effects', {}))}]" for c in v))
         elif k == "전투":
             parts.append(f"⚔ 전투 `{v['enemy']}` (목숨 {'걺' if v.get('lethal', True) else '안 걺'}) · 승리: {fmt_effects(v['win'].get('effects', {}))} · 패배: {fmt_effects(v['lose'].get('effects', {}))}")
         elif isinstance(v, dict):
