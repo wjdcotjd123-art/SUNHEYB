@@ -18,7 +18,7 @@ const SEED = Number(process.argv[3] ?? 1);
 // 죽음만 있는 게 의도된 선택지(천기누설 등)
 const DEATH_OK = (ev, c) => c.tag === "누설";
 // 지난 생 기록을 흉내 낼 확률(지난 생 조건 장면도 나오게)
-const PAST = { achievements: ["화산의_인연", "매화검수", "가주의_선물", "숙적", "다시_핀_매화"], known: ["aff:흑풍채", "flag:소월의_죽", "flag:연화린_잃음", "flag:우강_무덤", "item:유진의_은장도", "ev:W01", "aff:청하무관", "ev:D009", "flag:조력_남궁현"] };
+const PAST = { achievements: ["화산의_인연", "매화검수", "가주의_선물", "숙적", "다시_핀_매화"], known: ["aff:흑풍채", "flag:우강_죽음", "flag:유진_잃음", "flag:소월_잃음", "flag:소월의_죽", "flag:연화린_잃음", "flag:우강_무덤", "item:유진의_은장도", "ev:W01", "aff:청하무관", "ev:D009", "flag:조력_남궁현"] };
 
 // 인물 이름 → 만났다는 표시(하나라도 있으면 만난 것). 이름이 본문에 나오는데 표시가 없으면 경고.
 // 새 인물을 넣으면 여기에 더한다. intro: 그 인물을 처음 소개하는 장면(그 장면에서는 경고하지 않음)
@@ -64,7 +64,7 @@ const plainOf = (lines) => (lines ?? []).filter((t) => typeof t === "string").jo
 const report = { runs: RUNS, deadEnds: {}, unseen: [], people: {}, exclusive: {}, twice: {}, ends: {} };
 const seen = new Set();
 const reach = {};
-const MILESTONES = { R01: "확신", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발", S10: "연화린 반응", S11: "남궁현 반응", S12: "철우강 반응", S13: "소월 반응", S14: "유진 반응" };
+const MILESTONES = { R01: "확신", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발", S10: "연화린 반응", S11: "남궁현 반응", S12: "철우강 반응", S13: "소월 반응", S14: "유진 반응", S15: "연화린 당부", S16: "유진 당부", S17: "소월 당부", S18: "남궁현 당부" };
 const note = (bag, key, sample) => { bag[key] ??= { n: 0, sample }; bag[key].n++; };
 
 for (let run = 0; run < RUNS; run++) {
