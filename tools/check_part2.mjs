@@ -27,17 +27,18 @@ const PEOPLE = {
   하원: { flags: ["하원_구함", "하원_죽음"], intro: ["S03"] },
   곰배: { flags: ["곰배_원한"], intro: ["S02"] },
   "노 씨": { flags: ["노씨_재회", "봇짐_만남"], intro: ["Q17", "Q05"] },
-  철우강: { flags: ["우강_봄"], intro: ["Q08"] },
-  연화린: { flags: ["화린_봄"], intro: ["Q07"] },
-  유진: { flags: ["유진_봄"], intro: ["Q06"] },
-  남궁현: { flags: ["남궁현_봄"], intro: ["Q35"] },
-  소월: { flags: ["소월_봄"], intro: ["Q33"] },
+  철우강: { flags: ["우강_봄"], intro: ["Q08", "S04"] },
+  연화린: { flags: ["화린_봄"], intro: ["Q07", "S08"] },
+  유진: { flags: ["유진_봄"], intro: ["Q06", "S09"] },
+  남궁현: { flags: ["남궁현_봄"], intro: ["Q35", "S02"] },
+  소월: { flags: ["소월_봄"], intro: ["Q33", "S05"] },
 };
 // 같이 켜질 수 없는 표시
 const EXCLUSIVE = [
   ["하원_구함", "하원_죽음"],
   ["흑풍_은혜", "흑풍_원한"],
   ["마교_살려보냄", "마교_원한"],
+  ["화린_중립", "화린_적대"], ["남궁현_도움", "남궁현_적대"], ["우강_도움", "우강_적대"], ["소월_도움", "소월_적대"], ["유진_중립", "유진_적대"],
 ];
 
 const load = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), "utf8"));
@@ -63,7 +64,7 @@ const plainOf = (lines) => (lines ?? []).filter((t) => typeof t === "string").jo
 const report = { runs: RUNS, deadEnds: {}, unseen: [], people: {}, exclusive: {}, twice: {}, ends: {} };
 const seen = new Set();
 const reach = {};
-const MILESTONES = { R01: "확신", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발" };
+const MILESTONES = { R01: "확신", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발", S10: "연화린 반응", S11: "남궁현 반응", S12: "철우강 반응", S13: "소월 반응", S14: "유진 반응" };
 const note = (bag, key, sample) => { bag[key] ??= { n: 0, sample }; bag[key].n++; };
 
 for (let run = 0; run < RUNS; run++) {
