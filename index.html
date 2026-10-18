@@ -275,6 +275,23 @@ body.no-log .wrap { padding-bottom: 48px; }
   .mast h1 { font-size: 56px; }
   #stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+/* 휴대폰: 상단 정보를 두 줄로 줄여 본문을 넓게 */
+@media (max-width: 600px) {
+  .top { padding-block: 6px; gap: 4px; }
+  #life { font-size: 18px; }
+  #toMenu { padding: 1px 8px; }
+  #toMenu kbd { display: none; }
+  #stats { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px 8px; }
+  .stat { display: flex; align-items: center; justify-content: center; gap: 4px; padding-block: 0; }
+  .stat span { font-size: 11px; letter-spacing: 0; }
+  .stat b { font-size: 14px; }
+  .stat.realm { grid-column: span 2; justify-content: flex-start; }
+  .stat.hp { grid-column: span 3; }
+  .stat b.hpbar { flex: 1; margin: 0; height: 8px; }
+  #items { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  #items::-webkit-scrollbar { display: none; }
+  #items li { white-space: nowrap; flex: none; }
+}
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } }
 </style>
 
