@@ -104,7 +104,8 @@ export class MenuScreens {
     // 탭 안에서 카테고리별로 나눠 보기 (전체 + 카테고리 하위 탭)
     const renderEntries = (id) => {
       const secData = sections.find((s) => s.id === id);
-      const cats = (secData.categories ?? []).filter((c) => secData.entries.some((e) => e.category === c));
+      // 아직 하나도 열리지 않은 갈래는 이름부터 감춘다 (모르는 세력·장소가 미리 드러나지 않게)
+      const cats = (secData.categories ?? []).filter((c) => secData.entries.some((e) => e.category === c && opened(e.stages[0])));
       body.innerHTML = `<div class="tabs sub-tabs" role="tablist"></div><div class="codex-cat"></div>`;
       const sbar = body.querySelector(".sub-tabs");
       const stabs = [{ id: "*", label: i.t("achievementsScreen.all"), items: secData.entries }].concat(
@@ -139,7 +140,7 @@ export class MenuScreens {
       body.innerHTML = `<p class="sub">${i.t("achievementsScreen.sub", { got: `<b>${unlocked.filter((a) => achList.some((x) => x.id === a)).length}</b>`, all: achList.length, n: `<b>${record.data.outcomes.length}</b>` })}</p><div class="tabs sub-tabs" role="tablist"></div><ul class="ach-list"></ul>`;
       const sbar = body.querySelector(".sub-tabs");
       const ul = body.querySelector(".ach-list");
-      const cats = Object.keys(i.t("achievementsScreen.categories")).filter((c) => achList.some((a) => a.category === c));
+      const cats = Object.keys(i.t("achievementsScreen.categories")).filter((c) => achList.some((a) => a.category === c && unlocked.includes(a.id)));
       const stabs = [{ id: "*", label: i.t("achievementsScreen.all"), items: achList }].concat(
         cats.map((c) => ({ id: c, label: i.t(`achievementsScreen.categories.${c}`), items: achList.filter((a) => a.category === c) }))
       );
