@@ -30,8 +30,8 @@ const PEOPLE = {
   철우강: { flags: ["우강_봄"], intro: ["Q08"] },
   연화린: { flags: ["화린_봄"], intro: ["Q07"] },
   유진: { flags: ["유진_봄"], intro: ["Q06"] },
-  남궁현: { flags: ["남궁현_봄"], intro: [] },
-  소월: { flags: ["소월_봄"], intro: [] },
+  남궁현: { flags: ["남궁현_봄"], intro: ["Q35"] },
+  소월: { flags: ["소월_봄"], intro: ["Q33"] },
 };
 // 같이 켜질 수 없는 표시
 const EXCLUSIVE = [
@@ -46,6 +46,17 @@ const files = Object.values(index).find(Array.isArray);
 const events = {};
 for (const f of files) for (const e of load(`data/events/${f}`).events ?? []) events[e.id] = e;
 const part2 = Object.values(events).filter((e) => e.path === PATH);
+// 정적 검사: 효과 값이 올바른지(피해·회복 단계 등)
+const lint = [];
+const tiers = CONFIG.hpTiers;
+const walkFx = (fx, where) => {
+  for (const [k, v] of Object.entries(fx ?? {})) {
+    if ((k === "피해" || k === "회복") && !(v in tiers[k])) lint.push(`${where}: ${k}=${v} (단계가 아님)`);
+    if (k === "if") v.forEach((c, i) => walkFx(c.effects, `${where}.if${i}`));
+    if (k === "전투") ["win", "lose"].forEach((r) => walkFx(v[r]?.effects, `${where}.${r}`));
+  }
+};
+for (const e of part2) for (const c of e.choices ?? []) for (const o of c.outcomes ?? []) walkFx(o.effects, `${e.id}.c${c.id}`);
 
 const plainOf = (lines) => (lines ?? []).filter((t) => typeof t === "string").join(" ").replace(/\*\*|<\/?\w+>/g, "");
 
@@ -106,6 +117,7 @@ const show = (title, bag) => {
   console.log(`\n■ ${title} (${rows.length})`);
   for (const [k, v] of rows.slice(0, 25)) console.log(`  ${String(v.n).padStart(5)}회  ${k}${v.sample !== "" ? `  [${v.sample}]` : ""}`);
 };
+if (lint.length) { console.log(`■ 데이터 오류 (${lint.length})`); lint.slice(0, 20).forEach((l) => console.log("  " + l)); }
 console.log(`2부 검사: ${RUNS}회 플레이, 2부 장면 ${part2.length}개 중 ${part2.length - report.unseen.length}개 등장`);
 console.log("\n■ 도달률");
 for (const [id, name] of Object.entries(MILESTONES)) console.log(`  ${name}: ${(((reach[id] ?? 0) / RUNS) * 100).toFixed(1)}%`);

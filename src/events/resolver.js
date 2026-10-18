@@ -136,6 +136,8 @@ export class ResultResolver {
       else if (k === "flags_remove") v.forEach((f) => state.flags.delete(f));
       else if (k === "achievement") state.achievements.push(v);
       else if (k === "next_event" || k === "전투") continue;
+      // if: [{ when: {조건}, effects: {…} }] — 조건을 채울 때만 더 적용 (예: 지난 생 기억이 있으면 단서)
+      else if (k === "if") v.forEach((c) => { if (meetsCondition(state, c.when)) changes.push(...this.apply({ effects: c.effects }, state)); });
       else if (k === "ending") state.ending = v;
       // 전투 기세 같은 임시 수치를 조용히 0으로 (예: "기세_reset": true)
       // 체력 회복·피해: 단계(조금/제법/완전, 가볍게/크게/치명)를 최대 체력 비율로
