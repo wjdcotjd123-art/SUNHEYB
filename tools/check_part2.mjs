@@ -64,7 +64,7 @@ const plainOf = (lines) => (lines ?? []).filter((t) => typeof t === "string").jo
 const report = { runs: RUNS, deadEnds: {}, unseen: [], people: {}, exclusive: {}, twice: {}, ends: {} };
 const seen = new Set();
 const reach = {};
-const MILESTONES = { R01: "확신", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발", S10: "연화린 반응", S11: "남궁현 반응", S12: "철우강 반응", S13: "소월 반응", S14: "유진 반응", S15: "연화린 당부", S16: "유진 당부", S17: "소월 당부", S18: "남궁현 당부" };
+const MILESTONES = { R01: "확신", U01: "남쪽의 모닥불", U03: "초절정(제단의 장로)", U04: "총단 앞", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발", S10: "연화린 반응", S11: "남궁현 반응", S12: "철우강 반응", S13: "소월 반응", S14: "유진 반응", S15: "연화린 당부", S16: "유진 당부", S17: "소월 당부", S18: "남궁현 당부" };
 const note = (bag, key, sample) => { bag[key] ??= { n: 0, sample }; bag[key].n++; };
 
 for (let run = 0; run < RUNS; run++) {
