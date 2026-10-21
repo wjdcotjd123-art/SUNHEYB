@@ -9,6 +9,7 @@ import { CONFIG } from "../src/config.js";
 import { GameState } from "../src/core/state.js";
 import { Rng } from "../src/core/rng.js";
 import { EventSelector, meetsCondition } from "../src/events/selector.js";
+import { TextVariants } from "../src/events/variants.js";
 import { ResultResolver } from "../src/events/resolver.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -95,7 +96,8 @@ for (let run = 0; run < RUNS; run++) {
     res.apply(out, s);
     if (fight?.win?.effects) res.apply({ effects: fight.win.effects }, s);
     // 인물 검사: 이 장면 글에 나오는 이름의 '만남' 표시가 장면에 들어오기 전에 있었는가
-    const text = plainOf(ev.description) + " " + plainOf(out.text);
+    const tv = new TextVariants(new Map(Object.entries(events)));
+    const text = plainOf(tv.apply(ev.id, ev.description, { ...s, flags: before })) + " " + plainOf(out.text);
     for (const [name, p] of Object.entries(PEOPLE)) {
       if (!text.includes(name) || p.intro.includes(ev.id)) continue;
       const met = p.flags.some((f) => before.has(f));
