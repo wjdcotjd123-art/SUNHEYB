@@ -1,5 +1,5 @@
 // 효과음: 소리 파일 없이 브라우저에서 합성한다(Web Audio).
-// 경지 상승(풍경), 기연·드문 인과(편경 도·레·솔), 죽음(멎는 심장), 귀결(징).
+// 쪽 넘김(묵은 한지), 경지 상승(풍경), 기연·드문 인과(편경 도·레·솔), 죽음(멎는 심장), 귀결(징).
 export const SOUND_LEVELS = [
   { id: "off", gain: 0 },
   { id: "low", gain: 0.4 },
@@ -108,6 +108,30 @@ export class SoundBank {
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     s.connect(f).connect(g).connect(dest);
     s.start(t);
+  }
+
+  // 쪽 넘김: 묵은 한지 한 장. 짧게 스치는 소리 뒤에 낮게 툭 내려앉는다(0.2초 남짓)
+  page(t) {
+    const ctx = this.ctx, out = this.out(0.9, 0.04);
+    const sr = ctx.sampleRate, len = Math.floor(sr * 0.22), buf = ctx.createBuffer(1, len, sr), d = buf.getChannelData(0);
+    // 거친 섬유 결: 잡음에 드문드문 굵은 알갱이를 섞는다
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (Math.random() < 0.04 ? 2.2 : 0.7);
+    const src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
+    src.buffer = buf;
+    bp.type = "bandpass"; bp.Q.value = 0.9;
+    bp.frequency.setValueAtTime(2400, t);
+    bp.frequency.exponentialRampToValueAtTime(700, t + 0.16);
+    lp.type = "lowpass"; lp.frequency.value = 3200;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.32, t + 0.025);
+    g.gain.setValueAtTime(0.3, t + 0.08);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+    src.connect(bp).connect(lp).connect(g).connect(out);
+    src.start(t);
+    src.stop(t + 0.22);
+    // 종이가 내려앉는 묵직한 툭
+    this.noise(0.07, t + 0.13, out, 260, 0.55, 0.9);
+    this.partial(90, 0.12, 0.08, t + 0.13, out, 0.003, 0.7);
   }
 
   // 경지 상승: 맑은 풍경 한 음

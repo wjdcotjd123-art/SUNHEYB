@@ -42,6 +42,7 @@ class App {
     i18n.evFilter = (id, v) => this.variants.apply(id, v, this.state);
     this.achievements = achievements;
     this.view = new GameView(document, CONFIG, i18n);
+    this.view.onPageTurn = () => this.sound.play("page");
     this.battleScreen = new BattleScreen(this.view, i18n);
     if (!CONFIG.showLog) document.body.classList.add("no-log");
     this.menu = new MenuScreens(document, i18n);

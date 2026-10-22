@@ -188,7 +188,7 @@ export class GameView {
     const turn = (d) => {
       const n = page + d;
       if (n < 0 || n >= pages.length) return false;
-      page = n; drawPage(); return true;
+      page = n; drawPage(); this.onPageTurn?.(); return true;
     };
     nextBtn?.addEventListener("click", () => turn(1));
     prevBtn?.addEventListener("click", () => turn(-1));
