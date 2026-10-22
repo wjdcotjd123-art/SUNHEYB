@@ -158,6 +158,7 @@ export class GameView {
     // 본문이 길면 쪽으로 나눈다(빈 줄에서만 자름). 방향키·Enter·오른쪽 클릭·밀기로 넘기고, 마지막 쪽에서 선택지가 나온다
     const pages = splitPages(i.ev(ev.id, "desc"), CONFIG.pageChars ?? 260);
     let page = 0;
+    let arrowTop = null;
     sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2 class="scene-title">${i.ev(ev.id, "title")}${pages.length > 1 ? `<span class="page-num"></span>` : ""}</h2><div class="prose page-body"></div>${pages.length > 1 ? `<button type="button" class="page-arrow page-prev" aria-label="앞 쪽"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="page-arrow page-next" aria-label="다음 쪽"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>` : ""}${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
     const body = sec.querySelector(".page-body");
     const nextBtn = sec.querySelector(".page-next");
@@ -172,8 +173,14 @@ export class GameView {
       list.hidden = !lastPage();
       if (nextBtn) nextBtn.hidden = lastPage();
       if (prevBtn) prevBtn.hidden = page === 0;
-      // 화살표는 본문 가운데 높이에 둔다(선택지 옆으로 내려가지 않게)
-      const mid = body.offsetTop + body.offsetHeight / 2;
+      // 화살표 높이는 모든 쪽에서 같게: 가장 짧은 쪽 본문의 가운데(선택지 옆으로 안 내려감)
+      if (arrowTop == null) {
+        let minH = Infinity;
+        for (const pg of pages) { body.innerHTML = linesToHtml(pg); minH = Math.min(minH, body.offsetHeight); }
+        body.innerHTML = linesToHtml(pages[page]);
+        arrowTop = body.offsetTop + minH / 2;
+      }
+      const mid = arrowTop;
       for (const btn of [nextBtn, prevBtn]) if (btn) btn.style.top = `${mid}px`;
       if (dj) dj.hidden = !lastPage();
       window.scrollTo?.(0, 0);
