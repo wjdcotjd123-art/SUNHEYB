@@ -51,7 +51,7 @@ for (let r = 0; r < RUNS; r++) {
   for (let step = 0; step < 250 && ev; step++) {
     seenAll.add(ev.id); s.seen.add(ev.id); s.lastEventId = ev.id; s.recent = [...(s.recent ?? []), ev.id].slice(-3);
     const cs = sel.availableChoices(ev, s); if (!cs.length) { note(R.dead, `${ev.id}: 고를 선택지 없음`); end = "선택지없음"; break; }
-    const pref = FOCUS ? cs.filter((x) => FOCUS_RE.test(x.text) && !/그만두|지나친/.test(x.text)) : [];
+    const pref = FOCUS ? cs.filter((x) => FOCUS_RE.test(x.text) && !/그만두|지나친|서두르지|달아난|도망/.test(x.text)) : [];
     const pool = pref.length ? pref : cs;
     const c = pool[Math.floor(rng.next() * pool.length)]; const o = res.pick(c, s);
     const before = new Set(s.flags);

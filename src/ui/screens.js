@@ -195,12 +195,16 @@ export class MenuScreens {
       <div class="tabs main-tabs shop-tabs" role="tablist"></div>
       <ul class="shop base"></ul>
       <ul class="shop traits"></ul>
-      <ul class="shop memories"></ul>`;
+      <ul class="shop memories"></ul>
+      <ul class="shop arts"></ul>`;
     // 탭: 타고난 바탕 / 체질 (산 뒤에 다시 그려도 보던 탭을 유지)
-    const mems = shop.visibleMemories();
+    const allMems = shop.visibleMemories();
+    const mems = allMems.filter((m) => m.tab !== "arts");
+    const arts = allMems.filter((m) => m.tab === "arts"); // 업에 새긴 무공: 기억과 같은 방식, 탭만 따로
     const unseen = shop.unseenMemories();
     const tabs = [["base", t("karmaScreen.shopTitle")], ["traits", t("karmaScreen.traitTitle")]];
     if (mems.length) tabs.push(["memories", t("karmaScreen.memoryTitle")]); // 장의 끝을 본 뒤에만 보인다
+    if (arts.length) tabs.push(["arts", t("karmaScreen.artTitle")]);
     const bar = sec.querySelector(".shop-tabs");
     const pick = (id) => {
       this.shopTab = id;
@@ -208,7 +212,8 @@ export class MenuScreens {
       sec.querySelector(".shop.base").hidden = id !== "base";
       sec.querySelector(".shop.traits").hidden = id !== "traits";
       sec.querySelector(".shop.memories").hidden = id !== "memories";
-      if (id === "memories" && unseen.length) mem.seen();
+      sec.querySelector(".shop.arts").hidden = id !== "arts";
+      if ((id === "memories" || id === "arts") && unseen.length) mem.seen();
     };
     for (const [id, label] of tabs) {
       const b = el("button", "tab");
@@ -271,8 +276,7 @@ export class MenuScreens {
       li.append(box);
       tl.append(li);
     });
-    const ml = sec.querySelector(".shop.memories");
-    mems.forEach((m, n) => {
+    const drawMem = (ml, list, pre) => list.forEach((m, n) => {
       const owned = shop.memoryOwned(m.id);
       const on = shop.memoryOn(m.id);
       const li = el("li", "shop-row");
@@ -282,7 +286,7 @@ export class MenuScreens {
       const box = el("div", "shop-btns");
       const b = el("button", "shop-buy");
       b.type = "button";
-      b.id = `memory-${n}`;
+      b.id = `${pre}-${n}`;
       if (owned) {
         b.textContent = t(on ? "karmaScreen.turnOff" : "karmaScreen.turnOn");
         b.addEventListener("click", () => mem.toggle(m.id));
@@ -295,7 +299,10 @@ export class MenuScreens {
       li.append(box);
       ml.append(li);
     });
-    pick(this.shopTab && (this.shopTab !== "memories" || mems.length) ? this.shopTab : "base");
+    drawMem(sec.querySelector(".shop.memories"), mems, "memory");
+    drawMem(sec.querySelector(".shop.arts"), arts, "art");
+    const ok = (tab) => (tab === "memories" ? mems.length : tab === "arts" ? arts.length : true);
+    pick(this.shopTab && ok(this.shopTab) ? this.shopTab : "base");
     this.show(sec, onBack);
   }
 

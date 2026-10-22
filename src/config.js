@@ -44,7 +44,12 @@ export const CONFIG = {
   // tiers: 단계별 이름(언어 파일 karmaScreen.traits.<이름>), 값, 막는 결과 표시
   traits: [],
   // 기억: 장(章)의 끝을 보면 업에 나타나는 것. unlock 귀결을 본 적이 있어야 보인다. 켜 두면 flag가 새 생에 붙는다
-  memories: [{ id: "언어", price: 10, unlock: "flag:말_트임", flag: "기억_언어" }],
+  memories: [
+    { id: "언어", price: 10, unlock: "flag:말_트임", flag: "기억_언어" },
+    // 업에 새긴 무공(업 화면의 '무공' 탭): 숨은 숙련이 기준을 넘으면 생이 끝날 때 나타난다
+    { id: "삼재검법", price: 30, unlock: "flag:삼재_숙련", flag: "업_삼재", tab: "arts" },
+    { id: "토납법", price: 30, unlock: "flag:토납_숙련", flag: "업_토납", tab: "arts" },
+  ],
   testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)
   // 피해 = (1 + 근골×perStr + 경지 우위×perRealmDmg) × (무공 배율) × 0.85~1.15, 치명타 = baseCrit + 행운×perLuckCrit (피해 2배), 방어 = 받는 피해 guard만큼 감소
