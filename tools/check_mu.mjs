@@ -32,8 +32,8 @@ const PEOPLE = {
   마철: { flags: ["백운_입관"], intro: ["B002", "B003"] },
 };
 // 떠난 사람: 표시가 있은 뒤 이름이 나오면 안 되는 장면(추모 장면은 예외)
-const GONE = [{ flag: "노인_떠남", names: ["우 영감", "영감이", "노인이", "노인의 집"], ok: ["V007", "W007", "V008", "V009", "V011", "V012", "V013"] }]; // ok: 추모하는 줄이 있는 장면
-const EXCLUSIVE = [["혼인", "혼인_거절"], ["백운_떠남", "마무리_관주"]];
+const GONE = [{ flag: "소삼_잃음", names: ["소삼"], ok: ["W012", "W006"] }, { flag: "노인_떠남", names: ["우 영감", "영감이", "노인이", "노인의 집"], ok: ["V007", "W007", "V008", "V009", "V011", "V012", "V013"] }]; // ok: 추모하는 줄이 있는 장면
+const EXCLUSIVE = [["혼인", "혼인_거절"], ["누명_벗음", "누명_남음"]];
 const R = { dead: {}, people: {}, gone: {}, lang: {}, excl: {}, ends: {} };
 const note = (bag, k, s = "") => { bag[k] ??= { n: 0, s }; bag[k].n++; };
 const seenAll = new Set();
