@@ -19,7 +19,7 @@ for (let r = 0; r < RUNS; r++) {
   const s = new GameState(CONFIG); if (LANG) s.flags.add("기억_언어");
   let ev = events[CONFIG.prologueId], end = "끊김";
   for (let step = 0; step < 200 && ev; step++) {
-    seen[ev.id] = (seen[ev.id] ?? 0) + 1; s.scenes = (s.scenes ?? 0) + 1;
+    seen[ev.id] = (seen[ev.id] ?? 0) + 1; s.seen.add(ev.id); s.lastEventId = ev.id; s.recent = [...(s.recent ?? []), ev.id].slice(-3); s.scenes = (s.scenes ?? 0) + 1;
     const cs = sel.availableChoices(ev, s); if (!cs.length) { end = `선택지없음:${ev.id}`; break; }
     const c = cs[Math.floor(rng.next() * cs.length)], o = res.pick(c, s); res.apply(o, s);
     if (o.effects?.death) { end = `죽음:${ev.id}`; break; }
