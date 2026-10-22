@@ -3,8 +3,8 @@
     "name": "한국어"
   },
   "menu": {
-    "eyebrow": "하계 · 무림 · 표류",
-    "title": "선협",
+    "eyebrow": "중원 · 무림 · 표류",
+    "title": "무협",
     "livesLine": "지금까지 {n}번의 생을 살았다 · 업 {k}",
     "noLives": "아직 한 번도 살지 않았다.",
     "continue": "이어서 하기",
