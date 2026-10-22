@@ -257,7 +257,8 @@ export class GameView {
       return false;
     });
     // 빈 곳을 꾹 누르고 있으면 '계속' 버튼의 게이지가 차고 넘어간다 (버튼·용어는 제외)
-    holdToFire(sec, b, () => b.click(), undefined, (e) => !e.target.closest("button, .term, a"));
+    // (꺼 둠) 빈 곳을 꾹 눌러 넘어가기: 글을 복사하려다 넘어가 버려서 막았다
+    // holdToFire(sec, b, () => b.click(), undefined, (e) => !e.target.closest("button, .term, a"));
   }
 
   ending(kind, summary, onDone) {
