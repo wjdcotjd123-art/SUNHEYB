@@ -388,7 +388,111 @@
                 "flags": [
                   "막내_봄"
                 ],
-                "근골": 1
+                "근골": 1,
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -414,7 +518,111 @@
                 "flags": [
                   "막내_봄"
                 ],
-                "피해": "크게"
+                "피해": "크게",
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             },
             {
@@ -434,7 +642,111 @@
                 "인연": {
                   "돌쇠": -15,
                   "장패": 5
-                }
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -460,7 +772,111 @@
                 ],
                 "인연": {
                   "돌쇠": -5
-                }
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -493,7 +909,111 @@
                 ],
                 "인연": {
                   "돌쇠": 10
-                }
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -575,7 +1095,111 @@
                 "피해": "가볍게",
                 "인연": {
                   "장패": 10
-                }
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -597,7 +1221,111 @@
                 "flags": [
                   "첫_약탈"
                 ],
-                "재물": 20
+                "재물": 20,
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -630,7 +1358,111 @@
                 "피해": "크게",
                 "인연": {
                   "장패": -10
-                }
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             },
             {
@@ -645,7 +1477,111 @@
                 "flags": [
                   "첫_약탈"
                 ],
-                "행운": 1
+                "행운": 1,
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -681,7 +1617,111 @@
                 "재물": 100,
                 "인연": {
                   "장패": 15
-                }
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -843,6 +1883,108 @@
                         "녹풍도_1"
                       ]
                     }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
                   }
                 ]
               }
@@ -925,6 +2067,108 @@
                     "effects": {
                       "flags": [
                         "녹풍도_1"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
                       ]
                     }
                   }
@@ -1019,6 +2263,108 @@
                         "녹풍도_1"
                       ]
                     }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
                   }
                 ]
               }
@@ -1108,6 +2454,108 @@
                     "effects": {
                       "flags": [
                         "녹풍도_1"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
                       ]
                     }
                   }
@@ -1215,6 +2663,51 @@
                   {
                     "when": {
                       "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
                         "산채3"
                       ],
                       "flags_none": [
@@ -1298,6 +2791,51 @@
                   {
                     "when": {
                       "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
                         "산채3"
                       ],
                       "flags_none": [
@@ -1369,6 +2907,51 @@
               "effects": {
                 "재물": -30,
                 "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
                   {
                     "when": {
                       "flags": [
@@ -1448,6 +3031,51 @@
                   "장패": 3
                 },
                 "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
                   {
                     "when": {
                       "flags": [
@@ -1535,6 +3163,51 @@
                   {
                     "when": {
                       "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
                         "산채3"
                       ],
                       "flags_none": [
@@ -1594,6 +3267,36 @@
             }
           ]
         }
+      ],
+      "variants": [
+        {
+          "when": {
+            "flags": [
+              "황칠_두목"
+            ]
+          },
+          "terms": {
+            "장패": "황칠"
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "녹풍_두목"
+            ]
+          },
+          "lines": {
+            "\"막내, 한 판 할래?\"": [
+              "\"두목, 한 판 하시겠수?\""
+            ],
+            "장패가 지나가다, 반짝이는 칼날에 얼굴을 비춰 보았다.": [
+              "새로 들어온 막내가, 반짝이는 칼날을 보고 입을 벌렸다."
+            ],
+            "\"…쓸 만하군.\"": [
+              "\"…두목님 칼은, 늘 이렇게 빛납니까?\""
+            ]
+          }
+        }
       ]
     },
     {
@@ -1636,6 +3339,51 @@
                   "보초_봄"
                 ],
                 "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
                   {
                     "when": {
                       "flags": [
@@ -1744,6 +3492,2319 @@
             }
           ]
         }
+      ],
+      "variants": [
+        {
+          "when": {
+            "flags": [
+              "황칠_두목"
+            ]
+          },
+          "terms": {
+            "장패": "황칠"
+          }
+        }
+      ]
+    },
+    {
+      "id": "N007",
+      "title": "산채의 밤",
+      "type": "minor",
+      "pool": "pool",
+      "path": "녹풍채",
+      "weight": 6,
+      "conditions": {
+        "flags_none": [
+          "산채밤_봄"
+        ],
+        "scenes_min": 3
+      },
+      "description": [
+        "약탈이 없는 밤이면, 산채 마당에 **모닥불**이 올랐다.",
+        "",
+        "술이 몇 순배 돌자, 누군가 말했다.",
+        "\"막내야. 너는 어쩌다 이 산에 굴러들었냐.\"",
+        "",
+        "모두의 눈이, 나에게 왔다."
+      ],
+      "choices": [
+        {
+          "id": 1,
+          "tag": "되물음",
+          "text": "\"형님들은 어쩌다 오셨습니까.\" 하고 되묻는다",
+          "outcomes": [
+            {
+              "text": [
+                "\"형님들은, 어쩌다 오셨습니까.\"",
+                "",
+                "한참 아무도 말이 없었다.",
+                "",
+                "돌쇠가 먼저 입을 열었다. 흉년에 부모가 **쌀 두 말**에 자기를 팔았다고.",
+                "다른 하나는 빚 때문에, 또 하나는 관아 포졸을 때려눕혀서.",
+                "",
+                "노가는 끝까지 아무 말도 하지 않았다.",
+                "대신, 내 잔에 술을 **가득** 따랐다."
+              ],
+              "effects": {
+                "flags": [
+                  "산채밤_봄"
+                ],
+                "인연": {
+                  "돌쇠": 10,
+                  "노가": 5
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "tag": "의적",
+          "text": "하늘 저편의 의적 이야기를 들려준다",
+          "outcomes": [
+            {
+              "text": [
+                "\"제 고향에 이런 이야기가 있습니다.\"",
+                "",
+                "부자의 곳간을 털어 가난한 백성에게 나눠 준 **도적** 이야기.",
+                "",
+                "다 듣고 나서, 산적들이 서로 얼굴을 보았다.",
+                "\"…그래서 그놈은, 남는 게 뭐냐?\"",
+                "\"이름이 남지요.\"",
+                "\"이름으로 밥을 먹냐?\"",
+                "",
+                "모닥불가에 **웃음**이 터졌다.",
+                "…그날 밤, 돌쇠가 혼자 오래 불을 보고 앉아 있었다."
+              ],
+              "effects": {
+                "flags": [
+                  "산채밤_봄",
+                  "의적_이야기"
+                ],
+                "인연": {
+                  "돌쇠": 5
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "tag": "술",
+          "text": "말 대신 술잔을 비운다",
+          "outcomes": [
+            {
+              "text": [
+                "말 대신, 술잔을 비웠다.",
+                "또 비웠다.",
+                "",
+                "정신을 차려 보니, 아침이었다. 장패의 **호피** 위에서 자고 있었다.",
+                "",
+                "\"…막내야.\"",
+                "**<red>그날, 산채 개울물을 백 번 길었다.</red>**"
+              ],
+              "effects": {
+                "flags": [
+                  "산채밤_봄"
+                ],
+                "근골": 1,
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "when": {
+            "flags": [
+              "황칠_두목"
+            ]
+          },
+          "terms": {
+            "장패": "황칠"
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "녹풍_두목"
+            ]
+          },
+          "lines": {
+            "\"막내야. 너는 어쩌다 이 산에 굴러들었냐.\"": [
+              "\"두목. 두목은 어쩌다 이 산에 굴러들었수.\""
+            ],
+            "정신을 차려 보니, 아침이었다. 장패의 **호피** 위에서 자고 있었다.": [
+              "정신을 차려 보니, 아침이었다. 산적들이 **내 호피** 위에 엉켜 자고 있었다."
+            ],
+            "\"…막내야.\"": [
+              "\"…두목님. 일어나셨수?\""
+            ],
+            "**<red>그날, 산채 개울물을 백 번 길었다.</red>**": [
+              "**두목도, 숙취는 피할 수 없었다.**"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "N008",
+      "title": "와우촌으로",
+      "type": "major",
+      "pool": "pool",
+      "path": "녹풍채",
+      "weight": 6,
+      "conditions": {
+        "flags": [
+          "이름_앎"
+        ],
+        "flags_none": [
+          "와우_약탈"
+        ],
+        "scenes_min": 6
+      },
+      "description": [
+        "장패가 지도 대신, 땅바닥에 나뭇가지로 길을 그었다.",
+        "",
+        "\"다음 그믐엔, **와우촌**이다.\"",
+        "\"막내, 네가 살던 데지. 곳간이 어디 붙었는지, 개가 몇 마리인지 다 알 테고.\"",
+        "",
+        "산적들의 눈이, 나에게 쏠렸다."
+      ],
+      "choices": [
+        {
+          "id": 1,
+          "tag": "앞장",
+          "text": "곳간 자리를 짚어 준다",
+          "outcomes": [
+            {
+              "text": [
+                "나뭇가지를 받아, 곳간 자리를 **하나씩** 짚었다.",
+                "",
+                "그믐밤, 와우촌은 **울음소리**로 깼다.",
+                "돌아오는 길, 등 뒤에서 누군가 내 이름을 불렀다.",
+                "…돌아보지 않았다."
+              ],
+              "effects": {
+                "flags": [
+                  "와우_약탈",
+                  "와우_배신"
+                ],
+                "재물": 120,
+                "인연": {
+                  "장패": 10
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "tag": "귀띔",
+          "text": "밤에 몰래 내려가 마을에 귀띔한다",
+          "stat": "행운",
+          "outcomes": [
+            {
+              "chance": 40,
+              "mods": {
+                "행운": -3
+              },
+              "text": [
+                "밤에 몰래 산을 내려가, 마을 어귀 집 문을 두드렸다.",
+                "",
+                "돌아오는 길, 바위 뒤에 **돌쇠**가 서 있었다.",
+                "\"…어디 다녀오냐, 막내.\"",
+                "",
+                "**<red>그날 밤, 산채 마당에 구덩이가 하나 파였다.</red>**"
+              ],
+              "effects": {
+                "death": true
+              }
+            },
+            {
+              "text": [
+                "밤에 몰래 산을 내려가, 마을 어귀 집 문을 두드렸다.",
+                "\"그믐에, 산적이 옵니다.\"",
+                "",
+                "그믐밤. 와우촌 어귀에 **횃불이 줄지어** 서 있었다.",
+                "산적들은 고개에서 발길을 돌렸다.",
+                "",
+                "장패가 하나 남은 눈으로, 산적들을 하나씩 훑었다.",
+                "\"…누가 샜군.\""
+              ],
+              "effects": {
+                "flags": [
+                  "와우_약탈",
+                  "와우_귀띔"
+                ],
+                "행운": 1,
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "tag": "둘러댐",
+          "text": "\"그 마을엔 털 게 없습니다.\" 하고 둘러댄다",
+          "outcomes": [
+            {
+              "text": [
+                "\"그 마을엔, 털 게 없습니다. 쥐도 굶어 나가는 곳입니다.\"",
+                "",
+                "장패가 나를 한참 보았다.",
+                "\"…그래? 그럼 네 말이 맞는지, 네가 직접 보고 와라.\"",
+                "",
+                "결국 그믐밤, 맨 앞에 서서 와우촌으로 내려갔다.",
+                "곳간은, **생각보다 두둑했다**.",
+                "장패가 쌀가마를 발로 툭 찼다. 아무 말도 하지 않았다. 그게 더 무서웠다."
+              ],
+              "effects": {
+                "flags": [
+                  "와우_약탈",
+                  "와우_배신"
+                ],
+                "인연": {
+                  "장패": -15
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "tag": "칼등",
+          "text": "약탈에 따라가, 칼등으로만 마을 장정들을 눕힌다",
+          "condition": {
+            "flags_any": [
+              "업_삼재",
+              "삼재_숙련"
+            ]
+          },
+          "outcomes": [
+            {
+              "text": [
+                "그믐밤, 맨 앞에서 와우촌으로 내려갔다.",
+                "몽둥이를 든 장정들이 막아섰다. 칼을 **뒤집어 쥐었다**.",
+                "",
+                "하늘, 땅, 사람. 칼등이 손목을 치고, 정강이를 쓸었다.",
+                "장정들이 하나둘 주저앉았다. 피는 **한 방울도** 나지 않았다.",
+                "",
+                "곳간 하나만 털고, 산적들을 돌려세웠다.",
+                "\"됐다. 더 털면 내년에 털 게 없다.\"",
+                "",
+                "장패가 껄껄 웃었다.",
+                "\"**제법이군.** 털 줄도 알고, 남길 줄도 알고.\""
+              ],
+              "effects": {
+                "flags": [
+                  "와우_약탈"
+                ],
+                "재물": 60,
+                "인연": {
+                  "장패": 15
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "when": {
+            "flags": [
+              "황칠_두목"
+            ]
+          },
+          "terms": {
+            "장패": "황칠"
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "녹풍_두목"
+            ]
+          },
+          "lines": {
+            "장패가 지도 대신, 땅바닥에 나뭇가지로 길을 그었다.": [
+              "돌쇠가 땅바닥에 나뭇가지로 길을 그었다."
+            ],
+            "\"다음 그믐엔, **와우촌**이다.\"": [
+              "\"두목. 다음 그믐엔, **와우촌** 어떻수.\""
+            ],
+            "\"막내, 네가 살던 데지. 곳간이 어디 붙었는지, 개가 몇 마리인지 다 알 테고.\"": [
+              "\"두목이 살던 데잖수. 곳간이 어디 붙었는지 다 알 테고.\""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "N012",
+      "title": "칼자국의 제안",
+      "type": "major",
+      "pool": "pool",
+      "path": "녹풍채",
+      "weight": 8,
+      "conditions": {
+        "flags": [
+          "산채2",
+          "첫_약탈",
+          "막내_봄"
+        ],
+        "flags_none": [
+          "반란_봄",
+          "녹풍_두목"
+        ]
+      },
+      "description": [
+        "개울가에서 칼을 씻는데, 부두목 **황칠**이 옆에 쭈그려 앉았다.",
+        "얼굴에 길게 그어진 **칼자국**. 산채에서는 다들 그냥 칼자국이라 불렀다.",
+        "",
+        "\"장패 그 늙은이, 요즘 몫을 혼자 다 먹지.\"",
+        "\"눈도 하나 남은 게, 이제 침침하고.\"",
+        "",
+        "황칠이 내 귀에 대고 속삭였다.",
+        "\"다음 보름, 같이 하자. 끝나면, **부두목 자리**는 네 거다.\""
+      ],
+      "choices": [
+        {
+          "id": 1,
+          "tag": "가담",
+          "text": "\"…좋습니다.\" 하고 손을 잡는다",
+          "outcomes": [
+            {
+              "text": [
+                "\"…좋습니다.\"",
+                "",
+                "황칠이 이를 드러내고 웃었다.",
+                "\"보름밤. 두목 방 뒷문은, 내가 열어 두지.\""
+              ],
+              "effects": {
+                "flags": [
+                  "반란_봄",
+                  "반란_가담"
+                ],
+                "next_event": "N013"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "tag": "고자질",
+          "text": "그날 밤 장패에게 일러바친다",
+          "outcomes": [
+            {
+              "text": [
+                "그날 밤, 장패의 방문을 두드렸다.",
+                "",
+                "장패는 다 듣고도, 표정 하나 바꾸지 않았다.",
+                "\"…알고 있었다. 누가 먼저 오나, 보고 있었지.\"",
+                "",
+                "보름 전날, 황칠은 개울가에서 **떠오르지 않았다**.",
+                "",
+                "장패가 내 잔에 술을 따랐다.",
+                "\"오늘부터, 네가 부두목이다.\""
+              ],
+              "effects": {
+                "flags": [
+                  "반란_봄",
+                  "장패_심복",
+                  "황칠_죽음"
+                ],
+                "인연": {
+                  "장패": 25
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "tag": "모른척",
+          "text": "\"못 들은 걸로 하겠습니다.\" 하고 일어선다",
+          "outcomes": [
+            {
+              "text": [
+                "\"…못 들은 걸로 하겠습니다.\"",
+                "",
+                "황칠의 눈이 **가늘어졌다**.",
+                "\"그래. 못 들은 놈은, 보름밤에 잠이나 자라.\""
+              ],
+              "effects": {
+                "flags": [
+                  "반란_봄",
+                  "반란_방관"
+                ],
+                "next_event": "N013"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N013",
+      "title": "보름밤",
+      "type": "major",
+      "pool": "chain",
+      "conditions": {},
+      "description": [
+        "보름밤. 산채가 **조용했다**. 너무 조용했다.",
+        "",
+        "두목 방에서, 칼 부딪는 소리가 터졌다.",
+        "장패의 고함. 황칠의 웃음.",
+        "",
+        "산적들이 횃불을 들고 마당으로 쏟아져 나왔다. 아무도, 어느 편인지 말하지 않았다."
+      ],
+      "variants": [
+        {
+          "when": {
+            "flags": [
+              "반란_가담"
+            ]
+          },
+          "lines": {
+            "산적들이 횃불을 들고 마당으로 쏟아져 나왔다. 아무도, 어느 편인지 말하지 않았다.": [
+              "황칠이 피 묻은 칼을 들고 문간에서 나를 불렀다.",
+              "\"뭐 해. 들어와서 마무리해.\""
+            ]
+          }
+        }
+      ],
+      "choices": [
+        {
+          "id": 1,
+          "tag": "황칠",
+          "text": "황칠 편에서 장패를 친다",
+          "stat": "근골",
+          "outcomes": [
+            {
+              "chance": 40,
+              "mods": {
+                "근골": -3
+              },
+              "text": [
+                "두목 방으로 뛰어들었다.",
+                "",
+                "장패가 벽에 등을 대고, 하나 남은 눈으로 나를 보았다.",
+                "\"…막내, 너냐.\"",
+                "",
+                "**<red>장패의 칼이, 마지막으로 한 번 빛났다.</red>**"
+              ],
+              "effects": {
+                "death": true
+              }
+            },
+            {
+              "text": [
+                "두목 방으로 뛰어들었다.",
+                "",
+                "장패가 벽에 등을 대고, 하나 남은 눈으로 나를 보았다.",
+                "\"…막내, 너냐.\"",
+                "",
+                "둘이서 달려들었다. 장패가 **무릎을 꿇었다**.",
+                "",
+                "이튿날 아침, 황칠이 호피 위에 앉았다.",
+                "\"부두목. 술 따라라.\""
+              ],
+              "effects": {
+                "flags": [
+                  "두목_바뀜",
+                  "황칠_두목",
+                  "장패_죽음"
+                ],
+                "피해": "가볍게",
+                "인연": {
+                  "황칠": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "tag": "장패",
+          "text": "장패 편에 서서 황칠을 막는다",
+          "stat": "근골",
+          "outcomes": [
+            {
+              "chance": 45,
+              "mods": {
+                "근골": -3
+              },
+              "text": [
+                "황칠의 등 뒤로 달려들었다.",
+                "",
+                "황칠이 돌아서며, 칼자국 난 얼굴로 **웃었다**.",
+                "\"이 배신자 새끼가.\"",
+                "**<red>그 웃음이, 마지막으로 본 얼굴이었다.</red>**"
+              ],
+              "effects": {
+                "death": true
+              }
+            },
+            {
+              "text": [
+                "황칠의 등 뒤로 달려들었다.",
+                "황칠이 돌아서는 사이, 장패의 칼이 황칠의 **옆구리**를 꿰뚫었다.",
+                "",
+                "장패가 숨을 몰아쉬며, 피 묻은 손으로 내 어깨를 짚었다.",
+                "\"…쓸 만한 놈이, 하나는 있었군.\"",
+                "\"오늘부터, 네가 부두목이다.\""
+              ],
+              "effects": {
+                "flags": [
+                  "장패_심복",
+                  "황칠_죽음"
+                ],
+                "인연": {
+                  "장패": 25
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "tag": "둘다",
+          "text": "칼을 들고 두 사람 사이에 뛰어든다",
+          "condition": {
+            "flags_any": [
+              "업_삼재",
+              "삼재_숙련",
+              "녹풍도_숙련"
+            ]
+          },
+          "outcomes": [
+            {
+              "text": [
+                "칼을 들고, 두 사람 사이에 뛰어들었다.",
+                "",
+                "장패의 칼과 황칠의 칼이, 동시에 내게로 왔다.",
+                "손이 먼저 길을 알았다. 하늘로 하나를 쳐 올리고, 땅으로 하나를 눌렀다.",
+                "",
+                "두 칼이, **동시에** 바닥에 떨어졌다.",
+                "",
+                "마당의 산적들이, 횃불을 든 채 굳었다.",
+                "…누군가 먼저, **무릎을 꿇었다**.",
+                "",
+                "그날 밤, 장패와 황칠은 산을 내려갔다. 두 번 다시 돌아오지 않았다.",
+                "호피 위에, **내가** 앉았다."
+              ],
+              "effects": {
+                "flags": [
+                  "두목_바뀜",
+                  "녹풍_두목",
+                  "장패_죽음",
+                  "황칠_죽음"
+                ],
+                "근골": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "tag": "떠남",
+          "text": "혼란한 틈에 산채를 빠져나간다",
+          "outcomes": [
+            {
+              "text": [
+                "횃불과 고함 사이로, 산채 뒷문을 빠져나갔다.",
+                "",
+                "산길을 다 내려와 돌아보니, 산채 쪽 하늘이 **붉었다**.",
+                "누가 이겼는지는, 끝내 알지 못했다."
+              ],
+              "effects": {
+                "flags": [
+                  "산채_도망",
+                  "길_떠남"
+                ],
+                "갈래": "없음",
+                "next_event": "W021"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "N014",
+      "title": "현상금 사냥꾼",
+      "type": "major",
+      "pool": "pool",
+      "path": "녹풍채",
+      "weight": 5,
+      "conditions": {
+        "flags_none": [
+          "사냥꾼_봄"
+        ],
+        "scenes_min": 8
+      },
+      "description": [
+        "장터에 다녀온 산적이, 종이 한 장을 내밀었다.",
+        "관아 방문(榜文). 녹풍채 두목의 목에 **은자 백 냥**.",
+        "",
+        "그날 밤, 산채 아래 숲에서 **새가 한꺼번에** 날아올랐다.",
+        "",
+        "보초가 소리쳤다.",
+        "\"사냥꾼이다!\""
+      ],
+      "choices": [
+        {
+          "id": 1,
+          "tag": "싸움",
+          "text": "칼을 들고 산채 문을 지킨다",
+          "stat": "근골",
+          "outcomes": [
+            {
+              "chance": 40,
+              "mods": {
+                "근골": -2,
+                "민첩": -2
+              },
+              "text": [
+                "칼을 들고, 산채 문 앞에 섰다.",
+                "",
+                "검은 옷의 사내가 문을 넘었다. 칼이 **보이지 않았다**.",
+                "**<red>목이 서늘했다. 그게 다였다.</red>**"
+              ],
+              "effects": {
+                "death": true
+              }
+            },
+            {
+              "text": [
+                "칼을 들고, 산채 문 앞에 섰다.",
+                "",
+                "검은 옷의 사내들과 뒤엉켰다. 하나를 문밖으로 밀어내고, 하나에게 팔을 베였다.",
+                "새벽, 사냥꾼들이 물러갔다.",
+                "",
+                "장패가 내 팔의 상처를 보고, 술을 부어 주었다.",
+                "\"…녹풍채 칼잡이 상처다. 자랑해도 된다.\""
+              ],
+              "effects": {
+                "flags": [
+                  "사냥꾼_봄"
+                ],
+                "피해": "크게",
+                "근골": 1,
+                "인연": {
+                  "장패": 10
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "tag": "숨음",
+          "text": "무기고 짚더미 밑에 숨는다",
+          "outcomes": [
+            {
+              "text": [
+                "무기고 짚더미 밑으로 기어들었다.",
+                "",
+                "밖에서 비명과 칼 소리. 그리고 **조용해졌다**.",
+                "",
+                "새벽에 기어 나오니, 돌쇠가 피투성이로 앉아 있었다.",
+                "돌쇠는 나를 보고, 아무 말도 하지 않았다. **침도 뱉지 않았다.**"
+              ],
+              "effects": {
+                "flags": [
+                  "사냥꾼_봄"
+                ],
+                "인연": {
+                  "돌쇠": -20,
+                  "장패": -10
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "tag": "거래",
+          "text": "사냥꾼에게 산채 뒷길을 알려 주고 몫을 받는다",
+          "stat": "행운",
+          "outcomes": [
+            {
+              "chance": 50,
+              "mods": {
+                "행운": -3
+              },
+              "text": [
+                "어둠 속에서, 사냥꾼 우두머리의 소매를 잡았다.",
+                "\"뒷길을 알려 드리지요. 대신, 백 냥에서 스무 냥.\"",
+                "",
+                "사냥꾼이 나를 보았다. 그리고 웃었다.",
+                "\"산적 목에도 값이 붙어 있지. **네 목**에도.\"",
+                "**<red>값을 매기는 쪽은, 처음부터 저쪽이었다.</red>**"
+              ],
+              "effects": {
+                "death": true
+              }
+            },
+            {
+              "text": [
+                "어둠 속에서, 사냥꾼 우두머리의 소매를 잡았다.",
+                "\"뒷길을 알려 드리지요. 대신, 백 냥에서 스무 냥.\"",
+                "",
+                "새벽, 산채는 **텅 비었다**. 산적들의 목이 수레에 실려 관아로 내려갔다.",
+                "",
+                "내 품에는 은자 스무 냥.",
+                "산을 내려가는 길, 한 번도 뒤돌아보지 않았다. 돌아볼 수가 없었다."
+              ],
+              "effects": {
+                "flags": [
+                  "사냥꾼_봄",
+                  "녹풍_배신",
+                  "길_떠남"
+                ],
+                "재물": 300,
+                "갈래": "없음",
+                "next_event": "W021"
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "tag": "숨",
+          "text": "산채 뒤 연못에 몸을 담그고 숨을 죽인다",
+          "condition": {
+            "flags_any": [
+              "업_토납",
+              "토납_숙련"
+            ]
+          },
+          "outcomes": [
+            {
+              "text": [
+                "산채 뒤 연못으로 들어가, 물속에 몸을 담갔다.",
+                "숨을 아랫배로 내리고, 길게, 더 길게.",
+                "",
+                "연못가를 사냥꾼들의 횃불이 **세 번** 지나갔다.",
+                "세 번 다, 물결 하나 일지 않았다.",
+                "",
+                "새벽에 물 밖으로 나오자, 살아남은 산적들이 귀신 보듯 나를 보았다.",
+                "\"…숨쟁이, 너 **아가미** 달렸냐?\""
+              ],
+              "effects": {
+                "flags": [
+                  "사냥꾼_봄",
+                  "숨쟁이"
+                ],
+                "내공": 1,
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "when": {
+            "flags": [
+              "황칠_두목"
+            ]
+          },
+          "terms": {
+            "장패": "황칠"
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "녹풍_두목"
+            ]
+          },
+          "lines": {
+            "관아 방문(榜文). 녹풍채 두목의 목에 **은자 백 냥**.": [
+              "관아 방문(榜文). 녹풍채 두목의 목에 **은자 백 냥**. 그림 속 얼굴은, **내 얼굴**이었다."
+            ],
+            "장패가 내 팔의 상처를 보고, 술을 부어 주었다.": [
+              "산적들이 내 팔의 상처를 보고, 술을 부어 주었다."
+            ],
+            "\"…녹풍채 칼잡이 상처다. 자랑해도 된다.\"": [
+              "\"…두목이 문 앞에 서는 산채는, 처음이우.\""
+            ]
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "토납_숙련"
+            ]
+          },
+          "lines": {
+            "숨을 아랫배로 내리고, 길게, 더 길게.": [
+              "엄 관주의 토납법. 들이쉬어 모으고, 내쉬지 않고 **돌렸다**."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "N015",
+      "title": "토벌",
+      "type": "major",
+      "pool": "pool",
+      "path": "녹풍채",
+      "weight": 5,
+      "conditions": {
+        "flags": [
+          "산채3"
+        ],
+        "flags_none": [
+          "토벌_봄"
+        ]
+      },
+      "description": [
+        "아침 안개 속에서, **북소리**가 올라왔다.",
+        "",
+        "관군의 깃발. 그 사이사이, 관군과는 다른 옷을 입은 **무림인**들.",
+        "\"녹풍채는 들어라. 칼을 버리면 목숨은 살려 준다.\"",
+        "",
+        "장패가 호피에서 일어나, 칼을 뽑았다.",
+        "\"…녹풍채가 칼을 버린 적은, 없다.\""
+      ],
+      "choices": [
+        {
+          "id": 1,
+          "tag": "싸움",
+          "text": "두목 곁에서 끝까지 싸운다",
+          "stat": "근골",
+          "outcomes": [
+            {
+              "chance": 50,
+              "mods": {
+                "근골": -2,
+                "민첩": -2
+              },
+              "text": [
+                "장패 곁에 섰다.",
+                "",
+                "관군의 창이 몰려왔다. 하나를 막고, 둘을 막았다.",
+                "셋째 창이, **옆구리**로 들어왔다.",
+                "",
+                "**<red>안개가, 붉게 물들었다.</red>**"
+              ],
+              "effects": {
+                "death": true
+              }
+            },
+            {
+              "text": [
+                "장패 곁에 섰다.",
+                "",
+                "해가 질 때까지, 산채 문은 **열리지 않았다**.",
+                "관군이 물러갔다. 산채 마당엔, 산적 절반이 누워 있었다.",
+                "",
+                "장패가 피 묻은 손으로 내 머리를 쥐고 흔들었다.",
+                "\"살았다, 막내. 살았어.\""
+              ],
+              "effects": {
+                "flags": [
+                  "토벌_봄"
+                ],
+                "피해": "크게",
+                "인연": {
+                  "장패": 20
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "tag": "투항",
+          "text": "칼을 버리고 산채 문을 나선다",
+          "outcomes": [
+            {
+              "text": [
+                "칼을 버리고, 산채 문을 나섰다.",
+                "",
+                "관아 옥에서, **세 해**를 살았다.",
+                "풀려나던 날, 옥졸이 말했다.",
+                "\"다시 산에 오르면, 그땐 목이다.\"",
+                "",
+                "산을 등지고, 나무꾼으로 살았다.",
+                "가끔 녹풍채가 있던 산을 보았다. 연기는, 다시 오르지 않았다.",
+                "",
+                "**<gold>수명이 다했다.</gold>**"
+              ],
+              "effects": {
+                "flags": [
+                  "토벌_봄"
+                ],
+                "ending": "산을_내려온_산적"
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "tag": "뒷길",
+          "text": "안개를 틈타 뒷길로 빠져나간다",
+          "stat": "민첩",
+          "outcomes": [
+            {
+              "chance": 40,
+              "mods": {
+                "민첩": -3
+              },
+              "text": [
+                "안개를 틈타, 뒷길로 빠져나갔다.",
+                "",
+                "뒷길 끝에, 검을 든 **무림인**이 서 있었다.",
+                "\"…쥐새끼 하나.\"",
+                "**<red>안개 속에서, 검이 한 번 울었다.</red>**"
+              ],
+              "effects": {
+                "death": true
+              }
+            },
+            {
+              "text": [
+                "안개를 틈타, 뒷길로 빠져나갔다.",
+                "",
+                "등 뒤에서, 산채가 **타는 냄새**가 났다.",
+                "초록 띠를 풀어, 덤불에 던졌다."
+              ],
+              "effects": {
+                "flags": [
+                  "토벌_봄",
+                  "산채_도망",
+                  "길_떠남"
+                ],
+                "갈래": "없음",
+                "next_event": "W021"
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "tag": "검",
+          "text": "안개 속으로 들어가 무림인과 칼을 맞댄다",
+          "condition": {
+            "flags_any": [
+              "업_삼재",
+              "삼재_숙련"
+            ]
+          },
+          "outcomes": [
+            {
+              "text": [
+                "안개 속으로 들어가, 무림인 앞에 섰다.",
+                "",
+                "무림인의 검이 왔다. 받아 흘리고, 비켜 섰다. 천, 지, 인.",
+                "세 합 만에, 무림인이 **한 걸음** 물러섰다.",
+                "",
+                "\"…산적이 **삼재검법**을? 어느 무관 출신이냐.\"",
+                "\"산적입니다.\"",
+                "",
+                "무림인이 한참 나를 보더니, 검을 거두었다.",
+                "\"이 산채 하나쯤, 오늘 아니어도 된다.\"",
+                "",
+                "토벌대가, **북을 거두었다**. 산적들이 나를, 처음 보는 사람처럼 보았다."
+              ],
+              "effects": {
+                "flags": [
+                  "토벌_봄",
+                  "산채_칼잡이"
+                ],
+                "인연": {
+                  "장패": 20
+                },
+                "if": [
+                  {
+                    "when": {
+                      "flags": [
+                        "산채6"
+                      ],
+                      "flags_none": [
+                        "산채7"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채7"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채5"
+                      ],
+                      "flags_none": [
+                        "산채6"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채6"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채4"
+                      ],
+                      "flags_none": [
+                        "산채5"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채5"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채3"
+                      ],
+                      "flags_none": [
+                        "산채4"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채4"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채2"
+                      ],
+                      "flags_none": [
+                        "산채3"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채3"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags": [
+                        "산채1"
+                      ],
+                      "flags_none": [
+                        "산채2"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채2"
+                      ]
+                    }
+                  },
+                  {
+                    "when": {
+                      "flags_none": [
+                        "산채1"
+                      ]
+                    },
+                    "effects": {
+                      "flags": [
+                        "산채1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "when": {
+            "flags": [
+              "황칠_두목"
+            ]
+          },
+          "terms": {
+            "장패": "황칠"
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "녹풍_두목"
+            ]
+          },
+          "lines": {
+            "장패가 호피에서 일어나, 칼을 뽑았다.": [
+              "산적들이 호피 위의 **나**를 보았다."
+            ],
+            "\"…녹풍채가 칼을 버린 적은, 없다.\"": [],
+            "장패 곁에 섰다.": [
+              "산채 문 앞에, **맨 앞에** 섰다."
+            ],
+            "장패가 피 묻은 손으로 내 머리를 쥐고 흔들었다.": [
+              "산적들이 피 묻은 손으로, 내 어깨를 두드렸다."
+            ],
+            "\"살았다, 막내. 살았어.\"": [
+              "\"두목. 살았수. 살았어.\""
+            ]
+          }
+        }
       ]
     },
     {
@@ -1755,7 +5816,7 @@
       "weight": 300,
       "conditions": {
         "flags": [
-          "산채4"
+          "산채7"
         ]
       },
       "description": [
@@ -1787,7 +5848,12 @@
                 "ending": "녹풍채의_졸개"
               }
             }
-          ]
+          ],
+          "condition": {
+            "flags_none": [
+              "녹풍_두목"
+            ]
+          }
         },
         {
           "id": 2,
@@ -1811,7 +5877,12 @@
                 "ending": "녹풍채의_졸개"
               }
             }
-          ]
+          ],
+          "condition": {
+            "flags_none": [
+              "녹풍_두목"
+            ]
+          }
         },
         {
           "id": 3,
@@ -1820,6 +5891,9 @@
           "condition": {
             "flags": [
               "산채_칼잡이"
+            ],
+            "flags_none": [
+              "두목_바뀜"
             ]
           },
           "outcomes": [
@@ -1838,6 +5912,35 @@
               }
             }
           ]
+        },
+        {
+          "id": 4,
+          "tag": "두목",
+          "text": "호피 위에서 산채를 내려다본다",
+          "condition": {
+            "flags": [
+              "녹풍_두목"
+            ]
+          },
+          "outcomes": [
+            {
+              "text": [
+                "호피 위에서, 산채를 내려다보았다.",
+                "",
+                "약탈은 줄었다. 대신 고개를 넘는 상단에게서 **통행세**를 받았다. 피는 덜 흘렀고, 쌀은 더 쌓였다.",
+                "",
+                "\"두목. 우리 이제, 산적 맞수?\"",
+                "\"…산적이다. 세금 받는 산적.\"",
+                "",
+                "그 뒤로도 여러 해, 녹풍채는 **내 이름**으로 고개를 지켰다.",
+                "",
+                "**<gold>수명이 다했다.</gold>**"
+              ],
+              "effects": {
+                "ending": "녹풍채의_두목"
+              }
+            }
+          ]
         }
       ],
       "variants": [
@@ -1850,6 +5953,45 @@
           "lines": {
             "돌쇠는 상단을 털다 죽었다. 노가는 어느 봄, 바위 뒤에서 **도를 쥔 채** 식어 있었다.": [
               "돌쇠는 상단을 털다 죽었다."
+            ]
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "황칠_두목"
+            ]
+          },
+          "lines": {
+            "장패의 하나 남은 눈도, 이제 흐려졌다.": [
+              "황칠은 두목 자리에 앉은 지 세 해 만에, **제 부하의 칼**에 죽었다."
+            ]
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "녹풍_두목"
+            ]
+          },
+          "lines": {
+            "장패의 하나 남은 눈도, 이제 흐려졌다.": [
+              "호피는 낡았다. 그 위에 앉은 **나**도."
+            ]
+          }
+        },
+        {
+          "when": {
+            "flags": [
+              "장패_심복"
+            ],
+            "flags_none": [
+              "두목_바뀜"
+            ]
+          },
+          "lines": {
+            "장패의 하나 남은 눈도, 이제 흐려졌다.": [
+              "장패의 하나 남은 눈도, 이제 흐려졌다. 부두목인 내가, 그 눈 노릇을 했다."
             ]
           }
         }
