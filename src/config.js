@@ -56,7 +56,7 @@ export const CONFIG = {
   testBattleEnemy: "고갯길_산적", // 시험용 전투의 적
   showLog: false, // 하단 '지나온 길' 기록창
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
-  prologueId: "P001", // 매 생의 첫 장면
+  prologueId: "M001", // 매 생의 첫 장면
   // 경지별 마지막 장면: 그 경지에서 더 나올 장면이 없으면 생을 끝내는 대신 한 번 띄운다
   fallbackEvents: { 0: "D_삼류의_문턱" },
   // 검은 비늘: 지니고 있으면 weak=true인 죽음(수준 낮은 적의 공격)을 한 번 막아준다
