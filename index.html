@@ -63,11 +63,11 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 .scene [hidden] { display: none !important; }
 .scene-title { position: relative; padding-right: 3em; }
 .page-num { position: absolute; right: 0; top: 0.2em; font-family: var(--f-body, inherit); font-size: 24px; letter-spacing: 0.05em; opacity: 0.6; }
-.page-arrow { position: fixed; top: 50%; transform: translateY(-50%); z-index: 20; width: 52px; height: 52px; border-radius: 50%; border: 1px solid currentColor; background: rgba(255,255,255,0.35); font-size: 34px !important; line-height: 1; opacity: 0.5; cursor: pointer; color: inherit; padding: 0 0 4px; display: flex; align-items: center; justify-content: center; animation: arrowNudge 1.6s ease-in-out infinite; }
-.page-next { right: 14px; }
-.page-prev { left: 14px; animation: none; opacity: 0.3; }
-.page-arrow:hover { opacity: 0.8; }
-@keyframes arrowNudge { 0%,100% { margin-right: 0; } 50% { margin-right: -6px; } }
+.page-arrow { position: fixed; top: 50%; transform: translateY(-50%); z-index: 20; background: none; border: none; color: inherit; padding: 8px 4px; cursor: pointer; line-height: 0; animation: arrowBlink 1.2s ease-in-out infinite; }
+.page-next { left: min(calc(50% + 310px), calc(100% - 34px)); }
+.page-prev { right: min(calc(50% + 310px), calc(100% - 34px)); animation: none; opacity: 0.25; }
+.page-arrow:hover { animation: none; opacity: 0.9; }
+@keyframes arrowBlink { 0%,100% { opacity: 0.75; } 50% { opacity: 0.12; } }
 .prose strong { font-weight: 700; color: var(--strong); }
 .term { border-bottom: 1px dotted currentColor; text-underline-offset: 3px; cursor: help; }
 .term:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
