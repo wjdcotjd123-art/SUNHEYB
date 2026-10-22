@@ -172,6 +172,9 @@ export class GameView {
       list.hidden = !lastPage();
       if (nextBtn) nextBtn.hidden = lastPage();
       if (prevBtn) prevBtn.hidden = page === 0;
+      // 화살표는 본문 가운데 높이에 둔다(선택지 옆으로 내려가지 않게)
+      const mid = body.offsetTop + body.offsetHeight / 2;
+      for (const btn of [nextBtn, prevBtn]) if (btn) btn.style.top = `${mid}px`;
       if (dj) dj.hidden = !lastPage();
       window.scrollTo?.(0, 0);
     };

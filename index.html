@@ -63,9 +63,11 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 .scene [hidden] { display: none !important; }
 .scene-title { position: relative; padding-right: 3em; }
 .page-num { position: absolute; right: 0; top: 0.2em; font-family: var(--f-body, inherit); font-size: 24px; letter-spacing: 0.05em; opacity: 0.6; }
-.page-arrow { position: fixed; top: 50%; transform: translateY(-50%); z-index: 20; background: none; border: none; color: inherit; padding: 8px 4px; cursor: pointer; line-height: 0; animation: arrowBlink 1.2s ease-in-out infinite; }
-.page-next { left: min(calc(50% + 310px), calc(100% - 34px)); }
-.page-prev { right: min(calc(50% + 310px), calc(100% - 34px)); animation: none; opacity: 0.25; }
+.page-arrow { position: absolute; transform: translateY(-50%); z-index: 20; background: none; border: none; color: inherit; padding: 8px 4px; cursor: pointer; line-height: 0; animation: arrowBlink 1.2s ease-in-out infinite; }
+.scene { position: relative; }
+.page-next { left: calc(100% + 18px); }
+@media (max-width: 720px) { .page-next { left: auto; right: -14px; } .page-prev { right: auto !important; left: -14px; } }
+.page-prev { right: calc(100% + 18px); animation: none; opacity: 0.25; }
 .page-arrow:hover { animation: none; opacity: 0.9; }
 @keyframes arrowBlink { 0%,100% { opacity: 0.75; } 50% { opacity: 0.12; } }
 .prose strong { font-weight: 700; color: var(--strong); }
