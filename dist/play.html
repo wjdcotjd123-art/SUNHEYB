@@ -60,6 +60,11 @@ body { font-family: var(--f-body); font-weight: 500; font-size: var(--fs, 17px);
 #stage { display: grid; gap: 28px; padding-top: 28px; }
 .scene h2, .ending h2 { font-family: var(--f-display); font-weight: 400; font-size: 26px; line-height: 1.3; margin: 0 0 14px; letter-spacing: 0.04em; text-wrap: balance; }
 .prose p { margin: 0 0 0.75em; }
+.scene [hidden] { display: none !important; }
+.scene-title { position: relative; padding-right: 3em; }
+.page-num { position: absolute; right: 0; top: 0.35em; font-family: var(--f-body, inherit); font-size: 13px; letter-spacing: 0.05em; opacity: 0.4; }
+.page-next { display: block; margin: 4px 0 0 auto; background: none; border: none; font-size: 28px; line-height: 1; opacity: 0.35; cursor: pointer; color: inherit; padding: 4px 10px; }
+.page-next:hover { opacity: 0.7; }
 .prose strong { font-weight: 700; color: var(--strong); }
 .term { border-bottom: 1px dotted currentColor; text-underline-offset: 3px; cursor: help; }
 .term:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
@@ -655,6 +660,7 @@ const CONFIG = {
   // 정체: 벽을 넘을 내공(walls[경지])을 갖추고도 limit장 넘게 머물면 그 경지에서는 능력치가 더 오르지 않는다
   stagnation: { walls: { 1: 8, 2: 18, 3: 30, 4: 45, 5: 50, 6: 70 }, limit: 12, stats: ["근골", "민첩", "행운", "내공"] },
   // 지금 상태에서 죽을 확률이 이 값(%) 이상인 선택지는 비추천으로 표시
+  pageChars: 260, // 장면 본문이 이보다 길면 쪽으로 나눈다(대략 글자 수)
   warnDeath: 999, // 비추천 표시 꺼 둠(켜려면 70)
   chanceMax: 95,
   languages: ["ko"],
@@ -2026,6 +2032,7 @@ class Tooltip {
 // 조작: 숫자키(1~9)로 고르기, Enter로 확인, Esc로 메인.
 
 
+
 class GameView {
   constructor(root, config, i18n) {
     this.config = config;
@@ -2176,8 +2183,43 @@ class GameView {
     const i = this.i;
     const sec = el("section", "scene");
     // 기연 장면이면 제목 위에 기연 표시 (선택지에는 힌트를 주지 않는다)
-    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
+    // 본문이 길면 쪽으로 나눈다(빈 줄에서만 자름). 방향키·Enter·오른쪽 클릭·밀기로 넘기고, 마지막 쪽에서 선택지가 나온다
+    const pages = splitPages(i.ev(ev.id, "desc"), CONFIG.pageChars ?? 260);
+    let page = 0;
+    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2 class="scene-title">${i.ev(ev.id, "title")}${pages.length > 1 ? `<span class="page-num"></span>` : ""}</h2><div class="prose page-body"></div><button type="button" class="page-next" hidden>›</button>${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
+    const body = sec.querySelector(".page-body");
+    const nextBtn = sec.querySelector(".page-next");
+    const dj = sec.querySelector(".dejavu");
     const list = el("div", "choices");
+    const lastPage = () => page === pages.length - 1;
+    const drawPage = () => {
+      body.innerHTML = linesToHtml(pages[page]);
+      const pn = sec.querySelector(".page-num");
+      if (pn) pn.textContent = `${page + 1}/${pages.length}`;
+      list.hidden = !lastPage();
+      nextBtn.hidden = lastPage();
+      if (dj) dj.hidden = !lastPage();
+      window.scrollTo?.(0, 0);
+    };
+    const turn = (d) => {
+      const n = page + d;
+      if (n < 0 || n >= pages.length) return false;
+      page = n; drawPage(); return true;
+    };
+    nextBtn.addEventListener("click", () => turn(1));
+    if (pages.length > 1) {
+      // 오른쪽 클릭: 다음 쪽 (마지막 쪽에서는 브라우저 메뉴 그대로)
+      sec.addEventListener("contextmenu", (e) => { if (!lastPage()) { e.preventDefault(); turn(1); } });
+      // 휴대폰: 오른쪽에서 왼쪽으로 밀면 다음 쪽, 반대로 밀면 앞 쪽
+      let sx = null, sy = null;
+      sec.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      sec.addEventListener("touchend", (e) => {
+        if (sx == null) return;
+        const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        sx = null;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) turn(dx < 0 ? 1 : -1);
+      });
+    }
     let picked = null;
 
     // 고른 선택지 박스 안에 '결정 Enter' 표시가 생기고, 그 박스를 한 번 더 누르면 결정
@@ -2210,8 +2252,12 @@ class GameView {
     });
     sec.append(list);
     this.show(sec);
+    drawPage();
 
     const sceneKeys = (e) => {
+      if (e.key === "ArrowRight") { turn(1); return true; }
+      if (e.key === "ArrowLeft") { turn(-1); return true; }
+      if (!lastPage()) { if (e.key === "Enter" || e.key === " ") { turn(1); return true; } return false; }
       const n = Number(e.key);
       if (n >= 1 && n <= choices.length) {
         // 고른 번호를 한 번 더 꾹 누르고 있으면 결정
@@ -2340,6 +2386,26 @@ function el(tag, cls) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
   return e;
+}
+
+// 본문 줄들을 쪽으로 나눈다. 빈 줄(문단 경계)에서만 자르고, 한 쪽은 대략 limit 글자.
+function splitPages(lines, limit) {
+  const len = (l) => String(l).replace(/\*\*|<[^>]+>|[{}]/g, "").length;
+  const pages = [];
+  let cur = [], n = 0;
+  const paras = [];
+  let buf = [];
+  for (const l of lines) { if (l === "") { if (buf.length) paras.push(buf); buf = []; } else buf.push(l); }
+  if (buf.length) paras.push(buf);
+  for (const p of paras) {
+    const pl = p.reduce((a, l) => a + len(l), 0);
+    if (cur.length && n + pl > limit) { pages.push(cur); cur = []; n = 0; }
+    cur.push(...(cur.length ? ["", ...p] : p)); n += pl;
+  }
+  if (cur.length) pages.push(cur);
+  // 마지막 쪽이 너무 짧으면 앞 쪽에 붙인다
+  if (pages.length > 1 && pages.at(-1).reduce((a, l) => a + len(l), 0) < limit * 0.25) { const last = pages.pop(); pages[pages.length - 1].push("", ...last); }
+  return pages.length ? pages : [lines];
 }
 
 // 전투 화면: 적과 나의 체력 막대, 합마다의 전투 기록, 공격·무공·방어 선택.

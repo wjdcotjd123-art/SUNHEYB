@@ -3,6 +3,7 @@
 // 조작: 숫자키(1~9)로 고르기, Enter로 확인, Esc로 메인.
 import { lineToHtml, linesToHtml } from "./markup.js";
 import { Keys } from "./keys.js";
+import { CONFIG } from "../config.js";
 
 export class GameView {
   constructor(root, config, i18n) {
@@ -154,8 +155,43 @@ export class GameView {
     const i = this.i;
     const sec = el("section", "scene");
     // 기연 장면이면 제목 위에 기연 표시 (선택지에는 힌트를 주지 않는다)
-    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2>${i.ev(ev.id, "title")}</h2><div class="prose">${linesToHtml(i.ev(ev.id, "desc"))}</div>${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
+    // 본문이 길면 쪽으로 나눈다(빈 줄에서만 자름). 방향키·Enter·오른쪽 클릭·밀기로 넘기고, 마지막 쪽에서 선택지가 나온다
+    const pages = splitPages(i.ev(ev.id, "desc"), CONFIG.pageChars ?? 260);
+    let page = 0;
+    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2 class="scene-title">${i.ev(ev.id, "title")}${pages.length > 1 ? `<span class="page-num"></span>` : ""}</h2><div class="prose page-body"></div><button type="button" class="page-next" hidden>›</button>${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
+    const body = sec.querySelector(".page-body");
+    const nextBtn = sec.querySelector(".page-next");
+    const dj = sec.querySelector(".dejavu");
     const list = el("div", "choices");
+    const lastPage = () => page === pages.length - 1;
+    const drawPage = () => {
+      body.innerHTML = linesToHtml(pages[page]);
+      const pn = sec.querySelector(".page-num");
+      if (pn) pn.textContent = `${page + 1}/${pages.length}`;
+      list.hidden = !lastPage();
+      nextBtn.hidden = lastPage();
+      if (dj) dj.hidden = !lastPage();
+      window.scrollTo?.(0, 0);
+    };
+    const turn = (d) => {
+      const n = page + d;
+      if (n < 0 || n >= pages.length) return false;
+      page = n; drawPage(); return true;
+    };
+    nextBtn.addEventListener("click", () => turn(1));
+    if (pages.length > 1) {
+      // 오른쪽 클릭: 다음 쪽 (마지막 쪽에서는 브라우저 메뉴 그대로)
+      sec.addEventListener("contextmenu", (e) => { if (!lastPage()) { e.preventDefault(); turn(1); } });
+      // 휴대폰: 오른쪽에서 왼쪽으로 밀면 다음 쪽, 반대로 밀면 앞 쪽
+      let sx = null, sy = null;
+      sec.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      sec.addEventListener("touchend", (e) => {
+        if (sx == null) return;
+        const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        sx = null;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) turn(dx < 0 ? 1 : -1);
+      });
+    }
     let picked = null;
 
     // 고른 선택지 박스 안에 '결정 Enter' 표시가 생기고, 그 박스를 한 번 더 누르면 결정
@@ -188,8 +224,12 @@ export class GameView {
     });
     sec.append(list);
     this.show(sec);
+    drawPage();
 
     const sceneKeys = (e) => {
+      if (e.key === "ArrowRight") { turn(1); return true; }
+      if (e.key === "ArrowLeft") { turn(-1); return true; }
+      if (!lastPage()) { if (e.key === "Enter" || e.key === " ") { turn(1); return true; } return false; }
       const n = Number(e.key);
       if (n >= 1 && n <= choices.length) {
         // 고른 번호를 한 번 더 꾹 누르고 있으면 결정
@@ -318,4 +358,24 @@ export function el(tag, cls) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
   return e;
+}
+
+// 본문 줄들을 쪽으로 나눈다. 빈 줄(문단 경계)에서만 자르고, 한 쪽은 대략 limit 글자.
+export function splitPages(lines, limit) {
+  const len = (l) => String(l).replace(/\*\*|<[^>]+>|[{}]/g, "").length;
+  const pages = [];
+  let cur = [], n = 0;
+  const paras = [];
+  let buf = [];
+  for (const l of lines) { if (l === "") { if (buf.length) paras.push(buf); buf = []; } else buf.push(l); }
+  if (buf.length) paras.push(buf);
+  for (const p of paras) {
+    const pl = p.reduce((a, l) => a + len(l), 0);
+    if (cur.length && n + pl > limit) { pages.push(cur); cur = []; n = 0; }
+    cur.push(...(cur.length ? ["", ...p] : p)); n += pl;
+  }
+  if (cur.length) pages.push(cur);
+  // 마지막 쪽이 너무 짧으면 앞 쪽에 붙인다
+  if (pages.length > 1 && pages.at(-1).reduce((a, l) => a + len(l), 0) < limit * 0.25) { const last = pages.pop(); pages[pages.length - 1].push("", ...last); }
+  return pages.length ? pages : [lines];
 }
