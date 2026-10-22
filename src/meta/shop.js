@@ -70,7 +70,7 @@ export class KarmaShop {
     return (this.record.data.memories ??= {});
   }
   memoryVisible(m) {
-    return (this.record.data.endings ?? []).includes(m.unlock);
+    return (this.record.data.endings ?? []).includes(m.unlock) || (this.record.data.memUnlocked ?? []).includes(m.id);
   }
   visibleMemories() {
     return this.memories.filter((m) => this.memoryVisible(m));

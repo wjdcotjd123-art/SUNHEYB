@@ -44,7 +44,7 @@ export const CONFIG = {
   // tiers: 단계별 이름(언어 파일 karmaScreen.traits.<이름>), 값, 막는 결과 표시
   traits: [],
   // 기억: 장(章)의 끝을 보면 업에 나타나는 것. unlock 귀결을 본 적이 있어야 보인다. 켜 두면 flag가 새 생에 붙는다
-  memories: [],
+  memories: [{ id: "언어", price: 10, unlock: "flag:말_트임", flag: "기억_언어" }],
   testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)
   // 피해 = (1 + 근골×perStr + 경지 우위×perRealmDmg) × (무공 배율) × 0.85~1.15, 치명타 = baseCrit + 행운×perLuckCrit (피해 2배), 방어 = 받는 피해 guard만큼 감소
@@ -58,7 +58,7 @@ export const CONFIG = {
   storage: { meta: "sunheyb.meta.v1", save: "sunheyb.save.v2", settings: "sunheyb.settings.v1" },
   prologueId: "M001", // 매 생의 첫 장면
   // 경지별 마지막 장면: 그 경지에서 더 나올 장면이 없으면 생을 끝내는 대신 한 번 띄운다
-  fallbackEvents: { 0: "D_삼류의_문턱" },
+  fallbackEvents: { 0: "V010", 1: "V010" },
   // 검은 비늘: 지니고 있으면 weak=true인 죽음(수준 낮은 적의 공격)을 한 번 막아준다
   scaleGuard: { item: "검은_비늘", event: "SYS_SCALE", usedFlag: "비늘이_막음" }, // 한 생에 한 번만
   eventIndex: "data/events/index.json",

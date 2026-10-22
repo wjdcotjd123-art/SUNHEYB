@@ -80,6 +80,12 @@ export class LifeRecord {
     const newMemories = state.ending && !this.data.endings.includes(state.ending)
       ? (this.config.memories ?? []).filter((m) => m.unlock === state.ending).map((m) => m.id) : [];
     if (state.ending && !this.data.endings.includes(state.ending)) this.data.endings.push(state.ending);
+    // 표시(flag:)로 여는 기억: 이번 생에 그 표시를 얻었으면 업에 나타난다
+    const unl = (this.data.memUnlocked ??= []);
+    for (const m of this.config.memories ?? []) {
+      if (!m.unlock?.startsWith("flag:") || unl.includes(m.id)) continue;
+      if (state.flags.has(m.unlock.slice(5))) { unl.push(m.id); newMemories.push(m.id); }
+    }
     this.data.outcomes.push(...fresh);
     this.data.achievements.push(...newAch);
     this.data.karma += total;
