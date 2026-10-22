@@ -9,6 +9,7 @@ import { CONFIG } from "../src/config.js";
 import { GameState } from "../src/core/state.js";
 import { Rng } from "../src/core/rng.js";
 import { EventSelector, meetsCondition } from "../src/events/selector.js";
+import { TextVariants } from "../src/events/variants.js";
 import { ResultResolver } from "../src/events/resolver.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -65,7 +66,7 @@ const plainOf = (lines) => (lines ?? []).filter((t) => typeof t === "string").jo
 const report = { runs: RUNS, deadEnds: {}, unseen: [], people: {}, exclusive: {}, twice: {}, ends: {} };
 const seen = new Set();
 const reach = {};
-const MILESTONES = { R01: "확신", U01: "남쪽의 모닥불", U03: "초절정(제단의 장로)", U04: "총단 앞", V02: "천마 대면", V04: "천마 결착", X03: "흰 옷의 소년", X04: "화로 앞의 노인", Y01: "화경", Y04: "현경", Y07: "원흉 결착", Y09: "정사대전 종식", Y11: "수도의 길 결심", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발", S10: "연화린 반응", S11: "남궁현 반응", S12: "철우강 반응", S13: "소월 반응", S14: "유진 반응", S15: "연화린 당부", S16: "유진 당부", S17: "소월 당부", S18: "남궁현 당부" };
+const MILESTONES = { R01: "확신", U01: "남쪽의 모닥불", U03: "초절정(제단의 장로)", U04: "총단 앞", V02: "천마 대면", V04: "천마 결착", X03: "흰 옷의 소년", X04: "화로 앞의 노인", Y01: "화경", Y04: "현경", Y07: "원흉 결착", Y09: "정사대전 종식", Y11: "연기기 1층", Y12: "그분(언질)", YB1: "흠천감", Y14: "틈 속(2부의 끝)", S01: "정사대전 시작", S06: "누구의 소행인가", S07: "검은 깃발", S10: "연화린 반응", S11: "남궁현 반응", S12: "철우강 반응", S13: "소월 반응", S14: "유진 반응", S15: "연화린 당부", S16: "유진 당부", S17: "소월 당부", S18: "남궁현 당부" };
 const note = (bag, key, sample) => { bag[key] ??= { n: 0, sample }; bag[key].n++; };
 
 for (let run = 0; run < RUNS; run++) {
@@ -95,7 +96,8 @@ for (let run = 0; run < RUNS; run++) {
     res.apply(out, s);
     if (fight?.win?.effects) res.apply({ effects: fight.win.effects }, s);
     // 인물 검사: 이 장면 글에 나오는 이름의 '만남' 표시가 장면에 들어오기 전에 있었는가
-    const text = plainOf(ev.description) + " " + plainOf(out.text);
+    const tv = new TextVariants(new Map(Object.entries(events)));
+    const text = plainOf(tv.apply(ev.id, ev.description, { ...s, flags: before })) + " " + plainOf(out.text);
     for (const [name, p] of Object.entries(PEOPLE)) {
       if (!text.includes(name) || p.intro.includes(ev.id)) continue;
       const met = p.flags.some((f) => before.has(f));
