@@ -158,9 +158,10 @@ export class GameView {
     // 본문이 길면 쪽으로 나눈다(빈 줄에서만 자름). 방향키·Enter·오른쪽 클릭·밀기로 넘기고, 마지막 쪽에서 선택지가 나온다
     const pages = splitPages(i.ev(ev.id, "desc"), CONFIG.pageChars ?? 260);
     let page = 0;
-    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2 class="scene-title">${i.ev(ev.id, "title")}${pages.length > 1 ? `<span class="page-num"></span>` : ""}</h2><div class="prose page-body"></div><button type="button" class="page-next" hidden>›</button>${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
+    sec.innerHTML = `${ev.fortune ? `<p class="fortune-banner">${i.t("game.fortune")}</p>` : ""}<h2 class="scene-title">${i.ev(ev.id, "title")}${pages.length > 1 ? `<span class="page-num"></span>` : ""}</h2><div class="prose page-body"></div>${pages.length > 1 ? `<button type="button" class="page-arrow page-prev" aria-label="앞 쪽"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="page-arrow page-next" aria-label="다음 쪽"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>` : ""}${dejavu ? `<div class="prose dejavu">${linesToHtml(i.ev(ev.id, "dejavu"))}</div>` : ""}`;
     const body = sec.querySelector(".page-body");
     const nextBtn = sec.querySelector(".page-next");
+    const prevBtn = sec.querySelector(".page-prev");
     const dj = sec.querySelector(".dejavu");
     const list = el("div", "choices");
     const lastPage = () => page === pages.length - 1;
@@ -169,7 +170,8 @@ export class GameView {
       const pn = sec.querySelector(".page-num");
       if (pn) pn.textContent = `${page + 1}/${pages.length}`;
       list.hidden = !lastPage();
-      nextBtn.hidden = lastPage();
+      if (nextBtn) nextBtn.hidden = lastPage();
+      if (prevBtn) prevBtn.hidden = page === 0;
       if (dj) dj.hidden = !lastPage();
       window.scrollTo?.(0, 0);
     };
@@ -178,19 +180,23 @@ export class GameView {
       if (n < 0 || n >= pages.length) return false;
       page = n; drawPage(); return true;
     };
-    nextBtn.addEventListener("click", () => turn(1));
+    nextBtn?.addEventListener("click", () => turn(1));
+    prevBtn?.addEventListener("click", () => turn(-1));
     if (pages.length > 1) {
       // 오른쪽 클릭: 다음 쪽 (마지막 쪽에서는 브라우저 메뉴 그대로)
       sec.addEventListener("contextmenu", (e) => { if (!lastPage()) { e.preventDefault(); turn(1); } });
-      // 휴대폰: 오른쪽에서 왼쪽으로 밀면 다음 쪽, 반대로 밀면 앞 쪽
+      // 밀기(휴대폰 터치·PC 마우스 끌기): 오른쪽→왼쪽이면 다음 쪽, 반대면 앞 쪽
       let sx = null, sy = null;
-      sec.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-      sec.addEventListener("touchend", (e) => {
+      sec.addEventListener("pointerdown", (e) => { if (e.button === 0) { sx = e.clientX; sy = e.clientY; } });
+      const end = (e) => {
         if (sx == null) return;
-        const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        const dx = e.clientX - sx, dy = e.clientY - sy;
         sx = null;
-        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) turn(dx < 0 ? 1 : -1);
-      });
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) { turn(dx < 0 ? 1 : -1); window.getSelection?.().removeAllRanges(); }
+      };
+      sec.addEventListener("pointerup", end);
+      sec.addEventListener("pointercancel", () => { sx = null; });
+      sec.style.touchAction = "pan-y";
     }
     let picked = null;
 
