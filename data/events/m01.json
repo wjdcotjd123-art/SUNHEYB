@@ -2521,7 +2521,7 @@
       "title": "삼류의 문턱",
       "type": "major",
       "pool": "pool",
-      "weight": 30,
+      "weight": 40,
       "conditions": {
         "flags": [
           "말_분기"
@@ -2544,7 +2544,7 @@
           "text": "기운을 끌어모아 벽을 민다",
           "outcomes": [
             {
-              "chance": 45,
+              "chance": 35,
               "mods": {
                 "내공": -2,
                 "근골": -1
@@ -2610,7 +2610,8 @@
             "\"…네놈, 눈빛이 달라졌구나.\"": []
           }
         }
-      ]
+      ],
+      "repeat": true
     },
     {
       "id": "V008",
