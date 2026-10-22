@@ -16,6 +16,12 @@ export class ResultResolver {
     return Math.min(this.config.chanceMax, Math.max(Math.min(this.config.chanceMin, outcome.chance), c));
   }
 
+  // 결과의 when: 그 조건을 채울 때만 그 결과가 후보가 된다 (예: 말을 모를 때만 나오는 결과)
+  onlyWhen(choice, state) {
+    if (!choice.outcomes.some((o) => o.when)) return choice;
+    return { ...choice, outcomes: choice.outcomes.filter((o) => !o.when || meetsCondition(state, o.when)) };
+  }
+
   // 드문 인과: 기본 확률이 rareChance 이하이면서 죽음이 아닌 결과.
   isRare(outcome) {
     return outcome.chance != null && outcome.chance <= this.config.rareChance && !outcome.effects?.death;
@@ -27,6 +33,7 @@ export class ResultResolver {
   //  - 죽음이 나머지 확률이면 처음 나오는 평범한 생존 결과에 더한다.
   //  - 드문 인과(대박)는 배율로만 조금 올려서 대박의 희소함은 지킨다.
   pick(choice, state, deaths = 0) {
+    choice = this.onlyWhen(choice, state);
     // noDeathIf: 이 조건을 채우면 이 선택지에서는 죽지 않는다 (남은 확률은 마지막 생존 결과가 가져감)
     if (choice.noDeathIf && meetsCondition(state, choice.noDeathIf)) {
       const alive = choice.outcomes.filter((o) => !o.effects?.death);
@@ -57,6 +64,7 @@ export class ResultResolver {
 
   // pick과 같은 규칙으로 각 결과가 나올 확률(%)을 [결과, 확률] 목록으로 돌려준다.
   distribution(choice, state, deaths = 0) {
+    choice = this.onlyWhen(choice, state);
     if (choice.noDeathIf && meetsCondition(state, choice.noDeathIf)) {
       const alive = choice.outcomes.filter((o) => !o.effects?.death);
       const last = alive[alive.length - 1];
