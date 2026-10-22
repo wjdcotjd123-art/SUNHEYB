@@ -38,32 +38,13 @@ export const CONFIG = {
   shownStats: ["체력", "근골", "민첩", "행운", "내공", "재물"],
   karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5, perEnding: 40, perSceneMult: 0.03, maxMult: 2.5 }, // 배율 = 1 + 턴×0.03 (최대 ×2.5)
   // 업 상점: 산 만큼 매 생 시작할 때 적용. 값 = round(base × growth^현재단계)
-  shop: [
-    { id: "근골", stat: "근골", amount: 1, base: 20, growth: 1.18, max: 30 },
-    { id: "민첩", stat: "민첩", amount: 1, base: 20, growth: 1.18, max: 30 },
-    { id: "체력", stat: "최대체력", amount: 2, base: 15, growth: 1.15, max: 20 },
-    { id: "행운", stat: "행운", amount: 1, base: 20, growth: 1.18, max: 30 },
-    { id: "재물", stat: "재물", amount: 10, base: 10, growth: 1.12, max: 20 },
-    { id: "내공", stat: "내공", amount: 1, base: 40, growth: 1.2, max: 15 },
-  ],
+  shop: [],
   // 체질: 한 번 사면 모든 생에 유지, 켜고 끌 수 있다.
   // blocks: 이 표시가 달린 결과(예: "food": true)가 나오면 그 결과를 빼고 다시 굴리고, 결과 화면에 체질 발동을 표시한다
   // tiers: 단계별 이름(언어 파일 karmaScreen.traits.<이름>), 값, 막는 결과 표시
-  traits: [
-    { id: "철위", tiers: [{ name: "철위", price: 200, blocks: ["food"] }, { name: "만독불침", price: 800, blocks: ["food", "poison"] }] },
-    { id: "수화불침", tiers: [{ name: "수화불침", price: 200, blocks: ["chill"] }, { name: "한서불침", price: 800, blocks: ["chill", "frost"] }] },
-    { id: "선면", tiers: [{ name: "선면", price: 200, blocks: ["wary"] }] },
-    // bonus: 결과로 그 능력치를 얻을 때마다 더 얻는 양
-    // breakBonus: 경지 돌파 결과의 확률 +%p
-    // madDeath: [마기] 선택지에서 죽는 결과를 막는다
-    { id: "혈왕마골", tiers: [{ name: "혈왕마골", price: 1500, blocks: ["madDeath"] }] },
-    { id: "삼재지체", tiers: [
-      { name: "삼재지체", price: 1000, blocks: [], bonus: { 내공: 1 } },
-      { name: "오행지체", price: 3000, blocks: [], bonus: { 내공: 1, 근골: 1, 민첩: 1 }, breakBonus: 10 },
-    ] },
-  ],
+  traits: [],
   // 기억: 장(章)의 끝을 보면 업에 나타나는 것. unlock 귀결을 본 적이 있어야 보인다. 켜 두면 flag가 새 생에 붙는다
-  memories: [{ id: "다섯_갈래_길의_기억", price: 1000, unlock: "하늘이_허락한_수명", flag: "기억_다섯_갈래_길" }],
+  memories: [],
   testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)
   // 피해 = (1 + 근골×perStr + 경지 우위×perRealmDmg) × (무공 배율) × 0.85~1.15, 치명타 = baseCrit + 행운×perLuckCrit (피해 2배), 방어 = 받는 피해 guard만큼 감소
