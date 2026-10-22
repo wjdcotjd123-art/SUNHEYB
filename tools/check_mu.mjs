@@ -1,6 +1,6 @@
 // 무협 검사기: 무작위로 여러 번 플레이해 길과 개연성을 검사한다.
 // 쓰는 법: node tools/check_mu.mjs [횟수] [시드] [무관]
-// 찾는 것: 끊긴 길 / 한 번도 안 나온 장면 / 만난 적 없는 인물 / 떠난 사람이 다시 나옴 / 말을 모르는데 들리는 대사, 말을 아는데 가려진 대사
+// 찾는 것: 처지(두목·부두목 등)와 어긋난 글 / 끊긴 길 / 한 번도 안 나온 장면 / 만난 적 없는 인물 / 떠난 사람이 다시 나옴 / 말을 모르는데 들리는 대사, 말을 아는데 가려진 대사
 //         / 같이 켜질 수 없는 표시 / 장면 글 갈래(variants)의 없는 줄 / 결말·죽음 비율
 // 문장의 앞뒤 흐름은 못 본다. 고친 줄기는 tools/flow_mu.py로 이어 붙여 직접 읽는다.
 import fs from "fs";
@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 import { CONFIG } from "../src/config.js";
 import { GameState } from "../src/core/state.js";
 import { Rng } from "../src/core/rng.js";
-import { EventSelector } from "../src/events/selector.js";
+import { EventSelector, meetsCondition } from "../src/events/selector.js";
 import { ResultResolver } from "../src/events/resolver.js";
 import { TextVariants } from "../src/events/variants.js";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -39,6 +39,31 @@ const note = (bag, k, s = "") => { bag[k] ??= { n: 0, s }; bag[k].n++; };
 const seenAll = new Set();
 // 글 갈래 검사(정적)
 const lint = [];
+// 처지(신분) 검사(정적): 그 처지가 된 뒤에 나올 수 있는 장면을 모두, 그 처지의 표시를 켠 채 글 갈래까지 적용해 읽는다.
+//  무작위로는 잘 안 닿는 처지(두목, 부두목 등)도 빠짐없이 본다. speech: 대사(" 로 시작하는 줄)에서만 찾는다.
+const ROLES = [
+  { name: "부두목", flags: ["장패_심복"], path: "녹풍채", words: [/(?<!새로 들어온 )막내(?!들)/], speech: true, skip: ["N001", "N002", "N003", "N009", "N012", "N013"] },
+  { name: "두목", flags: ["녹풍_두목", "두목_바뀜", "장패_죽음", "황칠_죽음"], path: "녹풍채", words: [/(?<!새로 들어온 )막내(?!들)/, /장패/, /황칠/], speech: false, skip: ["N001", "N002", "N003", "N009", "N012", "N013"] },
+  { name: "황칠 두목", flags: ["황칠_두목", "두목_바뀜", "장패_죽음"], path: "녹풍채", words: [/장패/, /(?<!새로 들어온 )막내(?!들)/], speech: true, skip: ["N001", "N002", "N003", "N009", "N012", "N013"] },
+];
+const roleBad = [];
+for (const role of ROLES) {
+  for (const e of Object.values(events)) {
+    if ((e.path ?? null) !== role.path || role.skip.includes(e.id)) continue;
+    const none = [...(e.conditions?.flags_none ?? [])];
+    if (role.flags.some((f) => none.includes(f))) continue; // 그 처지면 안 나오는 장면
+    const s = new GameState(CONFIG); role.flags.forEach((f) => s.flags.add(f)); s.path = role.path;
+    for (const c of e.choices ?? []) {
+      if (c.condition && c.condition.flags_none?.some((f) => role.flags.includes(f))) continue;
+      const lines = [...tv.apply(e.id, e.description, s), ...c.outcomes.filter((o) => !o.when || meetsCondition(s, o.when)).flatMap((o) => tv.apply(e.id, o.text, s))].filter((t) => typeof t === "string");
+      for (const l of lines) {
+        const t = plain([l]);
+        if (role.speech && !/^["「]/.test(t)) continue;
+        for (const w of role.words) if (w.test(t)) roleBad.push(`${role.name} — ${e.id}.c${c.id}: ${t.slice(0, 40)}`);
+      }
+    }
+  }
+}
 for (const e of Object.values(events)) {
   const all = new Set([...(e.description ?? []), ...(e.choices ?? []).flatMap((c) => c.outcomes.flatMap((o) => o.text))]);
   for (const v of e.variants ?? []) for (const k of Object.keys(v.lines ?? {})) if (!all.has(k)) lint.push(`${e.id}: 갈래 줄이 없음 「${k.slice(0, 30)}」`);
@@ -75,6 +100,7 @@ const show = (t, bag) => { const es = Object.entries(bag).sort((a, b) => b[1].n 
 console.log(`무협 검사: ${RUNS}회 (반은 언어 기억)`);
 show("끊긴 길", R.dead); show("만난 적 없는 인물", R.people); show("떠난 사람이 다시 나옴", R.gone); show("말과 대사가 어긋남", R.lang); show("같이 켜질 수 없는 표시", R.excl);
 console.log(`■ 글 갈래의 없는 줄 (${lint.length})`); lint.forEach((l) => console.log("   " + l));
+const rb = [...new Set(roleBad)]; console.log(`■ 처지와 어긋난 글 (${rb.length})`); rb.slice(0, 30).forEach((l) => console.log("   " + l));
 const unseen = Object.keys(events).filter((id) => !seenAll.has(id) && !id.startsWith("SYS"));
 console.log(`■ 한 번도 안 나온 장면 (${unseen.length}) ${unseen.join(" ")}`);
 console.log("■ 끝나는 방식"); Object.entries(R.ends).sort((a, b) => b[1].n - a[1].n).forEach(([k, v]) => console.log(`   ${(v.n / RUNS * 100).toFixed(1).padStart(5)}%  ${k}`));
