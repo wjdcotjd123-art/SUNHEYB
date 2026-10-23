@@ -48,9 +48,9 @@ export const CONFIG = {
   memories: [
     { id: "언어", price: 10, unlock: "flag:말_트임", flag: "기억_언어" },
     // 업에 새긴 무공(업 화면의 '무공' 탭): 숨은 숙련이 기준을 넘으면 생이 끝날 때 나타난다
-    { id: "삼재검법", price: 30, unlock: "flag:삼재_숙련", flag: "업_삼재", tab: "arts" },
-    { id: "토납법", price: 30, unlock: "flag:토납_숙련", flag: "업_토납", tab: "arts" },
-    { id: "녹풍도법", price: 30, unlock: "flag:녹풍도_극의", flag: "업_녹풍도", tab: "arts" },
+    { id: "삼재검법", price: 30, unlock: "flag:삼재_숙련", flag: "업_삼재", learn: "삼재_앎", tab: "arts" },
+    { id: "토납법", price: 30, unlock: "flag:토납_숙련", flag: "업_토납", learn: "토납_앎", tab: "arts" },
+    { id: "녹풍도법", price: 30, unlock: "flag:녹풍도_극의", flag: "업_녹풍도", learn: "녹풍도_앎", also: ["녹풍도_숙련"], tab: "arts" },
   ],
   testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)

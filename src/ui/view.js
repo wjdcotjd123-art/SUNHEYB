@@ -145,7 +145,17 @@ export class GameView {
       tags.push(i.t(`karmaScreen.traits.${name}.name`));
     }
     // 기억으로 열린 선택지는 [기억] 표시
-    for (const m of this.config.memories ?? []) if ((cond.flags ?? []).includes(m.flag)) tags.push(i.t("game.memoryChoice"));
+    // 무공(업 무공·이번 생에 익힌 숙련)으로 열린 선택지는 [무공 이름] 표시
+    const need = [...(cond.flags ?? []), ...(cond.flags_any ?? [])];
+    for (const m of this.config.memories ?? []) {
+      if (m.tab === "arts") {
+        // 이 무공을 나타내는 표시: 업 무공, 숙련, 배우는 중
+        const marks = [m.flag, m.unlock?.startsWith("flag:") ? m.unlock.slice(5) : null, m.learn, ...(m.also ?? [])].filter(Boolean);
+        const has = (f) => !this.flags || this.flags.has(f);
+        if (marks.some((f) => need.includes(f) && has(f))) tags.push(i.t(`karmaScreen.memories.${m.id}.name`));
+      }
+      else if ((cond.flags ?? []).includes(m.flag)) tags.push(i.t("game.memoryChoice"));
+    }
     const req = (c.madness ? ` <span class="mad">[${i.t("game.madness")}]</span>` : "") + tags.map((x) => ` <span class="req">[${x}]</span>`).join("");
     const stat = c.stat && !(cond.stat_min && c.stat in cond.stat_min) ? ` <span class="tag">[${i.stat(c.stat)}]</span>` : "";
     return req + stat;

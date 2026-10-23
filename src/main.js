@@ -160,6 +160,7 @@ class App {
     const isFresh = (c) => this.record.data.life > 1 && this.novelty.isFreshChoice(ev.id, c.id, s);
     this.view.chapter(s.scenes + 1);
     const choices = this.rankChoices(ev, s);
+    this.view.flags = s.flags; // 선택지 꼬리표(가진 무공)용
     this.view.scene(ev, choices, (choice) => {
       s.scenes += 1;
       const wall = CONFIG.stagnation.walls[s.stat("경지")];

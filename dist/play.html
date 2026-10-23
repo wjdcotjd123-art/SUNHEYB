@@ -683,9 +683,9 @@ const CONFIG = {
   memories: [
     { id: "언어", price: 10, unlock: "flag:말_트임", flag: "기억_언어" },
     // 업에 새긴 무공(업 화면의 '무공' 탭): 숨은 숙련이 기준을 넘으면 생이 끝날 때 나타난다
-    { id: "삼재검법", price: 30, unlock: "flag:삼재_숙련", flag: "업_삼재", tab: "arts" },
-    { id: "토납법", price: 30, unlock: "flag:토납_숙련", flag: "업_토납", tab: "arts" },
-    { id: "녹풍도법", price: 30, unlock: "flag:녹풍도_극의", flag: "업_녹풍도", tab: "arts" },
+    { id: "삼재검법", price: 30, unlock: "flag:삼재_숙련", flag: "업_삼재", learn: "삼재_앎", tab: "arts" },
+    { id: "토납법", price: 30, unlock: "flag:토납_숙련", flag: "업_토납", learn: "토납_앎", tab: "arts" },
+    { id: "녹풍도법", price: 30, unlock: "flag:녹풍도_극의", flag: "업_녹풍도", learn: "녹풍도_앎", also: ["녹풍도_숙련"], tab: "arts" },
   ],
   testKarma: 50000, // 시험용: 설정 화면에서 업을 넣는 버튼 (0이면 버튼 숨김, 출시 전 0으로)
   // 전투: 명중 = baseHit + (내 민첩 - 상대 민첩)×perAgi - 상대 행운×perLuckEvade + 경지 차×perRealmHit (minHit~maxHit)
@@ -2212,7 +2212,17 @@ class GameView {
       tags.push(i.t(`karmaScreen.traits.${name}.name`));
     }
     // 기억으로 열린 선택지는 [기억] 표시
-    for (const m of this.config.memories ?? []) if ((cond.flags ?? []).includes(m.flag)) tags.push(i.t("game.memoryChoice"));
+    // 무공(업 무공·이번 생에 익힌 숙련)으로 열린 선택지는 [무공 이름] 표시
+    const need = [...(cond.flags ?? []), ...(cond.flags_any ?? [])];
+    for (const m of this.config.memories ?? []) {
+      if (m.tab === "arts") {
+        // 이 무공을 나타내는 표시: 업 무공, 숙련, 배우는 중
+        const marks = [m.flag, m.unlock?.startsWith("flag:") ? m.unlock.slice(5) : null, m.learn, ...(m.also ?? [])].filter(Boolean);
+        const has = (f) => !this.flags || this.flags.has(f);
+        if (marks.some((f) => need.includes(f) && has(f))) tags.push(i.t(`karmaScreen.memories.${m.id}.name`));
+      }
+      else if ((cond.flags ?? []).includes(m.flag)) tags.push(i.t("game.memoryChoice"));
+    }
     const req = (c.madness ? ` <span class="mad">[${i.t("game.madness")}]</span>` : "") + tags.map((x) => ` <span class="req">[${x}]</span>`).join("");
     const stat = c.stat && !(cond.stat_min && c.stat in cond.stat_min) ? ` <span class="tag">[${i.stat(c.stat)}]</span>` : "";
     return req + stat;
@@ -3195,6 +3205,7 @@ class App {
     const isFresh = (c) => this.record.data.life > 1 && this.novelty.isFreshChoice(ev.id, c.id, s);
     this.view.chapter(s.scenes + 1);
     const choices = this.rankChoices(ev, s);
+    this.view.flags = s.flags; // 선택지 꼬리표(가진 무공)용
     this.view.scene(ev, choices, (choice) => {
       s.scenes += 1;
       const wall = CONFIG.stagnation.walls[s.stat("경지")];
