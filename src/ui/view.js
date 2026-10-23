@@ -81,6 +81,7 @@ export class GameView {
     if (c.type === "hp") return i.t(`changes.hp.${c.tier}`);
     if (c.type === "stat" && c.stat === this.config.madness?.stat) return i.t(c.delta > 0 ? "changes.madUp" : "changes.madDown");
     if (c.type === "stall") return i.t("changes.stall");
+    if (c.type === "lostAll") return i.t("changes.lostAll", { stat: i.stat(c.stat) });
     if (c.type === "situation") return c.name === "없음" ? i.t("changes.situationEnd") : i.t("changes.situation", { name: i.t(`situations.${c.name}`) });
     if (c.type === "bond") return i.t(c.delta > 0 ? "changes.bondUp" : "changes.bondDown", { name: i.name(c.name) });
     if (c.type === "fame") return i.t(c.delta > 0 ? "changes.fameUp" : "changes.fameDown", { name: i.name(c.name) });

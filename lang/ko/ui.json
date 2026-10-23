@@ -70,7 +70,8 @@
     "madUp": "마기가 짙어졌다",
     "madDown": "마기가 옅어졌다",
     "traitBonus": "(+{n} {name})",
-    "stall": "이 경지에서는 더 쌓이지 않는다. 벽을 넘어야 한다"
+    "stall": "이 경지에서는 더 쌓이지 않는다. 벽을 넘어야 한다",
+    "lostAll": "{stat} 전부 잃음"
   },
   "ending": {
     "deathHead": "이번 생은 여기서 끝났다.",

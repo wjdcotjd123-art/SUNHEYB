@@ -155,7 +155,7 @@ export class ResultResolver {
         state.stats.체력 = k === "회복" ? Math.min(max, state.stat("체력") + amt) : state.stat("체력") - amt;
         changes.push({ type: "hp", kind: k, tier: v, good: k === "회복" });
       }
-      else if (k.endsWith("_reset")) state.stats[k.slice(0, -6)] = 0;
+      else if (k.endsWith("_reset")) { const s = k.slice(0, -6); if (state.stat(s) > 0) changes.push({ type: "lostAll", stat: s, good: false }); state.stats[s] = 0; } // 전부 잃음
       else if (k === "realm_set") { if (v > state.stat("경지")) state.stats.체력 = state.stat("최대체력"); state.stats.경지 = v; state.stagnant = 0; changes.push({ type: "realm", value: v, good: true }); }
       else if (k.endsWith("_set")) { const s = k.slice(0, -4); state.stats[s] = v; changes.push({ type: "set", stat: s, value: v, good: false }); }
       else if (k === "갈래") state.path = v === "없음" ? null : v; // 숨은 이야기 갈래(화면에 표시하지 않음)
