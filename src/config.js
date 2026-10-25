@@ -39,7 +39,12 @@ export const CONFIG = {
   shownStats: ["체력", "근골", "민첩", "행운", "내공", "재물"],
   karma: { perScene: 1, perNewOutcome: 2, perAchievement: 5, perRealm: 3, wealthPer: 50, perRare: 5, perEnding: 40, perSceneMult: 0.03, maxMult: 2.5 }, // 배율 = 1 + 턴×0.03 (최대 ×2.5)
   // 업 상점: 산 만큼 매 생 시작할 때 적용. 값 = round(base × growth^현재단계)
-  shop: [],
+  shop: [
+    { id: "근골", stat: "근골", amount: 3, base: 15, growth: 1.35, max: 5 },
+    { id: "민첩", stat: "민첩", amount: 3, base: 15, growth: 1.35, max: 5 },
+    { id: "행운", stat: "행운", amount: 3, base: 15, growth: 1.35, max: 5 },
+    { id: "내공", stat: "내공", amount: 3, base: 25, growth: 1.4, max: 5 },
+  ],
   // 체질: 한 번 사면 모든 생에 유지, 켜고 끌 수 있다.
   // blocks: 이 표시가 달린 결과(예: "food": true)가 나오면 그 결과를 빼고 다시 굴리고, 결과 화면에 체질 발동을 표시한다
   // tiers: 단계별 이름(언어 파일 karmaScreen.traits.<이름>), 값, 막는 결과 표시
