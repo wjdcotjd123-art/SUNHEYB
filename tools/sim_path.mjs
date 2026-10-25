@@ -23,7 +23,7 @@ for (let r = 0; r < RUNS; r++) {
   for (let step = 0; step < 120 && ev; step++) {
     seq.push(ev.id); s.seen.add(ev.id); s.lastEventId = ev.id; s.recent = [...(s.recent ?? []), ev.id].slice(-3);
     const cs = sel.availableChoices(ev, s); const alive = cs.filter((c) => !c.outcomes.every((o) => o.effects?.death));
-    const c = (alive.length ? alive : cs)[Math.floor(rng.next() * (alive.length || cs.length))];
+    const c = ev.auto ? cs[0] : (alive.length ? alive : cs)[Math.floor(rng.next() * (alive.length || cs.length))];
     let o = res.pick(c, s); if (o.effects?.death) o = c.outcomes.find((x) => !x.effects?.death) ?? o; // 죽지 않는다고 치고 끝까지
     s.scenes++; res.apply(o, s);
     if (o.effects?.ending || o.effects?.next_event === "W021" || s.path !== PATH) { seq.push(o.effects?.ending ? "끝:" + o.effects.ending : "떠남"); break; }

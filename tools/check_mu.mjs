@@ -100,7 +100,7 @@ for (let r = 0; r < RUNS; r++) {
     const cs = sel.availableChoices(ev, s); if (!cs.length) { note(R.dead, `${ev.id}: 고를 선택지 없음`); end = "선택지없음"; break; }
     const pref = FOCUS ? cs.filter((x) => FOCUS_RE.test(x.text) && !/그만두|지나친|서두르지|달아난|도망/.test(x.text)) : [];
     const pool = pref.length ? pref : cs;
-    const c = pool[Math.floor(rng.next() * pool.length)]; const o = res.pick(c, s);
+    const c = ev.auto ? cs[0] : pool[Math.floor(rng.next() * pool.length)]; const o = res.pick(c, s);
     const before = new Set(s.flags);
     const text = plain(tv.apply(ev.id, ev.description, s)) + "\n" + plain(tv.apply(ev.id, o.text, s));
     s.scenes = (s.scenes ?? 0) + 1; res.apply(o, s);

@@ -262,6 +262,8 @@ class App {
 
   // 죽을 확률이 기준 이상이면 비추천으로 표시하고 맨 뒤로 보낸다.
   rankChoices(ev, s) {
+    // auto: 귀결 장면. 선택지 없이, 적힌 순서대로 조건이 맞는 첫 결과 하나만 버튼으로 낸다
+    if (ev.auto) return this.selector.availableChoices(ev, s).slice(0, 1);
     const list = this.selector.availableChoices(ev, s).map((c) => ({ ...c, warn: this.deathChance(ev, c, s) >= CONFIG.warnDeath }));
     return [...list.filter((c) => !c.warn), ...list.filter((c) => c.warn)];
   }
