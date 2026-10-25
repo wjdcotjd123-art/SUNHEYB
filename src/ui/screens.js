@@ -91,9 +91,13 @@ export class MenuScreens {
     const sec = el("section", "sub-screen codex");
     const unlocked = record.data.achievements;
     const opened = (st) => st.req.some((r) => record.knows(r));
-    const tabs = sections.map((s) => s.id).concat("achievements");
+    const tabs = sections.map((s) => s.id).concat("endings", "achievements");
+    // 결말 모음: 언어 파일의 endings 순서대로(만드는 중 제외), 본 결말만 내용을 보인다
+    const endIds = Object.keys(i.t("endings") ?? {}).filter((id) => id !== "만드는_중");
+    const seenEnd = record.data.endings ?? [];
     const countOf = (id) => {
       if (id === "achievements") return [achList.filter((a) => unlocked.includes(a.id)).length, achList.length];
+      if (id === "endings") return [endIds.filter((e) => seenEnd.includes(e)).length, endIds.length];
       const es = sections.find((s) => s.id === id).entries;
       return [es.filter((e) => opened(e.stages[0])).length, es.length];
     };
@@ -166,9 +170,14 @@ export class MenuScreens {
       });
       draw(stabs[0]);
     };
+    const renderEnds = () => {
+      body.innerHTML = `<ul class="ach-list codex-list">${endIds
+        .map((e) => (seenEnd.includes(e) ? `<li class="on"><b>${i.t(`endings.${e}.head`)}</b><span>${i.t(`endings.${e}.note`)}</span></li>` : `<li><b>${i.t("codex.unknown")}</b></li>`))
+        .join("")}</ul>`;
+    };
     const select = (id) => {
       bar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === id));
-      id === "achievements" ? renderAch() : renderEntries(id);
+      id === "achievements" ? renderAch() : id === "endings" ? renderEnds() : renderEntries(id);
     };
     tabs.forEach((id) => {
       const b = el("button", "tab");
