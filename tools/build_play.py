@@ -51,3 +51,7 @@ out = ROOT / "dist" / ("무협.html" if RELEASE else "play.html")
 out.parent.mkdir(exist_ok=True)
 out.write_text(html, encoding="utf-8")
 print(f"built {out.relative_to(ROOT)} ({out.stat().st_size // 1024} KB)")
+
+# 읽기용 장면 문서도 함께 새로 만든다
+import subprocess
+subprocess.run([sys.executable, str(ROOT / "tools" / "doc_mu.py")], check=False)
